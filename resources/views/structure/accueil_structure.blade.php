@@ -39,11 +39,11 @@
          //"serverSide":true,
         // "proccessing":true,
         "ajax":{
-           "url":"http://localhost:8000/structure",
+           "url":"{{ route('structure.index') }}",
            "method":"GET",
-           success:function(data){
-               console.log(data);
-           }
+        //    success:function(data){
+        //        console.log(data);
+        //    }
          },
          "columns":[
              {data:"idStructure"},

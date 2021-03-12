@@ -49,7 +49,7 @@ class LoginController extends Controller
                 $redirectTo="/volontaire";
             break;
             case "medecin":
-                $redirectTo="/structure";
+                $redirectTo="/m";
                 break;
             default : $redirectTo="/home";
         }

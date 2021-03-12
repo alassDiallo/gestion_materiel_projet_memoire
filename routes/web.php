@@ -53,6 +53,11 @@ Route::get('/s', function () {
     
 });
 
+Route::get("/m",function(){
+
+    return view("medecin.accueilMedecin");
+});
+
 Route::get('/str',function(){
     return view('structure.accueil_structure');
 });

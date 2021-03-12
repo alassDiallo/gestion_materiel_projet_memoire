@@ -46,7 +46,7 @@
         <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
       </div>
       <!--logo start-->
-      <a href="index.html" class="logo"><b>DASH<span>IO</span></b></a>
+      <a href="index.html" class="logo"><b><span>JICA</span></b></a>
       <!--logo end-->
       <div class="nav notify-row" id="top_menu">
         <!--  notification start -->
@@ -256,7 +256,7 @@
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered"><a href="profile.html"><img src="img/ui-sam.jpg" class="img-circle" width="80"></a></p>
+          <p class="centered"><a href="profile.html"><img src="img/vol.png" class="img-circle" width="80"></a></p>
           <h5 class="centered">Assane Diallo</h5>
           <li class="mt">
             <a class="active" href="index.html">
@@ -292,24 +292,6 @@
               <li><a href="file_upload.html">Multiple File Upload</a></li> -->
             </ul>
           </li>
-          @endif
-          <li class="sub-menu">
-            <a href="javascript:;">
-              <i class="fa fa-book"></i>
-              <span>Facturation</span>
-              </a>
-            <ul class="sub">
-              <li><a href="blank.html">Consultation</a></li>
-              <li><a href="login.html">Analyse</a></li>
-              <li><a href="lock_screen.html">Ordonnance</a></li>
-              <!-- <li><a href="profile.html">Profile</a></li>
-              <li><a href="invoice.html">Invoice</a></li>
-              <li><a href="pricing_table.html">Pricing Table</a></li>
-              <li><a href="faq.html">FAQ</a></li>
-              <li><a href="404.html">404 Error</a></li>
-              <li><a href="500.html">500 Error</a></li> -->
-            </ul>
-          </li>
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-tasks"></i>
@@ -340,6 +322,83 @@
               <span class="label label-theme pull-right mail-info">2</span>
               </a>
           </li>
+          <li>
+            <a href="inbox.html">
+              <i class="fa fa-envelope"></i>
+              <span>Statistique</span>
+              
+              </a>
+          </li>
+          @endif
+          @if(Auth::user()->profil=="volontaire")
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-book"></i>
+              <span>Facturation</span>
+              </a>
+            <ul class="sub">
+              <li><a href="blank.html">Consultation</a></li>
+              <li><a href="login.html">Analyse</a></li>
+              <li><a href="lock_screen.html">Ordonnance</a></li>
+              <!-- <li><a href="profile.html">Profile</a></li>
+              <li><a href="invoice.html">Invoice</a></li>
+              <li><a href="pricing_table.html">Pricing Table</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="404.html">404 Error</a></li>
+              <li><a href="500.html">500 Error</a></li> -->
+            </ul>
+          </li>
+          <li>
+            <a href="inbox.html">
+              <i class="fa fa-envelope"></i>
+              <span>Depense</span>
+              <span class="label label-theme pull-right mail-info">2</span>
+              </a>
+          </li>
+          <li>
+            <a href="inbox.html">
+              <i class="fa fa-envelope"></i>
+              <span>Rapport</span>
+              <span class="label label-theme pull-right mail-info">2</span>
+              </a>
+          </li>
+          @endif
+          @if(Auth::user()->profil=="medecin")
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-book"></i>
+              <span>Prescription</span>
+              </a>
+            <ul class="sub">
+              <li><a href="blank.html">Ordenance</a></li>
+              <li><a href="login.html">Analyse</a></li>
+              {{-- <li><a href="lock_screen.html">Ordonnance</a></li> --}}
+              <!-- <li><a href="profile.html">Profile</a></li>
+              <li><a href="invoice.html">Invoice</a></li>
+              <li><a href="pricing_table.html">Pricing Table</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="404.html">404 Error</a></li>
+              <li><a href="500.html">500 Error</a></li> -->
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-book"></i>
+              <span>Rendez-vous</span>
+              </a>
+            <ul class="sub">
+              <li><a href="blank.html">Liste demande</a></li>
+              <li><a href="login.html">valider</a></li>
+              {{-- <li><a href="lock_screen.html">Ordonnance</a></li> --}}
+              <!-- <li><a href="profile.html">Profile</a></li>
+              <li><a href="invoice.html">Invoice</a></li>
+              <li><a href="pricing_table.html">Pricing Table</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="404.html">404 Error</a></li>
+              <li><a href="500.html">500 Error</a></li> -->
+            </ul>
+          </li>
+          @endif
           <!-- <li class="sub-menu">
             <a href="javascript:;">
               <i class=" fa fa-bar-chart-o"></i>
@@ -382,7 +441,7 @@
     </section>
     <!--main content end-->
     <!--footer start-->
-    <footer class="site-footer">
+    {{-- <footer class="site-footer">
       <div class="text-center">
         <p>
           &copy; Copyrights <strong>Dashio</strong>. All Rights Reserved
@@ -400,7 +459,7 @@
           <i class="fa fa-angle-up"></i>
           </a>
       </div>
-    </footer>
+    </footer> --}}
     <!--footer end-->
   </section>
 
