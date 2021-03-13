@@ -45,39 +45,16 @@
 <script>
     var table;
     var save;
-    //var erreur_nom=false;
-    // $(document).ready(function(){
-    // table =  $('#table').DataTable({
-    //      "serverSide":true,
-    //     "proccessing":true,
-    //     "ajax":{
-    //        "url":"http://localhost:8000/volontaire",
-    //        "method":"GET"
-    //      },
-    //      "columns":[
-    //          {data:"0"},
-    //          {data:"1"},
-    //          {data:"2"},
-    //          {data:"3"},
-    //          {data:"4"},
+    $(document).ready(function(){
+       table=$('#table').DataTable({
+           "ajax":{
+               "url":"{{ route('listeVolontaire') }}",
+               "method":"GET",
+               success:function(data){
+                   console.log(data);
+               }
+           },
            
-    //          {data:"5"},
-    //          {data:"6"}
-    //      ],
-    //      language:{
-    //          url:"/js/DataTables/French.json"
-    //      }
-
-    //  });
-    //     // init datatable.
-       var table = $('#table').DataTable({
-            processing: true,
-            serverSide: true,
-            autoWidth: false,
-            pageLength: 5,
-            // scrollX: true,
-            "order": [[ 0, "desc" ]],
-            ajax: "{{ route('listeVolontaire') }}",
             columns: [
                 {data: 'idVolontaire'},
                 {data: 'reference'},
@@ -86,240 +63,239 @@
                 {data: 'adresse'},
                 {data: 'telephone'},
                 {data: 'email'},
-                {data: 'action', name: 'action',orderable:false,serachable:false,sClass:'text-center'},
-            ],
-            language:{
+                {data:"action"}
+         ],
+         language:{
              url:"/js/DataTables/French.json"
          }
-        });
+       });
+    )};
+
+    //     $('#telephone').on('keypress',function(e){
+    //      console.log(e.keyCode);
+    //      if(e.keyCode<48 || e.keyCode>57){
+    //          return false;
+    //      }
+    //  });
+
+    //  $('#telephone').on('keypress',function(e){
+    //      console.log(e.keyCode);
+    //      if(e.keyCode<48 || e.keyCode>57){
+    //          return false;
+    //      }
+    //  });
+
+    // });
+    // var ref;
+    // function ajouter(){
+    //     save="ajouter";
         
-        
-     $('#telephone').on('keypress',function(e){
-         console.log(e.keyCode);
-         if(e.keyCode<48 || e.keyCode>57){
-             return false;
-         }
-     });
+    //     $('#form')[0].reset();
+    //     $('.modal-title').val("Ajouter un volontaire");
+    //     $('#modal').modal('show');
 
-     $('#telephone').on('keypress',function(e){
-         console.log(e.keyCode);
-         if(e.keyCode<48 || e.keyCode>57){
-             return false;
-         }
-     });
+    // }
 
-    });
-    var ref;
-    function ajouter(){
-        save="ajouter";
-        
-        $('#form')[0].reset();
-        $('.modal-title').val("Ajouter un volontaire");
-        $('#modal').modal('show');
+    // /*function reload(){
+    //     table.ajax.reload(null,false);
+    // }*/
+    // function reload(){
+    //     $('#table').DataTable().ajax.reload();
+    // }
 
-    }
+    // function enregistrer(e){
+    //    e.preventDefault();
+    //    var url;
+    //    var meth;
 
-    /*function reload(){
-        table.ajax.reload(null,false);
-    }*/
-    function reload(){
-        $('#table').DataTable().ajax.reload();
-    }
-
-    function enregistrer(e){
-       e.preventDefault();
-       var url;
-       var meth;
-
-       if(save==="modifier"){
-         url="http://localhost:8000/volontaire/"+id;
-         meth="PUT";
-       }
-       else{
-           url = "{{ route('volontaire.store') }}";
-           meth="POST";
-       }
-       $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+    //    if(save==="modifier"){
+    //      url="http://localhost:8000/volontaire/"+id;
+    //      meth="PUT";
+    //    }
+    //    else{
+    //        url = "{{ route('volontaire.store') }}";
+    //        meth="POST";
+    //    }
+    //    $.ajaxSetup({
+    //             headers: {
+    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //             }
+    //         });
        
-       $.ajax({
-           url:url,
-           type:meth,
-           data:$('#form').serialize(),
-           dataType:"JSON",
-           success:function(data){
-              if(data.error){
-                console.log(data.error)
-                if(data.error.nom){
-                    console.log(data.error.nom[0]);
-                    $('#nom').addClass("is-invalid");
-                    $('#erreur_nom').text(data.error.nom[0]);
-                }
-                else{
-                    $('#nom').removeClass("is-invalid");
-                    $('#erreur_nom').text("");
-                }
+    //    $.ajax({
+    //        url:url,
+    //        type:meth,
+    //        data:$('#form').serialize(),
+    //        dataType:"JSON",
+    //        success:function(data){
+    //           if(data.error){
+    //             console.log(data.error)
+    //             if(data.error.nom){
+    //                 console.log(data.error.nom[0]);
+    //                 $('#nom').addClass("is-invalid");
+    //                 $('#erreur_nom').text(data.error.nom[0]);
+    //             }
+    //             else{
+    //                 $('#nom').removeClass("is-invalid");
+    //                 $('#erreur_nom').text("");
+    //             }
 
-                if(data.error.prenom){
-                    console.log(data.error.prenom[0]);
-                    $('#prenom').addClass("is-invalid");
-                    $('#erreur_prenom').text(data.error.prenom[0]);
-                }
-                else{
-                    $('#prenom').removeClass("is-invalid");
-                    $('#erreur_prenom').text("");
-                }
+    //             if(data.error.prenom){
+    //                 console.log(data.error.prenom[0]);
+    //                 $('#prenom').addClass("is-invalid");
+    //                 $('#erreur_prenom').text(data.error.prenom[0]);
+    //             }
+    //             else{
+    //                 $('#prenom').removeClass("is-invalid");
+    //                 $('#erreur_prenom').text("");
+    //             }
 
-                if(data.error.adresse){
-                    $('#adresse').addClass("is-invalid");
-                    $('#erreur_adresse').text(data.error.adresse[0]);
-                }
-                else{
-                    $('#adresse').removeClass("is-invalid");
-                    $('#erreur_adresse').text("");
-                }
-                if(data.error.telephone){
-                    $('#telephone').addClass("is-invalid");
-                    $('#erreur_telephone').text(data.error.telephone[0]);
-                }
-                else{
-                    $('#telephone').removeClass("is-invalid");
-                    $('#erreur_telephone').text("");
-                }
+    //             if(data.error.adresse){
+    //                 $('#adresse').addClass("is-invalid");
+    //                 $('#erreur_adresse').text(data.error.adresse[0]);
+    //             }
+    //             else{
+    //                 $('#adresse').removeClass("is-invalid");
+    //                 $('#erreur_adresse').text("");
+    //             }
+    //             if(data.error.telephone){
+    //                 $('#telephone').addClass("is-invalid");
+    //                 $('#erreur_telephone').text(data.error.telephone[0]);
+    //             }
+    //             else{
+    //                 $('#telephone').removeClass("is-invalid");
+    //                 $('#erreur_telephone').text("");
+    //             }
 
-                if(data.error.structure){
-                    $('#structure').addClass("is-invalid");
-                    $('#erreur_structure').text(data.error.structure[0]);
-                }
-                else{
-                    $('#structure').removeClass("is-invalid");
-                    $('#erreur_structure').text("");
-                }
+    //             if(data.error.structure){
+    //                 $('#structure').addClass("is-invalid");
+    //                 $('#erreur_structure').text(data.error.structure[0]);
+    //             }
+    //             else{
+    //                 $('#structure').removeClass("is-invalid");
+    //                 $('#erreur_structure').text("");
+    //             }
 
-                if(data.error.cin){
-                    console.log(data.error.cin[0]);
-                    $('#cin').addClass("is-invalid");
-                    $('#erreur_cin').text(data.error.cin[0]);
-                }
-                else{
-                    $('#cin').removeClass("is-invalid");
-                    $('#erreur_cin').text("");
-                }
+    //             if(data.error.cin){
+    //                 console.log(data.error.cin[0]);
+    //                 $('#cin').addClass("is-invalid");
+    //                 $('#erreur_cin').text(data.error.cin[0]);
+    //             }
+    //             else{
+    //                 $('#cin').removeClass("is-invalid");
+    //                 $('#erreur_cin').text("");
+    //             }
 
-                if(data.error.dateDeNaissance){
-                    console.log(data.error.dateDeNaissance[0]);
-                    $('#dateDeNaissance').addClass("is-invalid");
-                    $('#erreur_dateDeNaissance').text(data.error.dateDeNaissance[0]);
-                }
-                else{
-                    $('#dateDeNaissance').removeClass("is-invalid");
-                    $('#erreur_dateDeNaissance').text("");
-                }
+    //             if(data.error.dateDeNaissance){
+    //                 console.log(data.error.dateDeNaissance[0]);
+    //                 $('#dateDeNaissance').addClass("is-invalid");
+    //                 $('#erreur_dateDeNaissance').text(data.error.dateDeNaissance[0]);
+    //             }
+    //             else{
+    //                 $('#dateDeNaissance').removeClass("is-invalid");
+    //                 $('#erreur_dateDeNaissance').text("");
+    //             }
 
-                if(data.error.lieuDeNaissance){
-                    console.log(data.error.lieuDeNaissance[0]);
-                    $('#lieuDeNaissance').addClass("is-invalid");
-                    $('#erreur_lieuDeNaissance').text(data.error.lieuDeNaissance[0]);
-                }
-                else{
-                    $('#lieuDeNaissance').removeClass("is-invalid");
-                    $('#erreur_lieuDeNaissance').text("");
-                }
+    //             if(data.error.lieuDeNaissance){
+    //                 console.log(data.error.lieuDeNaissance[0]);
+    //                 $('#lieuDeNaissance').addClass("is-invalid");
+    //                 $('#erreur_lieuDeNaissance').text(data.error.lieuDeNaissance[0]);
+    //             }
+    //             else{
+    //                 $('#lieuDeNaissance').removeClass("is-invalid");
+    //                 $('#erreur_lieuDeNaissance').text("");
+    //             }
 
-                if(data.error.email){
-                    console.log(data.error.email[0]);
-                    $('#email').addClass("is-invalid");
-                    $('#erreur_email').text(data.error.email[0]);
-                }
-                else{
-                    $('#email').removeClass("is-invalid");
-                    $('#erreur_email').text("");
-                }
+    //             if(data.error.email){
+    //                 console.log(data.error.email[0]);
+    //                 $('#email').addClass("is-invalid");
+    //                 $('#erreur_email').text(data.error.email[0]);
+    //             }
+    //             else{
+    //                 $('#email').removeClass("is-invalid");
+    //                 $('#erreur_email').text("");
+    //             }
 
-                if(data.error.materiel){
-                    console.log(data.error.materiel[0]);
-                    $('#materiel').addClass("is-invalid");
-                    $('#erreur_materiel').text(data.error.materiel[0]);
-                }
-                else{
-                    $('#materiel').removeClass("is-invalid");
-                    $('#erreur_materiel').text("");
-                }
-                console.log(data.error);
-              }
-              else{
-               console.log(data.success);
-               $('#modal').modal('hide');
-               reload();}
-           },
-           error:function(xhr,statusText,error){
-               alert("error");
-           }
-       })
-    }
+    //             if(data.error.materiel){
+    //                 console.log(data.error.materiel[0]);
+    //                 $('#materiel').addClass("is-invalid");
+    //                 $('#erreur_materiel').text(data.error.materiel[0]);
+    //             }
+    //             else{
+    //                 $('#materiel').removeClass("is-invalid");
+    //                 $('#erreur_materiel').text("");
+    //             }
+    //             console.log(data.error);
+    //           }
+    //           else{
+    //            console.log(data.success);
+    //            $('#modal').modal('hide');
+    //            reload();}
+    //        },
+    //        error:function(xhr,statusText,error){
+    //            alert("error");
+    //        }
+    //    })
+    // }
 
-    function modifier(ref){
+    // function modifier(ref){
       
       
-        save="modifier";
-        $('.modal-title').text("Modifer la structure");
-        $('#form')[0].reset();
-        //alert();
-        $.ajax({
-            url:"http://localhost:8000/volontaire/"+ref,
-            type:"GET",
-            dataType:"JSON",
-            success:function(data){
-                console.log(data);
-            $('.modal-title').val("Modifer le volontaire");
-               $('#nom').val(data[0].nom);
-               $('#adresse').val(data[0].adresse);
-               $('#telephone').val(data[0].telephone);
+    //     save="modifier";
+    //     $('.modal-title').text("Modifer la structure");
+    //     $('#form')[0].reset();
+    //     //alert();
+    //     $.ajax({
+    //         url:"http://localhost:8000/volontaire/"+ref,
+    //         type:"GET",
+    //         dataType:"JSON",
+    //         success:function(data){
+    //             console.log(data);
+    //         $('.modal-title').val("Modifer le volontaire");
+    //            $('#nom').val(data[0].nom);
+    //            $('#adresse').val(data[0].adresse);
+    //            $('#telephone').val(data[0].telephone);
 
-               $('#prenom').val(data[0].prenom);
-               $('#email').val(data[0].email);
-               $('#cin').val(data[0].numeroCIN);
+    //            $('#prenom').val(data[0].prenom);
+    //            $('#email').val(data[0].email);
+    //            $('#cin').val(data[0].numeroCIN);
 
-               $('#materiel').val(data[0].materiel);
-               $('#structure').val(data[0].idStructure);
-               $('#dateDeNaissance').val(data[0].dateDeNaissance);
-               $('#lieuDeNaissance').val(data[0].lieuDeNaissance);
+    //            $('#materiel').val(data[0].materiel);
+    //            $('#structure').val(data[0].idStructure);
+    //            $('#dateDeNaissance').val(data[0].dateDeNaissance);
+    //            $('#lieuDeNaissance').val(data[0].lieuDeNaissance);
               
-               id=data[0].reference;
-               $('#modal').modal('show');
-            },
-            error:function(xhr,statusText,error){
-                alert(error);
-            }
-        })
+    //            id=data[0].reference;
+    //            $('#modal').modal('show');
+    //         },
+    //         error:function(xhr,statusText,error){
+    //             alert(error);
+    //         }
+    //     })
    
-    }
+    // }
 
-    function supprimer(ref){
-       alert(ref);
-        $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+    // function supprimer(ref){
+    //    alert(ref);
+    //     $.ajaxSetup({
+    //             headers: {
+    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //             }
+    //         });
 
-       $.ajax({
-           url:"{{ route('structure.destroy',['structure'=>"+ref+"]) }}",
-           method:"DELETE",
-           dataType:"JSON",
-           success:function(data){
-               console.log(data.donnee);
-               reload();
-           },
-           error:function(xhr,statusText,error){
-               alert(error);
-           }
-       })
-   
-    }
+    //    $.ajax({
+    //        url:"{{ route('structure.destroy',['structure'=>"+ref+"]) }}",
+    //        method:"DELETE",
+    //        dataType:"JSON",
+    //        success:function(data){
+    //            console.log(data.donnee);
+    //            reload();
+    //        },
+    //        error:function(xhr,statusText,error){
+    //            alert(error);
+    //        }
+    //    });
+    // });
 </script>
 <div>
     <div class="modal" tabindex="-1" id="modal">

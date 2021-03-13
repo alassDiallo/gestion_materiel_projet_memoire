@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Medecin;
+use App\Models\RendezVous;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -39,8 +41,8 @@ Route::get('/', function () {
     //         'profil'=>'medecin',
     //         ]);
 
-
-    return view('jika.accueilJika');
+        dd(RendezVous::all()->groupBy('date'));
+    //return view('jika.accueilJika');
 
 });
 Route::get('/vol', function () {
@@ -48,6 +50,11 @@ Route::get('/vol', function () {
     
 });
 
+Route::get('/listeRendezvous',[App\Http\Controllers\ControllerMedecin::class,'liste']);
+
+Route::get('/lm',function(){
+    return view('medecin.listeDemande');
+});
 Route::get('/s', function () {
     return view('structure.accueil_structure');
     
@@ -61,10 +68,11 @@ Route::get("/m",function(){
 Route::get('/str',function(){
     return view('structure.accueil_structure');
 });
+Route::get('liste',[App\Http\Controllers\ControllerVolontaire::class,'liste'])->name('listeVolontaire');
 Route::get("rendezvous",[App\Http\Controllers\ControllerRendezVous::class,'index']);
 Route::resource('volontaire',App\Http\Controllers\ControllerVolontaire::class);
 Route::resource('structure',App\Http\Controllers\ControllerStructure::class);
-Route::get('liste',[App\Http\Controllers\ControllerVolontaire::class,'liste'])->name('listeVolontaire');
+
 Route::resource('materiel',App\Http\Controllers\ControllerMateriel::class);
 Route::resource('fournisseur',App\Http\Controllers\ControllerFournisseur::class);
 

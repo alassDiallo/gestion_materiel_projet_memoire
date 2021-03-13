@@ -7,7 +7,10 @@ use DB;
 use App\Models\Medecin;
 use App\Models\Specialite;
 use App\Models\Periode;
+use App\Models\RendezVous;
 use App\Models\Structure;
+use Illuminate\Support\Facades\Auth;
+use DataTable;
 
 class ControllerMedecin extends Controller
 {
@@ -73,6 +76,29 @@ class ControllerMedecin extends Controller
     // //                 ->join('structures','structures.idStructure','=','periodes.idStructure')
     // //                 ->get();
     //     return response()->json($specialites);
+    }
+
+    public function liste(Request $request){
+        $rendez = Medecin::where('email',Auth::user()->email)->first()->idMedecin;
+        $rv = RendezVous::where('idMedecin',$rendez)->where('rendez_vouses.etat','en attente')
+        ->join('patients','rendez_vouses.idPatient','=','patients.idPatient')
+        ->get();
+
+        if($request->ajax()){
+
+            return \DataTables::of($rv)
+                                ->addIndexColumn()
+                                ->addColumn('action',function($rv){
+                                $btn = '<a class="btn  btn-sm btn-success" href="javascript:void();" data-toggle="tooltip" data-id="'.$rv->id.'" data-original-title="modifier" onclick="modifier('."'".$rv->id."'".')"><i class="fa fa-check" style="color:white;"></i></a>
+                                <a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="'.$rv->id.'" data-original-title="modifier" onclick="modifier('."'".$rv->id."'".')"><i class="fa fa-edit" style="color:white;"></i></a>
+                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="'.$rv->id.'" data-original-title="supprimer" onclick="supprimer('."'".$rv->id."'".')"><i class="fa fa-trash-o" style="color:white;"></i></a>';
+
+                                return $btn;
+                                })
+                                ->rawColumns(['action'])
+                                ->make(true);
+                            }
+
     }
 
     /**

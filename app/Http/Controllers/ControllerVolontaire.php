@@ -25,10 +25,10 @@ class ControllerVolontaire extends Controller
         return view('volontaire.accueil_volontaire', ['structure' => $structure, 'materiel' => $materiel]);
     }
 
-    public function liste()
+    public function liste( request $request)
     {
         $data = volontaire::all();
-
+        if($request->ajax){
         return \DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($data) {
@@ -40,7 +40,7 @@ class ControllerVolontaire extends Controller
             })
             ->rawColumns(['action'])
             ->make(true);
-    }
+    }}
 
     /**
      * Show the form for creating a new resource.

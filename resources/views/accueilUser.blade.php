@@ -252,7 +252,7 @@
         MAIN SIDEBAR MENU
         *********************************************************************************************************************************************************** -->
     <!--sidebar start-->
-    <aside>
+    <aside class="">
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
@@ -268,10 +268,10 @@
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-desktop"></i>
-              <span>Volontaire</span>
+              <span>Volontaire</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
-              <li><a href="/vol">Lister volontaire</a></li>
+              <li><a href="{{ route('volontaire.index') }}">Lister volontaire</a></li>
               <!-- <li><a href="buttons.html">Buttons</a></li>
               <li><a href="panels.html">Panels</a></li>
               <li><a href="font_awesome.html">Font Awesome</a></li> -->
@@ -280,10 +280,10 @@
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-cogs"></i>
-              <span>Structure</span>
+              <span>Structure</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
-              <li><a href="/s">Lister Structure</a></li>
+              <li><a href="/s">Lister Structure</a><i class="fa-angle-right"></i></li>
               <!-- <li><a href="calendar.html">Calendar</a></li>
               <li><a href="gallery.html">Gallery</a></li>
               <li><a href="todo_list.html">Todo List</a></li>
@@ -295,7 +295,7 @@
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-tasks"></i>
-              <span>Materiel</span>
+              <span>Materiel</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
               <li><a href="form_component.html">Lister materiel</a></li>
@@ -307,7 +307,7 @@
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-th"></i>
-              <span>Fournisseur</span>
+              <span>Fournisseur</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
               <li><a href="basic_table.html">Lister fournisseur</a></li>
@@ -318,14 +318,14 @@
           <li>
             <a href="inbox.html">
               <i class="fa fa-envelope"></i>
-              <span>Comptabilité</span>
+              <span>Comptabilité</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               <span class="label label-theme pull-right mail-info">2</span>
               </a>
           </li>
           <li>
             <a href="inbox.html">
               <i class="fa fa-envelope"></i>
-              <span>Statistique</span>
+              <span>Statistique</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               
               </a>
           </li>
@@ -334,7 +334,7 @@
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-book"></i>
-              <span>Facturation</span>
+              <span>Facturation</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
               <li><a href="blank.html">Consultation</a></li>
@@ -351,14 +351,14 @@
           <li>
             <a href="inbox.html">
               <i class="fa fa-envelope"></i>
-              <span>Depense</span>
+              <span>Depense</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               <span class="label label-theme pull-right mail-info">2</span>
               </a>
           </li>
           <li>
             <a href="inbox.html">
               <i class="fa fa-envelope"></i>
-              <span>Rapport</span>
+              <span>Rapport</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               <span class="label label-theme pull-right mail-info">2</span>
               </a>
           </li>
@@ -367,8 +367,8 @@
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-book"></i>
-              <span>Prescription</span>
-              </a>
+              <span>Prescription</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
+              </a><i class="fa fa-angle-right"></i>
             <ul class="sub">
               <li><a href="blank.html">Ordenance</a></li>
               <li><a href="login.html">Analyse</a></li>
@@ -384,10 +384,10 @@
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-book"></i>
-              <span>Rendez-vous</span>
+              <span>Rendez-vous</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
-              <li><a href="blank.html">Liste demande</a></li>
+              <li><a href="/lm">Liste demande</a></li>
               <li><a href="login.html">valider</a></li>
               {{-- <li><a href="lock_screen.html">Ordonnance</a></li> --}}
               <!-- <li><a href="profile.html">Profile</a></li>
@@ -436,7 +436,7 @@
         MAIN CONTENT
         *********************************************************************************************************************************************************** -->
     <!--main content start-->
-    <section id="main-content">
+    <section id="main-content" class="col-md-10">
       @yield('content')
     </section>
     <!--main content end-->
@@ -481,24 +481,30 @@
   <!--script for this page-->
   <script src="lib/sparkline-chart.js"></script>
   <script src="lib/zabuto_calendar.js"></script>
+  <script src="lib/raphael/raphael.min.js"></script>
+  <script src="lib/morris/morris.min.js"></script>
+  <!--common script for all pages-->
+  <script src="lib/common-scripts.js"></script>
+  <!--script for this page-->
+  <script src="lib/morris-conf.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
-      var unique_id = $.gritter.add({
-        // (string | mandatory) the heading of the notification
-        title: 'Welcome to Dashio!',
-        // (string | mandatory) the text inside the notification
-        text: 'Hover me to enable the Close Button. You can hide the left sidebar clicking on the button next to the logo.',
-        // (string | optional) the image to display on the left
-        image: 'img/ui-sam.jpg',
-        // (bool | optional) if you want it to fade out on its own or just sit there
-        sticky: false,
-        // (int | optional) the time you want it to be alive for before fading out
-        time: 8000,
-        // (string | optional) the class name you want to apply to that specific message
-        class_name: 'my-sticky-class'
-      });
+    //   var unique_id = $.gritter.add({
+    //     // (string | mandatory) the heading of the notification
+    //     title: 'Welcome to Dashio!',
+    //     // (string | mandatory) the text inside the notification
+    //     text: 'Hover me to enable the Close Button. You can hide the left sidebar clicking on the button next to the logo.',
+    //     // (string | optional) the image to display on the left
+    //     image: 'img/ui-sam.jpg',
+    //     // (bool | optional) if you want it to fade out on its own or just sit there
+    //     sticky: false,
+    //     // (int | optional) the time you want it to be alive for before fading out
+    //     time: 8000,
+    //     // (string | optional) the class name you want to apply to that specific message
+    //     class_name: 'my-sticky-class'
+    //   });
 
-      return false;
+    //   return false;
     });
   </script>
   <script type="application/javascript">

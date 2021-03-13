@@ -53,7 +53,7 @@
              {data:"telephone"},
            
              {data:"region"},
-             {data:"6"}
+             {data:"action"}
          ],
          language:{
              url:"/js/DataTables/French.json"

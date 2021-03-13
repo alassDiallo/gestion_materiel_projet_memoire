@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/historique',[App\Http\Controllers\ControllerRendezVous::class,'historique']);
 Route::apiResource('rendezvous',App\Http\Controllers\ControllerRendezVous::class);
 Route::apiResource('volontaire',App\Http\Controllers\ControllerVolontaire::class);
 Route::apiResource('structure',App\Http\Controllers\ControllerStructure::class);

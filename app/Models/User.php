@@ -9,7 +9,9 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    public $donne;
     use HasFactory, Notifiable;
+   
 
     /**
      * The attributes that are mass assignable.
@@ -41,4 +43,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getFullNameAttribute(){
+      
+        switch($this->profil){
+            case "medecin":
+                $this->donnee = Medecin::where('email',$this->email)->firstOrFail();
+              
+                break;
+            case "volontaire":
+                $donnee = volontaire::where('email',$this->email)->firstOrFail();
+            break;
+            case "admin":
+                $donnee = User::where('email',$this->email)->firstOrFail();
+                break;
+                default :$donne=[];
+                break;
+        }
+
+        return $this->donne;
+
+    }
 }

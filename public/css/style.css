@@ -231,7 +231,7 @@ ul.top-menu > li > .logout {
 /*sidebar navigation*/
 
 #sidebar {
-    width: 210px;
+    width: 250px;
     height: 100%;
     position: fixed;
     background: #2f323a;
@@ -399,7 +399,7 @@ ul.sidebar-menu li a.active i {
 
 /* MAIN CONTENT CONFIGURATION */
 #main-content {
-    margin-left: 210px;
+    margin-left: 230px;
 }
 
 .header, .footer {

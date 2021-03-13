@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Medecin;
+use App\Models\periode;
 use App\Models\RendezVous;
+use App\Models\Specialite;
+use App\Models\structure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Validator;
 class ControllerRendezVous extends Controller
 {
@@ -14,14 +19,30 @@ class ControllerRendezVous extends Controller
      */
     public function index()
     {
-        RendezVous::create([
-            "idMedecin"=>1,
-            "idPatient"=>2,
-            "date"=>date("Y/m/d"),
-            "heure"=>date("H:m"),
-            "etat"=>"en attente"
-        ]);
-       return response()->json("bonjour");
+        $medecins = Medecin::all();
+        $specialite = Specialite::all();
+        $periodes = periode::all();
+        $structure = structure::all(); 
+        $rv = RendezVous::where('idPatient',2)
+                    ->where('date','>',Date("Y/m/d"))
+                    // ->where('heure','>',Date("H h:m"))
+                    ->join("medecins",'medecins.idMedecin','=','rendez_vouses.idMedecin')
+                    ->join('specialites','specialites.idSpecialite','=','medecins.idMedecin')
+                    ->join('periodes','medecins.idMedecin','=','periodes.idMedecin')
+                    ->join('structures','structures.idStructure','=','periodes.idStructure')
+                    ->orderBy('date','desc')
+                    ->get();
+
+
+        return response()->json($rv);
+    //     RendezVous::create([
+    //         "idMedecin"=>1,
+    //         "idPatient"=>2,
+    //         "date"=>date("Y/m/d"),
+    //         "heure"=>date("H:m"),
+    //         "etat"=>"en attente"
+    //     ]);
+    //    return response()->json("bonjour");
     }
 
     /**
@@ -93,7 +114,25 @@ class ControllerRendezVous extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       dd("je suis la");
+    }
+
+    public function historique(){
+        $medecins = Medecin::all();
+        $specialite = Specialite::all();
+        $periodes = periode::all();
+        $structure = structure::all(); 
+        $rv = RendezVous::where('idPatient',2)
+                    ->where('date','<=',Date("Y/m/d"))
+                    // ->where('heure','>',Date("H h:m"))
+                    ->join("medecins",'medecins.idMedecin','=','rendez_vouses.idMedecin')
+                    ->join('specialites','specialites.idSpecialite','=','medecins.idMedecin')
+                    ->join('periodes','medecins.idMedecin','=','periodes.idMedecin')
+                    ->join('structures','structures.idStructure','=','periodes.idStructure')
+                    ->orderBy('date','desc')
+                    ->get();
+
+                return response()->json($rv);
     }
 
     /**
