@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Depense as ModelsDepense;
 use Illuminate\Http\Request;
 
 class Depense extends Controller
@@ -13,7 +14,8 @@ class Depense extends Controller
      */
     public function index()
     {
-        //
+        $depenses = ModelsDepense::all();
+        return response()->json($depenses);
     }
 
     /**
@@ -34,7 +36,21 @@ class Depense extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'description' => 'required',
+            'cout' => 'required',
+            'idVolontaire' => 'required'
+        ];
         //
+        ModelsDepense::create(
+            // $request->all()
+            [
+                "description" => $request->description,
+                "cout" => $request->cout,
+                "idVolontaire" => $request->idVolontaire,
+            ]
+        );
+        return response()->json($request->all());
     }
 
     /**
@@ -43,9 +59,10 @@ class Depense extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($depense)
     {
         //
+        return $depense;
     }
 
     /**
@@ -66,9 +83,10 @@ class Depense extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $depense)
     {
         //
+        $depense->update($request->all());
     }
 
     /**
@@ -77,8 +95,9 @@ class Depense extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($depense)
     {
         //
+        $depense->delete();
     }
 }

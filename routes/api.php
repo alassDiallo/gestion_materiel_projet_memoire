@@ -14,14 +14,20 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::apiResource('rendezvous',App\Http\Controllers\ControllerRendezVous::class);
-Route::apiResource('volontaire',App\Http\Controllers\ControllerVolontaire::class);
-Route::apiResource('structure',App\Http\Controllers\ControllerStructure::class);
-Route::apiResource('materiel',App\Http\Controllers\ControllerMateriel::class);
-Route::apiResource('fournisseur',App\Http\Controllers\ControllerFournisseur::class);
-Route::apiResource('patient',App\Http\Controllers\ControllerPatient::class);
-Route::apiResource('medecin',App\Http\Controllers\ControllerMedecin::class);
-Route::apiResource('specialite',App\Http\Controllers\ControllerSpecialite::class);
+
+Route::apiResource('rendezvous', App\Http\Controllers\ControllerRendezVous::class);
+Route::apiResource('volontaire', App\Http\Controllers\ControllerVolontaire::class);
+Route::apiResource('structure', App\Http\Controllers\ControllerStructure::class);
+Route::apiResource('materiel', App\Http\Controllers\ControllerMateriel::class);
+Route::apiResource('fournisseur', App\Http\Controllers\ControllerFournisseur::class);
+Route::apiResource('patient', App\Http\Controllers\ControllerPatient::class);
+Route::apiResource('medecin', App\Http\Controllers\ControllerMedecin::class);
+Route::apiResource('specialite', App\Http\Controllers\ControllerSpecialite::class);
+Route::apiResource('depenses', App\Http\Controllers\Depense::class);
+
+Route::apiResource('analyses', App\Http\Controllers\Depense::class);
+Route::apiResource('ordonnances', App\Http\Controllers\Depense::class);
+
 Route::get('/a', function () {
     $structure = Structure::all();
     return response()->json($structure);

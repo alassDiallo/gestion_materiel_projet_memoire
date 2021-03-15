@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Analyse as ModelsAnalyse;
 use Illuminate\Http\Request;
 
 class Analyse extends Controller
@@ -14,6 +15,8 @@ class Analyse extends Controller
     public function index()
     {
         //
+        $analyses = ModelsAnalyse::all();
+        return response()->json($analyses);
     }
 
     /**
@@ -24,6 +27,8 @@ class Analyse extends Controller
     public function create()
     {
         //
+
+
     }
 
     /**
@@ -35,6 +40,21 @@ class Analyse extends Controller
     public function store(Request $request)
     {
         //
+        $rules = [
+            'libelle' => 'required',
+            'prix' => 'required',
+            // 'idVolontaire' => 'required'
+        ];
+        //
+        ModelsAnalyse::create(
+            // $request->all()
+            [
+                "libelle" => $request->libelle,
+                "prix" => $request->prix,
+                // "idVolontaire" => $request->idVolontaire,
+            ]
+        );
+        return response()->json($request->all());
     }
 
     /**

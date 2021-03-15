@@ -1,4 +1,5 @@
 @extends('accueilUser')
+
 @section('content')
 <section class="wrapper">
     <div class="row">
@@ -143,7 +144,7 @@
               <div class="row">
                 <div class="col-md-3 centered hidden-sm hidden-xs">
                   <img src="img/ui-danro.jpg" class="img-circle" width="65">
-                </div>
+                  </div>
                 <div class="col-md-9">
                   <p>
                     <name>Dan Rogers</name>
@@ -420,5 +421,5 @@
     </div>
     <!-- /row -->
   </section>
-    
+
 @endsection

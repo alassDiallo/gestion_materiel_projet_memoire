@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Depense extends Model
 {
     use HasFactory;
-    protected $fillable = ["idDepense","description","cout","idVolontaire"];
 
-    public function volontaire(){
+    protected $fillable = ["idDepense", "description", "cout", "idVolontaire"];
 
-        return $this->belongsTo("App\Models\volontaire",'idVolontaire');
+    public function volontaire()
+    {
+
+        return $this->belongsTo("App\Models\volontaire", 'idVolontaire');
     }
 }
