@@ -14,7 +14,7 @@ class CreateOrdonnancesTable extends Migration
     public function up()
     {
         Schema::create('ordonnances', function (Blueprint $table) {
-            $table->id("idOrdonnance");
+            $table->string("idOrdonnance",20)->primary();
             $table->double("cout");
             $table->timestamps();
         });

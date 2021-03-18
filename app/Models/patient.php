@@ -10,7 +10,7 @@ class patient extends Model
     use HasFactory;
     protected $fillable = ['nom','prenom','adresse','telephone','dateDeNaissance','lieuDeNaissance','sexe','numeroCIN','referencePatient'];
 
-   public function etRouteKeyName(){
+   public function getRouteKeyName(){
 
     return 'referencePatient';
    }

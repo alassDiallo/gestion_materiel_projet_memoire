@@ -29,5 +29,9 @@ class Medecin extends Model
                     ->withTimestamps();
     }
 
+    public function ordonnances(){
+
+        return $this->belongsToMany('App\Models\Ordonnance','idMedecin');
+    }
     
 }

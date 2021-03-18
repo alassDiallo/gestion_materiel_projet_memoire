@@ -1,7 +1,7 @@
 @extends('accueilUser')
 @section('content')
-<div class="row mt" style="margin-top: 100px">
-    <div class="col-lg-12">
+<div class="row mt" >
+    <div class="" style="margin-top:100px; margin-left:50px;">
       <!-- CHART PANELS -->
       <div class="row">
         <div class="col-md-4 col-sm-4 mb">
@@ -88,7 +88,7 @@
         </div>
         <!-- /col-md-4 -->
       </div>
-    <div class="col-md-12">
+    <div class="">
       <section class="wrapper site-min-height">
         <!-- page start-->
         <div id="morris">

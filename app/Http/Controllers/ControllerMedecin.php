@@ -10,6 +10,7 @@ use App\Models\Periode;
 use App\Models\RendezVous;
 use App\Models\Structure;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 use DataTable;
 
 class ControllerMedecin extends Controller
@@ -82,6 +83,7 @@ class ControllerMedecin extends Controller
         $rendez = Medecin::where('email',Auth::user()->email)->first()->idMedecin;
         $rv = RendezVous::where('idMedecin',$rendez)->where('rendez_vouses.etat','en attente')
         ->join('patients','rendez_vouses.idPatient','=','patients.idPatient')
+        ->orderBy('date','desc')
         ->get();
 
         if($request->ajax()){
@@ -89,15 +91,25 @@ class ControllerMedecin extends Controller
             return \DataTables::of($rv)
                                 ->addIndexColumn()
                                 ->addColumn('action',function($rv){
-                                $btn = '<a class="btn  btn-sm btn-success" href="javascript:void();" data-toggle="tooltip" data-id="'.$rv->id.'" data-original-title="modifier" onclick="modifier('."'".$rv->id."'".')"><i class="fa fa-check" style="color:white;"></i></a>
-                                <a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="'.$rv->id.'" data-original-title="modifier" onclick="modifier('."'".$rv->id."'".')"><i class="fa fa-edit" style="color:white;"></i></a>
-                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="'.$rv->id.'" data-original-title="supprimer" onclick="supprimer('."'".$rv->id."'".')"><i class="fa fa-trash-o" style="color:white;"></i></a>';
+                                $btn = '<a class="btn  btn-sm btn-success" href="javascript:void();" data-toggle="tooltip" data-id="'.$rv->id.'" data-original-title="accepter" onclick="accepter('."'".$rv->id."'".')"><i class="fa fa-check" style="color:white;"></i>accepter</a>
+                                <a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="'.$rv->id.'" data-original-title="modifier" onclick="modifier('."'".$rv->id."'".')"><i class="fa fa-edit" style="color:white;"></i>renvoyer</a>
+                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="'.$rv->id.'" data-original-title="supprimer" onclick="supprimer('."'".$rv->id."'".')"><i class="fa fa-trash-o" style="color:white;"></i>decliner</a>';
 
                                 return $btn;
                                 })
                                 ->rawColumns(['action'])
                                 ->make(true);
                             }
+
+    }
+
+    public function valider($id){
+
+        RendezVous::where('id',$id)->update([
+                'etat'=>'accepter'
+        ]);
+
+        return response()->json("vous avez accepter la demande de rendez-vous");
 
     }
 
@@ -122,6 +134,22 @@ class ControllerMedecin extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    public function modifierRv(Request $request)
+    {
+        $rules=[
+            'date'=>'required|after_or_equals:'.date('d/m/Y'),
+        ];
+        $error = Validator::make($request->all(),$rules);
+        if($error->fails()){
+
+            return response()->json($error->errors());
+        }
+
+        return response()->json("pas d'erreur");
+
+        
     }
 
     /**

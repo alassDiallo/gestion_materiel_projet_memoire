@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class Facture extends Controller
+class ControllerFacture extends Controller
 {
     /**
      * Display a listing of the resource.

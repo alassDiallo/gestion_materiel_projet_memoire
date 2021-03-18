@@ -48,7 +48,26 @@ class ControllerPatient extends Controller
      */
     public function show($id)
     {
-        //
+        $patient = Patient::where('referencePatient',$id)
+                        ->orWhere('telephone',$id)
+                        ->orWhere('numeroCIN',$id)
+                        ->firstOrFail();
+                        if($patient->count() <1){
+                            return response()->json('aucun');
+                        }
+                        return response()->json("correcte");
+    }
+
+    public function recherche(Request $request){
+
+        $patient = Patient::where('referencePatient',$request->id)
+                        ->orWhere('telephone',$request->id)
+                        ->orWhere('numeroCIN',$request->id)
+                        ->firstOrFail();
+                        if($patient->count() <1){
+                            return response()->json('aucun');
+                        }
+                        return response()->json("correcte");
     }
 
     /**

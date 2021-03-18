@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\RendezVous;
 use App\Models\structure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/', function () {
+       return response()->json(RendezVous::all()->groupBy('date'));
+    
+});
 Route::get('/historique',[App\Http\Controllers\ControllerRendezVous::class,'historique']);
 Route::apiResource('rendezvous',App\Http\Controllers\ControllerRendezVous::class);
 Route::apiResource('volontaire',App\Http\Controllers\ControllerVolontaire::class);
@@ -26,6 +31,18 @@ Route::apiResource('specialite',App\Http\Controllers\ControllerSpecialite::class
 Route::get('/a', function () {
     $structure = Structure::all();
     return response()->json($structure);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+
+], function ($router) {
+    Route::post('/login', [App\Http\Controllers\UsersController::class, 'login']);
+    Route::post('/register', [App\Http\Controllers\UsersController::class, 'register']);
+    Route::post('/logout', [App\Http\Controllers\UsersController::class, 'logout']);
+    Route::post('/refresh', [App\Http\Controllers\UsersController::class, 'refresh']);
+    Route::get('/user-profile', [App\Http\Controllers\UsersController::class, 'userProfile']);    
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

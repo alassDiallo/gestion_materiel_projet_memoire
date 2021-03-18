@@ -94,7 +94,6 @@
     var ref;
     function ajouter(){
         save="ajouter";
-        
         $('#form')[0].reset();
         $('#modal').modal('show');
 

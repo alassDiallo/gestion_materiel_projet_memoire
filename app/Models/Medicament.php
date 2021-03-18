@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Medicament extends Model
 {
     use HasFactory;
+    protected $fillable =['libelle','prix'];
+    public function ordonnances(){
+
+        return $this->belongsToMany('App\Models\Ordonnance','prescriptions','idMedicament','idOrdonnance')
+                    ->withPivot('quantite','indication')
+                    ->withTimestamps();
+    }
 }

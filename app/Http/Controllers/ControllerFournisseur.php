@@ -57,6 +57,7 @@ class ControllerFournisseur extends Controller
 
     public function show($idFournisseur)
     {
+       
         //
         $fournisseur=fournisseur::find($idFournisseur);
         return (view('fournisseur.show',compact('fournisseur')));

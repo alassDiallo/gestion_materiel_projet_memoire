@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="Dashboard">
   <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-  <title>Dashio - Bootstrap Admin Template</title>
+  <title>Gestion rendez-vous</title>
 
   <!-- Favicons -->
   <link href="img/favicon.png" rel="icon">
@@ -52,73 +52,7 @@
         <!--  notification start -->
         <ul class="nav top-menu">
           <!-- settings start -->
-          <li class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
-              <i class="fa fa-tasks"></i>
-              <span class="badge bg-theme">4</span>
-              </a>
-            <ul class="dropdown-menu extended tasks-bar">
-              <div class="notify-arrow notify-arrow-green"></div>
-              <li>
-                <p class="green">You have 4 pending tasks</p>
-              </li>
-              <li>
-                <a href="index.html#">
-                  <div class="task-info">
-                    <div class="desc">Dashio Admin Panel</div>
-                    <div class="percent">40%</div>
-                  </div>
-                  <div class="progress progress-striped">
-                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                      <span class="sr-only">40% Complete (success)</span>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="index.html#">
-                  <div class="task-info">
-                    <div class="desc">Database Update</div>
-                    <div class="percent">60%</div>
-                  </div>
-                  <div class="progress progress-striped">
-                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                      <span class="sr-only">60% Complete (warning)</span>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="index.html#">
-                  <div class="task-info">
-                    <div class="desc">Product Development</div>
-                    <div class="percent">80%</div>
-                  </div>
-                  <div class="progress progress-striped">
-                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                      <span class="sr-only">80% Complete</span>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="index.html#">
-                  <div class="task-info">
-                    <div class="desc">Payments Sent</div>
-                    <div class="percent">70%</div>
-                  </div>
-                  <div class="progress progress-striped">
-                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%">
-                      <span class="sr-only">70% Complete (Important)</span>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="external">
-                <a href="#">See All Tasks</a>
-              </li>
-            </ul>
-          </li>
+          
           <!-- settings end -->
           <!-- inbox dropdown start-->
           <li id="header_inbox_bar" class="dropdown">
@@ -238,6 +172,7 @@
           <li><a class="logout" href="{{ route('logout') }}"
             onclick="event.preventDefault();
                           document.getElementById('logout-form').submit();">
+                          <i class="fa fa-sign-out"></i>
              {{ __('Logout') }}
          </a>
 
@@ -257,17 +192,17 @@
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
           <p class="centered"><a href="profile.html"><img src="img/vol.png" class="img-circle" width="80"></a></p>
-          <h5 class="centered">Assane Diallo</h5>
+          <h5 class="centered">{{ Auth::user()->fullName??''}}</h5>
           <li class="mt">
             <a class="active" href="index.html">
-              <i class="fa fa-dashboard"></i>
+              <i class="fa fa-home"></i>
               <span>Accueil</span>
               </a>
           </li>
           @if(Auth::user()->profil=="admin")
           <li class="sub-menu">
             <a href="javascript:;">
-              <i class="fa fa-desktop"></i>
+              <i class="fa fa-users"></i>
               <span>Volontaire</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
@@ -279,7 +214,7 @@
           </li>
           <li class="sub-menu">
             <a href="javascript:;">
-              <i class="fa fa-cogs"></i>
+              <i class="fa fa-plus-square"></i>
               <span>Structure</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
@@ -294,7 +229,7 @@
           </li>
           <li class="sub-menu">
             <a href="javascript:;">
-              <i class="fa fa-tasks"></i>
+             <i class="fa fa-cogs"></i></i>
               <span>Materiel</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
@@ -306,7 +241,7 @@
           </li>
           <li class="sub-menu">
             <a href="javascript:;">
-              <i class="fa fa-th"></i>
+              <i class="fa fa-exchange"></i>
               <span>Fournisseur</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
@@ -317,14 +252,14 @@
           </li>
           <li>
             <a href="inbox.html">
-              <i class="fa fa-envelope"></i>
+              <i class="fa fa-compress"></i>
               <span>Comptabilité</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
-              <span class="label label-theme pull-right mail-info">2</span>
+             
               </a>
           </li>
           <li>
             <a href="inbox.html">
-              <i class="fa fa-envelope"></i>
+              <i class="fa fa-bar-chart-o"></i>
               <span>Statistique</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               
               </a>
@@ -333,7 +268,7 @@
           @if(Auth::user()->profil=="volontaire")
           <li class="sub-menu">
             <a href="javascript:;">
-              <i class="fa fa-book"></i>
+              <i class="fa fa-usd"></i>
               <span>Facturation</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
@@ -350,27 +285,32 @@
           </li>
           <li>
             <a href="inbox.html">
-              <i class="fa fa-envelope"></i>
+              <i class="fa fa-exchange"></i>
               <span>Depense</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
-              <span class="label label-theme pull-right mail-info">2</span>
+             
               </a>
           </li>
           <li>
             <a href="inbox.html">
-              <i class="fa fa-envelope"></i>
+              <i class="fa fa-file-text"></i>
               <span>Rapport</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
-              <span class="label label-theme pull-right mail-info">2</span>
+              </a>
+          </li>
+           <li>
+            <a href="inbox.html">
+              <i class="fa fa-users"></i>
+              <span>Ajouter compte</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
           </li>
           @endif
           @if(Auth::user()->profil=="medecin")
           <li class="sub-menu">
             <a href="javascript:;">
-              <i class="fa fa-book"></i>
+              <i class="fa fa-file-text-o"></i>
               <span>Prescription</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
-              </a><i class="fa fa-angle-right"></i>
+              </a>
             <ul class="sub">
-              <li><a href="blank.html">Ordenance</a></li>
+              <li><a href="{{ route('ordonnance.index')}}">Ordenance</a></li>
               <li><a href="login.html">Analyse</a></li>
               {{-- <li><a href="lock_screen.html">Ordonnance</a></li> --}}
               <!-- <li><a href="profile.html">Profile</a></li>
@@ -383,12 +323,13 @@
           </li>
           <li class="sub-menu">
             <a href="javascript:;">
-              <i class="fa fa-book"></i>
+              <i class="fa fa-calendar"></i>
               <span>Rendez-vous</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
-              <li><a href="/lm">Liste demande</a></li>
-              <li><a href="login.html">valider</a></li>
+              <li><a href="/lm">voir les demande</a></li>
+              <li><a href="login.html">ajouter un rendez-vous</a></li>
+              <li><a href="/calendrier">calendrier</a></li>
               {{-- <li><a href="lock_screen.html">Ordonnance</a></li> --}}
               <!-- <li><a href="profile.html">Profile</a></li>
               <li><a href="invoice.html">Invoice</a></li>
@@ -411,7 +352,7 @@
               <li><a href="xchart.html">xChart</a></li>
             </ul>
           </li> -->
-          <li class="sub-menu">
+          {{-- <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-comments-o"></i>
               <span>Chat Room</span>
@@ -426,7 +367,7 @@
               <i class="fa fa-map-marker"></i>
               <span>Google Maps </span>
               </a>
-          </li>
+          </li> --}}
         </ul>
         <!-- sidebar menu end-->
       </div>
@@ -436,8 +377,10 @@
         MAIN CONTENT
         *********************************************************************************************************************************************************** -->
     <!--main content start-->
-    <section id="main-content" class="col-md-10">
+    <section id="main-content" style="" >
+      <section class="wrapper">
       @yield('content')
+      </section>
     </section>
     <!--main content end-->
     <!--footer start-->
@@ -468,6 +411,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
         <script src="{{ asset('/js/jquery-3.5.1.js') }}"></script>
         <script src="{{ asset('/js/DataTables/datatables.min.js') }}"></script>
+        <script src="js/moment.min.js"></script>
+    <script src="js/fullcalendar.js"></script>
         @yield('ajax')
   <script src="lib/bootstrap/js/bootstrap.min.js"></script>
   <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>

@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Facture;
+use PDF;
+use App\Models\Ordonnance;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 
-class Ordonnance extends Controller
+class ControllerPrescription extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +38,32 @@ class Ordonnance extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $patient = Patient::where('referencePatient',$request->reference)
+        ->orWhere('telephone',$request->reference)
+        ->orWhere('numeroCIN',$request->reference)
+        ->first();
+        if(!$patient){
+            return response()->json(["error"=>"il n'y a pas de patient avec ces informations"]);
+        }
+        Ordonnance::create([
+            'cout'=>$request->coup,
+            'idOrdonnance'=>$request->idord
+        ]);
+        Facture::create([
+            'reference'=>referenceFacture(),
+            'montant'=>$request->coup,
+            'priseEC'=>$request->coup*0.8,
+            'prixP'=>$request->coup*0.2,
+            'idPatient'=>$patient->idPatient
+
+        ]);
+
+        // $this->voir();
+        // $pdf = PDF::loadView('ordonnance.generer');
+        $pdf = PDF::loadView('ordonnance.generer');
+        return  $pdf->download("/assane.pdf");
+        return response()->json('reussi');
+    // $pdf->download("/ordonnance/assane".date("d/m/Y h:m:s").".pdf");
     }
 
     /**

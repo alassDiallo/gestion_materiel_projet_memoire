@@ -31,6 +31,7 @@ class ControllerRendezVous extends Controller
                     ->join('periodes','medecins.idMedecin','=','periodes.idMedecin')
                     ->join('structures','structures.idStructure','=','periodes.idStructure')
                     ->orderBy('date','desc')
+                    ->orderBy('heure','desc')
                     ->get();
 
 
@@ -91,7 +92,8 @@ class ControllerRendezVous extends Controller
      */
     public function show($id)
     {
-        //
+        $rv = RendezVous::where('id',$id)->get();
+        return response()->json($rv);
     }
 
     /**
@@ -114,7 +116,14 @@ class ControllerRendezVous extends Controller
      */
     public function update(Request $request, $id)
     {
-       dd("je suis la");
+        
+        RendezVous::where('id',$request->id)
+        ->update([
+            'date'=>$request->date,
+            'heure'=>str_replace(':','h',$request->heure),
+            'etat'=>'accepter'
+        ]);
+      return response()->json("modification effectuer avec succés");
     }
 
     public function historique(){
@@ -130,6 +139,7 @@ class ControllerRendezVous extends Controller
                     ->join('periodes','medecins.idMedecin','=','periodes.idMedecin')
                     ->join('structures','structures.idStructure','=','periodes.idStructure')
                     ->orderBy('date','desc')
+                    ->orderBy('heure','desc')
                     ->get();
 
                 return response()->json($rv);

@@ -399,7 +399,7 @@ ul.sidebar-menu li a.active i {
 
 /* MAIN CONTENT CONFIGURATION */
 #main-content {
-    margin-left: 230px;
+    margin-left: 210px;
 }
 
 .header, .footer {
@@ -1912,7 +1912,7 @@ label {
 .switch-square label {
     border-radius: 0 6px 6px 0;
     border-color: #41cac0;
-}
+}  
 
 
 /* TABLES CONF*/

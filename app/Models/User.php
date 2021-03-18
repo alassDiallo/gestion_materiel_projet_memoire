@@ -3,14 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+// use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements JWTSubject
 {
-    public $donne;
-    use HasFactory, Notifiable;
+   
+    use HasApiTokens,HasFactory, Notifiable;
    
 
     /**
@@ -45,23 +49,42 @@ class User extends Authenticatable
     ];
 
     public function getFullNameAttribute(){
-      
+      $name;
         switch($this->profil){
             case "medecin":
-                $this->donnee = Medecin::where('email',$this->email)->firstOrFail();
-              
+              $nom = Medecin::where('email',$this->email)->firstOrFail();
+                $name = " Dr. {$nom->prenom}  {$nom->nom}";
                 break;
             case "volontaire":
-                $donnee = volontaire::where('email',$this->email)->firstOrFail();
+                // $donnee = volontaire::where('email',$this->email)->firstOrFail();
+                // $name = "{$donnee->prenom}  {$nom->nom}";
+                $name="Dabo";
             break;
             case "admin":
-                $donnee = User::where('email',$this->email)->firstOrFail();
+                $name="Administrateur";
                 break;
-                default :$donne=[];
+                default :
+                $name="";
                 break;
         }
 
-        return $this->donne;
 
+        return $name;
+
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

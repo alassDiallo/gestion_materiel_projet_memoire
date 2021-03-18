@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Facture;
 use App\Models\structure;
 use App\Models\volontaire;
 use App\Models\Fournisseur;
@@ -7,6 +8,7 @@ use App\Models\Materiel;
 use App\Models\Medecin;
 use App\Models\Specialite;
 use App\Models\Patient;
+use App\Models\Ordonnance;
 
 if(! function_exists("referenceStructure")){
 function referenceStructure(){
@@ -15,6 +17,7 @@ function referenceStructure(){
     return referenceStructure();
     return $ref;
 }
+
 
 }
 
@@ -76,7 +79,26 @@ if(! function_exists("referenceVolontaire")){
                         }
                         
                         }
+                        if(! function_exists("referenceOrdonnance")){
+                            function referenceOrdonnance(){
+                                $ref = rand(100000,1000000)."ORD";
+                                if(Ordonnance::where('idOrdonnance',$ref)->count() >0)
+                                return referenceOrdonnance();
+                                return $ref;
+                            }
+                            
+                            }
+
+                            if(! function_exists("referenceFacture")){
+                                function referenceFacture(){
+                                    $ref = rand(100000,1000000)."FACT";
+                                    if(Facture::where('reference',$ref)->count() >0)
+                                    return referenceOrdonnance();
+                                    return $ref;
+                                }
+                                
+                                }
     
-                        
+                                               
 
                     

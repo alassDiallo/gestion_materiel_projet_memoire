@@ -24,7 +24,6 @@ class CreatePatientsTable extends Migration
             $table->string('adresse');
             $table->string('telephone',9)->unique();
             $table->string('numeroCIN',12)->unique();
-            $table->string('etat');
             $table->timestamps();
         });
     }

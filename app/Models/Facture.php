@@ -9,7 +9,7 @@ class Facture extends Model
 {
     use HasFactory;
 
-    protected $fillable=["idFacture","reference","montant","priseEC","prixP","idPatient"];
+    protected $fillable=["reference","montant","priseEC","prixP","idPatient"];
 
     public function patient(){
 

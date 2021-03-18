@@ -24,7 +24,7 @@ class PatientSeeder extends Seeder
             "telephone"=>"777777779",
             "sexe"=>"homme",
             "numeroCIN"=>"numCIN".rand(1000,100000),
-            "etat"=>"enRegle"
+            
            
        ]);
 
@@ -38,7 +38,7 @@ class PatientSeeder extends Seeder
         "telephone"=>"777777778",
         "sexe"=>"homme",
         "numeroCIN"=>"numCIN".rand(1000,100000),
-        "etat"=>"enRegle"
+       
        
    ]);
 
@@ -52,7 +52,7 @@ class PatientSeeder extends Seeder
     "telephone"=>"777777774",
     "sexe"=>"homme",
     "numeroCIN"=>"numCIN".rand(1000,100000),
-    "etat"=>"enRegle"
+    
    
 ]);
 
@@ -66,7 +66,7 @@ Patient::create([
     "telephone"=>"777777776",
     "sexe"=>"homme",
     "numeroCIN"=>"numCIN".rand(1000,100000),
-    "etat"=>"enRegle"
+   
    
 ]);
 
@@ -80,7 +80,6 @@ Patient::create([
     "telephone"=>"777777775",
     "sexe"=>"homme",
     "numeroCIN"=>"numCIN".rand(1000,100000),
-    "etat"=>"enRegle"
    
 ]);
     }
