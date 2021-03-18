@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::get('/', function () {
        return response()->json(RendezVous::all()->groupBy('date'));
     
@@ -28,6 +29,11 @@ Route::apiResource('fournisseur',App\Http\Controllers\ControllerFournisseur::cla
 Route::apiResource('patient',App\Http\Controllers\ControllerPatient::class);
 Route::apiResource('medecin',App\Http\Controllers\ControllerMedecin::class);
 Route::apiResource('specialite',App\Http\Controllers\ControllerSpecialite::class);
+Route::apiResource('depenses', App\Http\Controllers\Depense::class);
+
+Route::apiResource('analyses', App\Http\Controllers\Depense::class);
+Route::apiResource('ordonnances', App\Http\Controllers\Depense::class);
+
 Route::get('/a', function () {
     $structure = Structure::all();
     return response()->json($structure);

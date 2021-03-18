@@ -64,7 +64,6 @@ Route::post('/modifierRV',[App\Http\Controllers\ControllerMedecin::class,'modifi
 Route::get('/valider/{id}',[App\Http\Controllers\ControllerMedecin::class,'valider']);
 Route::get('/vol', function () {
     return view('volontaire.accueil_volontaire');
-    
 });
 
 Route::get('/test-contact', function () {
@@ -81,22 +80,22 @@ Route::get('/test-contact', function () {
 
 Route::get('/listeRendezvous',[App\Http\Controllers\ControllerMedecin::class,'liste']);
 
-Route::get('/lm',function(){
+Route::get('/lm', function () {
     return view('medecin.listeDemande');
 });
 Route::get('/s', function () {
     return view('structure.accueil_structure');
-    
 });
 
-Route::get("/m",function(){
+Route::get("/m", function () {
 
     return view("medecin.accueilMedecin");
 });
 
-Route::get('/str',function(){
+Route::get('/str', function () {
     return view('structure.accueil_structure');
 });
+<<<<<<< HEAD
 Route::get('/calendrier',function(){
     return view('medecin.calendrier');
 });
@@ -114,6 +113,15 @@ Route::resource('materiel',App\Http\Controllers\ControllerMateriel::class);
 Route::resource('patient',App\Http\Controllers\ControllerPatient::class);
 Route::resource('fournisseur',App\Http\Controllers\ControllerFournisseur::class);
 Route::resource('rendezvous',App\Http\Controllers\ControllerRendezVous::class);
+=======
+Route::get('liste', [App\Http\Controllers\ControllerVolontaire::class, 'liste'])->name('listeVolontaire');
+Route::get("rendezvous", [App\Http\Controllers\ControllerRendezVous::class, 'index']);
+Route::resource('volontaire', App\Http\Controllers\ControllerVolontaire::class);
+Route::resource('structure', App\Http\Controllers\ControllerStructure::class);
+
+Route::resource('materiel', App\Http\Controllers\ControllerMateriel::class);
+Route::resource('fournisseur', App\Http\Controllers\ControllerFournisseur::class);
+>>>>>>> eb2b8485a6718397010ed9a38227306302b5da2a
 
 
 Auth::routes();
