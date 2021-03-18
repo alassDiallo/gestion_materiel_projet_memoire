@@ -59,7 +59,7 @@ Route::get('/', function () {
 
 });
 
-
+Route::get('sendbasicemail',[App\Http\Controllers\MailController::class,'basic_email']);
 Route::post('/modifierRV',[App\Http\Controllers\ControllerMedecin::class,'modifierRv']);
 Route::get('/valider/{id}',[App\Http\Controllers\ControllerMedecin::class,'valider']);
 Route::get('/vol', function () {
