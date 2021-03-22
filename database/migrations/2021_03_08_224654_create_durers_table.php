@@ -13,22 +13,22 @@ class CreateDurersTable extends Migration
      */
     public function up()
     {
-        Schema::create('durer', function (Blueprint $table) {
+        Schema::create('durers', function (Blueprint $table) {
             $table->id();
             $table->date("dateDebut");
             $table->date("dateFin");
             $table->unsignedBigInteger("idVolontaire");
             $table->foreign("idVolontaire")
-                    ->references("idVolontaire")
+                ->references("idVolontaire")
                 ->on("volontaires")
                 ->onDelete("restrict")
                 ->onUpdate("restrict");
-                $table->unsignedBigInteger("idStructure");
-                $table->foreign("idStructure")
-                        ->references("idStructure")
-                        ->on("structures")
-                        ->onDelete("restrict")
-                        ->onUpdate("restrict");
+            $table->unsignedBigInteger("idStructure");
+            $table->foreign("idStructure")
+                ->references("idStructure")
+                ->on("structures")
+                ->onDelete("restrict")
+                ->onUpdate("restrict");
             $table->timestamps();
         });
     }

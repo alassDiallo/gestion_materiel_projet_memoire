@@ -26,8 +26,9 @@ Route::apiResource('medecin', App\Http\Controllers\ControllerMedecin::class);
 Route::apiResource('specialite', App\Http\Controllers\ControllerSpecialite::class);
 Route::apiResource('depenses', App\Http\Controllers\Depense::class);
 
-Route::apiResource('analyses', App\Http\Controllers\Depense::class);
-Route::apiResource('ordonnances', App\Http\Controllers\Depense::class);
+Route::apiResource('analyses', App\Http\Controllers\Analyse::class);
+Route::get('/analysesPatient', [App\Http\Controllers\Analyse::class, 'analysesPatient']);
+Route::apiResource('ordonnances', App\Http\Controllers\Ordonnance::class);
 
 Route::get('/a', function () {
     $structure = Structure::all();
