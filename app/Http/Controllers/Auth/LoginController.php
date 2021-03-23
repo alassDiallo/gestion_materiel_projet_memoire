@@ -43,7 +43,7 @@ class LoginController extends Controller
         $profil = Auth::user()->profil;
         switch($profil){
             case "admin":
-                $redirectTo="/";
+                $redirectTo="/accueiljica";
             break;
             case "volontaire":
                 $redirectTo="/volontaire";

@@ -9,6 +9,7 @@ class Medicament extends Model
 {
     use HasFactory;
     protected $fillable =['libelle','prix'];
+    protected $primaryKey = 'idMedicament';
     public function ordonnances(){
 
         return $this->belongsToMany('App\Models\Ordonnance','prescriptions','idMedicament','idOrdonnance')

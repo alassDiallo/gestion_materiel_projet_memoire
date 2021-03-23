@@ -10,60 +10,54 @@
 <body>
     <div class="container row" style="width: 100%">
         <div class="col-md-6" style="width:200px">
-                image JICA <br/>        
-                nom structure<br/> 
-                adressé<br/> 
-                region   <br/>     
-                telephone<br/> 
+                <img src="img/logo.gif" alt="logo" width="300px"/><br/>        
+                {{ ucwords($medecin[0]->nomStructure) }}<br/>
+        region : {{ ucfirst($medecin[0]->region) }}<br/>
+        telephone : {{ $medecin[0]->telephone }}<br/>
         </div>
         <div class="col-md-6" style="margin-left:500px;width:300px">
-            prenom et nom<br/>
-            adresse<br/>
-            telephone<br/>
-            age
+            {{ ucwords($patient->prenom."  ".$patient->nom) }}<br/>
+            age : {{   explode('/',date('d/m/Y'))[2] - explode('-',$patient->dateDeNaissance)[0] }} ans<br/>
+            {{-- age : {{ date('d/m/Y')-$patient->dateDeNaissance }}<br/> --}}
+            Tel : {{ $patient->telephone }}<br/>
+            Adresse : {{ $patient->adresse }}<br/>
+            date: {{ date_format(now(),"d/m/Y H:i:s") }}
         </div>
     </div>
     <div class="">
         <h3 class="text-center">Ordonnance</h3><hr/>
     </div>
-    <div class="row">
+    <div class="">
 <table style="width: 100%">
+    @foreach ($ordonnance->medicaments as $medicament) 
     <tr class="" style="margin-bottom: 20px" class="text-center">
-        <td>EFFRALEGAN</td>
-        <td>3444</td>
-        <td>2</td>
+        <td style="font-weight: bold"> {{ $medicament->libelle }}</td>
+        <td> {{ $medicament->prix }}</td>
+        <td> x  {{ $medicament->pivot->quantite }}</td>
     </tr>
-    <tr>
-        <td colspan="3">xnksjnikjaijaiozamj</td>
+    <tr style="margin-bottom: 50px">
+        <td colspan="3">{{ $medicament->pivot->indication }}</td>
         
     </tr>
-    <tr>
-        <td>EFFRALEGAN</td>
-        <td>3444</td>
-        <td>2</td>
-    </tr>
-    <tr>
-        <td colspan="3">xnksjnikjaijaiozamj</td>
-        
-    </tr>
-    <tr>
-        <td>EFFRALEGAN</td>
-        <td>3444</td>
-        <td>2</td>
-    </tr>
-    <tr>
-        <td colspan="3">xnksjnikjaijaiozamj</td>
-        
-    </tr>
-    <tr style="margin-top: 50px">
-        <td>Total :3000.00 Franc CFA</td>
-        <td>Prise en charge : 2000 Franc CFA</td>
-        <td>Patient : 1000  Franc CFA</td>
-    </tr>
+@endforeach
 </table>
     </div>
-    <div class="row" style="bottom: 50px;position: absolute;">
-       <div class="text-right"> information medecin</div>
+<div class="" style="font-size: 12px;font-weight:bold;margin-top:200px">
+    <div class="col-md-3">
+        Total : {{ $ordonnance->cout }}  Franc Cfa
+    </div>
+    <div class="col-md-5">
+        Prise en charge(80%) : {{ $ordonnance->cout * 0.8 }} Franc Cfa
+    </div>
+    <div class="col-md-4">
+        Patient(20%) : {{ $ordonnance->cout * 0.2 }}  Franc Cfa
+    </div>
+</div>
+
+    </div>
+    <div class="" style="position: absolute;bottom:100px;margin-left:70%;">
+       <div class="">  Dr. {{ ucwords($medecin[0]->prenom."  ".$medecin[0]->nom ) }}<br/>
+        Telephone : {{ $medecin[0]->telephone }}</div>
     </div>
     </div>
 </body>

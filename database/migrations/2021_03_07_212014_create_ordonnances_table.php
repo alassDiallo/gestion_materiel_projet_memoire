@@ -15,6 +15,12 @@ class CreateOrdonnancesTable extends Migration
     {
         Schema::create('ordonnances', function (Blueprint $table) {
             $table->string("idOrdonnance",20)->primary();
+            $table->unsignedBigInteger('idMedecin');
+            $table->foreign('idMedecin')
+                ->references('idMedecin')
+                ->on('medecins')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
             $table->double("cout");
             $table->timestamps();
         });

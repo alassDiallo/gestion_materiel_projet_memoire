@@ -9,4 +9,5 @@ class RendezVous extends Model
 {
     use HasFactory;
     protected $fillable=['idMedecin','idPatient','date','heure','etat'];
+    
 }

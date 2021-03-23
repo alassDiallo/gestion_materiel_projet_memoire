@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Ordonnance extends Model
 {
     use HasFactory;
-    protected $fillable =['cout','idOrdonnance'];
+    protected $fillable =['cout','idOrdonnance','idMedecin'];
+    protected $primaryKey = 'idOrdonnance';
 
     public function medicaments(){
 
@@ -19,6 +20,6 @@ class Ordonnance extends Model
 
     public function medecin(){
 
-        return $this->belongTo('App\Models\Medecin');
+        return $this->belongsTo('App\Models\Medecin','idMedecin');
     }
 }

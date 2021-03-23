@@ -9,6 +9,7 @@ class fournisseur extends Model
 {
     use HasFactory;
     protected $fillable = ['referenceFournisseur','nom','telephone','email','adresse'];
+    protected $primaryKey = 'idFournisseur';
 
     public function getRouteKeyName()
     {

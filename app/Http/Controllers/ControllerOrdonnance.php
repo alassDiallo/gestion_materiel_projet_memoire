@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Medecin;
 use Illuminate\Http\Request;
 use Validator;
+use PDF;
 use App\Models\Ordonnance;
 use App\Models\prescription;
 use App\Models\Medicament;
+use App\Models\patient;
 
 class ControllerOrdonnance extends Controller
 {
@@ -73,8 +76,22 @@ class ControllerOrdonnance extends Controller
     }
 
     public function valider(Request $request){
-
-        return response()->json("valider");
+        $medecin = Medecin::where('medecins.idMedecin',$request->medecin)
+                            ->join('specialites','medecins.idSpecialite','=','specialites.idSpecialite')
+                            ->join('periodes','medecins.idMedecin','=','periodes.idMedecin')
+                            ->join('structures','structures.idStructure','=','periodes.idStructure')
+                            ->get();
+        $patient = Patient::where('referencePatient',$request->patient)
+        ->orWhere('telephone',$request->patient)
+        ->orWhere('numeroCIN',$request->patient)
+        ->first();
+        
+        $ordonnance=Ordonnance::where('idOrdonnance',$request->ordonnance)->first();
+        // dd($medecin);
+     
+       // dd($patient);
+        $pdf = PDF::loadView('ordonnance.generer',['patient'=>$patient,'ordonnance'=>$ordonnance,'medecin'=>$medecin]);
+        return  $pdf->download("ordonnance".$patient->prenom."_".$patient->nom."_".$patient->telephone.".pdf");
         
 
     }

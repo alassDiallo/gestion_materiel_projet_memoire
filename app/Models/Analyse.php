@@ -9,6 +9,7 @@ class Analyse extends Model
 {
     use HasFactory;
     protected $fillable=['idAnalyse','libelle','prix'];
+    protected $primaryKey = 'idAnalyse';
 
     
 }

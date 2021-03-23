@@ -9,7 +9,7 @@ class patient extends Model
 {
     use HasFactory;
     protected $fillable = ['nom','prenom','adresse','telephone','dateDeNaissance','lieuDeNaissance','sexe','numeroCIN','referencePatient'];
-
+    protected $primaryKey = 'idPatient';
    public function getRouteKeyName(){
 
     return 'referencePatient';

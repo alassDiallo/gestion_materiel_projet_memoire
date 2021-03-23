@@ -233,7 +233,7 @@
               <span>Materiel</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
-              <li><a href="form_component.html">Lister materiel</a></li>
+              <li><a href="/accueilMateriel">Lister materiel</a></li>
               <!-- <li><a href="advanced_form_components.html">Advanced Components</a></li>
               <li><a href="form_validation.html">Form Validation</a></li>
               <li><a href="contactform.html">Contact Form</a></li> -->
@@ -245,7 +245,7 @@
               <span>Fournisseur</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
-              <li><a href="basic_table.html">Lister fournisseur</a></li>
+              <li><a href="/accueilFournisseur">Lister fournisseur</a></li>
               <!-- <li><a href="responsive_table.html">Responsive Table</a></li>
               <li><a href="advanced_table.html">Advanced Table</a></li> -->
             </ul>

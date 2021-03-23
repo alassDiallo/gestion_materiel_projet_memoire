@@ -9,6 +9,7 @@ class materiel extends Model
 {
     use HasFactory;
     protected $fillable = ['reference','type','prix','libelle'];
+    protected $primaryKey = 'idMateriel';
 
     public function getRouteKeyName(){
 

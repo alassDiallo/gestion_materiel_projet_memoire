@@ -25,10 +25,10 @@ class ControllerVolontaire extends Controller
         return view('volontaire.accueil_volontaire', ['structure' => $structure, 'materiel' => $materiel]);
     }
 
-    public function liste( request $request)
+    public function liste(Request $request)
     {
         $data = volontaire::all();
-        if($request->ajax){
+        if($request->ajax()){
         return \DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($data) {
