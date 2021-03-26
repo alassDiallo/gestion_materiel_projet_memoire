@@ -9,7 +9,7 @@ class consultation extends Model
 {
     use HasFactory;
     protected $fillable = ['nomMedecin','telephoneMedecin','referenceConsultation','date','prixConsultation'];
-
+    protected $primaryKey = 'idConsultation';
     public function getRouteKeyName()
     {
         

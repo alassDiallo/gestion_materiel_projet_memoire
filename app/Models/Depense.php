@@ -10,6 +10,7 @@ class Depense extends Model
     use HasFactory;
 
     protected $fillable = ["idDepense", "description", "cout", "idVolontaire"];
+    protected $primaryKey = 'idDepense';
 
     public function volontaire()
     {

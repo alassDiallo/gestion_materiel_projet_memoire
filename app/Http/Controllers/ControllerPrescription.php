@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Facture;
+use App\Models\Medecin;
 use PDF;
 use App\Models\Ordonnance;
 use App\Models\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ControllerPrescription extends Controller
 {
@@ -38,6 +40,11 @@ class ControllerPrescription extends Controller
      */
     public function store(Request $request)
     {
+        $medecin = Medecin::where('email',Auth::user()->email)
+                            ->join('specialites','medecins.idSpecialite','=','specialites.idSpecialite')
+                            ->join('periodes','medecins.idMedecin','=','periodes.idMedecin')
+                            ->join('structures','structures.idStructure','=','periodes.idStructure')
+                            ->get();
         $patient = Patient::where('referencePatient',$request->reference)
         ->orWhere('telephone',$request->reference)
         ->orWhere('numeroCIN',$request->reference)
@@ -47,7 +54,8 @@ class ControllerPrescription extends Controller
         }
         Ordonnance::create([
             'cout'=>$request->coup,
-            'idOrdonnance'=>$request->idord
+            'idOrdonnance'=>$request->idord,
+            'idMedecin'=>$medecin[0]->idMedecin
         ]);
         Facture::create([
             'reference'=>referenceFacture(),
@@ -57,12 +65,14 @@ class ControllerPrescription extends Controller
             'idPatient'=>$patient->idPatient
 
         ]);
-
+        $ordonnance = Ordonnance::where('idOrdonnance',$request->idord)->first();
+          
         // $this->voir();
         // $pdf = PDF::loadView('ordonnance.generer');
-        $pdf = PDF::loadView('ordonnance.generer');
-        return  $pdf->download("/assane.pdf");
-        return response()->json('reussi');
+        // $pdf = PDF::loadView('ordonnance.generer');
+        // return  $pdf->download("assane.pdf");
+        
+       return view("ordonnance.detail",['patient'=>$patient,'ordonnance'=>$ordonnance,'medecin'=>$medecin,'idOrdonnance'=>$request->idord]);
     // $pdf->download("/ordonnance/assane".date("d/m/Y h:m:s").".pdf");
     }
 

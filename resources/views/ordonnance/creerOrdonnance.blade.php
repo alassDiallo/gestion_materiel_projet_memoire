@@ -34,7 +34,7 @@ patient(20%) : <span id="patient"></span>
 </div>
 </div>
 <div id="formulaire">
-<Form onsubmit="valider(event);" id="enr">
+<Form action="{{ route('prescription.store') }}" method="POST">
    @csrf
     <div>
     <input type="hidden" name="idord" id="idord" />

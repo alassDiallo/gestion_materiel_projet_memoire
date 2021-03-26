@@ -9,7 +9,7 @@
         color: aliceblue;
     }
 </style>
-<div >
+<div style="margin-left: 30px;">
         <h1 class="text-center">Les Structures</h1><hr/>
         <a class="btn btn-success m-3" id="ajout" onclick="ajouter();"><i class="fa fa-plus ml-4"></i>Ajouter une structure</a>
         <table class="table m-3 table-bordered table-striped text-center" id="table">

@@ -8,18 +8,33 @@ use App\Models\volontaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Validator;
+use DataTable;
 use Illuminate\Validation\Rule;
 
 class ControllerMateriel extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
 
+<<<<<<< HEAD
         $materiels = materiel::all();
+=======
+        if($request->ajax()){
+            $data = materiel::all();
+>>>>>>> 682a8f0f72143615dbfd1b60c94fa39287e6dd6f
 
-        return response()->json($materiels);
-        //return ( view('materiel.acceuil',compact('materiels')));
+            return \DataTables::of($data)
+                                ->addIndexColumn()
+                                ->addColumn('action',function($data){
+                                $btn = '<a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="'.$data->id.'" data-original-title="modifier" onclick="modifier('."'".$data->reference."'".')"><i class="fa fa-edit" style="color:white;"></i></a>
+                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="'.$data->id.'" data-original-title="supprimer" onclick="supprimer('."'".$data->reference."'".')"><i class="fa fa-trash-o" style="color:white;"></i></a>';
+
+                                return $btn;
+                                })
+                                ->rawColumns(['action'])
+                                ->make(true);
+                            }
     }
 
 

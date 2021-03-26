@@ -10,6 +10,7 @@ class structure extends Model
 {
     use HasFactory;
     protected $fillable = ['nomStructure','adresse','telephone','reference','region'];
+    protected $primaryKey = 'idStructure';
 
     public function getRouteKeyName(){
 

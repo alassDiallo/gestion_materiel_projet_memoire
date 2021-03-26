@@ -39,6 +39,7 @@
     //var id;
     //var erreur_nom=false;
     $(document).ready(function(){
+        setInterval(reload,1000);
     table =  $('#table').DataTable({
         //  "serverSide":true,
         // "proccessing":true,

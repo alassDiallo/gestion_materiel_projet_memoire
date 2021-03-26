@@ -10,6 +10,7 @@ class Specialite extends Model
     use HasFactory;
 
     protected $fillable = ["idSpecialite","reference","libelle","prixConsultation"];
+    protected $primaryKey = 'idSpecialite';
 
     public function medecins(){
 

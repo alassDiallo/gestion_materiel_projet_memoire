@@ -20,7 +20,7 @@
         color:white;
     }
 </style>
-<div >
+<div style="margin-left: 30px;" >
         <h1 class="text-center">Les Volontaires</h1><hr/>
         <a class="btn btn-success m-3" id="ajout" onclick="ajouter();"><i class="fa fa-plus ml-4"></i>Ajouter un volontaire</a>
         <table class="table m-3 table-bordered table-striped text-center" id="table">
@@ -50,9 +50,7 @@
            "ajax":{
                "url":"{{ route('listeVolontaire') }}",
                "method":"GET",
-               success:function(data){
-                   console.log(data);
-               }
+               
            },
            
             columns: [
@@ -69,233 +67,232 @@
              url:"/js/DataTables/French.json"
          }
        });
-    )};
 
-    //     $('#telephone').on('keypress',function(e){
-    //      console.log(e.keyCode);
-    //      if(e.keyCode<48 || e.keyCode>57){
-    //          return false;
-    //      }
-    //  });
+        $('#telephone').on('keypress',function(e){
+         console.log(e.keyCode);
+         if(e.keyCode<48 || e.keyCode>57){
+             return false;
+         }
+     });
 
-    //  $('#telephone').on('keypress',function(e){
-    //      console.log(e.keyCode);
-    //      if(e.keyCode<48 || e.keyCode>57){
-    //          return false;
-    //      }
-    //  });
+     $('#telephone').on('keypress',function(e){
+         console.log(e.keyCode);
+         if(e.keyCode<48 || e.keyCode>57){
+             return false;
+         }
+     });
 
-    // });
-    // var ref;
-    // function ajouter(){
-    //     save="ajouter";
+    });
+    var ref;
+    function ajouter(){
+        save="ajouter";
         
-    //     $('#form')[0].reset();
-    //     $('.modal-title').val("Ajouter un volontaire");
-    //     $('#modal').modal('show');
+        $('#form')[0].reset();
+        $('.modal-title').val("Ajouter un volontaire");
+        $('#modal').modal('show');
 
-    // }
+    }
 
-    // /*function reload(){
-    //     table.ajax.reload(null,false);
-    // }*/
-    // function reload(){
-    //     $('#table').DataTable().ajax.reload();
-    // }
+    /*function reload(){
+        table.ajax.reload(null,false);
+    }*/
+    function reload(){
+        $('#table').DataTable().ajax.reload();
+    }
 
-    // function enregistrer(e){
-    //    e.preventDefault();
-    //    var url;
-    //    var meth;
+    function enregistrer(e){
+       e.preventDefault();
+       var url;
+       var meth;
 
-    //    if(save==="modifier"){
-    //      url="http://localhost:8000/volontaire/"+id;
-    //      meth="PUT";
-    //    }
-    //    else{
-    //        url = "{{ route('volontaire.store') }}";
-    //        meth="POST";
-    //    }
-    //    $.ajaxSetup({
-    //             headers: {
-    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //             }
-    //         });
+       if(save==="modifier"){
+         url="http://localhost:8000/volontaire/"+id;
+         meth="PUT";
+       }
+       else{
+           url = "{{ route('volontaire.store') }}";
+           meth="POST";
+       }
+       $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
        
-    //    $.ajax({
-    //        url:url,
-    //        type:meth,
-    //        data:$('#form').serialize(),
-    //        dataType:"JSON",
-    //        success:function(data){
-    //           if(data.error){
-    //             console.log(data.error)
-    //             if(data.error.nom){
-    //                 console.log(data.error.nom[0]);
-    //                 $('#nom').addClass("is-invalid");
-    //                 $('#erreur_nom').text(data.error.nom[0]);
-    //             }
-    //             else{
-    //                 $('#nom').removeClass("is-invalid");
-    //                 $('#erreur_nom').text("");
-    //             }
+       $.ajax({
+           url:url,
+           type:meth,
+           data:$('#form').serialize(),
+           dataType:"JSON",
+           success:function(data){
+              if(data.error){
+                console.log(data.error)
+                if(data.error.nom){
+                    console.log(data.error.nom[0]);
+                    $('#nom').addClass("is-invalid");
+                    $('#erreur_nom').text(data.error.nom[0]);
+                }
+                else{
+                    $('#nom').removeClass("is-invalid");
+                    $('#erreur_nom').text("");
+                }
 
-    //             if(data.error.prenom){
-    //                 console.log(data.error.prenom[0]);
-    //                 $('#prenom').addClass("is-invalid");
-    //                 $('#erreur_prenom').text(data.error.prenom[0]);
-    //             }
-    //             else{
-    //                 $('#prenom').removeClass("is-invalid");
-    //                 $('#erreur_prenom').text("");
-    //             }
+                if(data.error.prenom){
+                    console.log(data.error.prenom[0]);
+                    $('#prenom').addClass("is-invalid");
+                    $('#erreur_prenom').text(data.error.prenom[0]);
+                }
+                else{
+                    $('#prenom').removeClass("is-invalid");
+                    $('#erreur_prenom').text("");
+                }
 
-    //             if(data.error.adresse){
-    //                 $('#adresse').addClass("is-invalid");
-    //                 $('#erreur_adresse').text(data.error.adresse[0]);
-    //             }
-    //             else{
-    //                 $('#adresse').removeClass("is-invalid");
-    //                 $('#erreur_adresse').text("");
-    //             }
-    //             if(data.error.telephone){
-    //                 $('#telephone').addClass("is-invalid");
-    //                 $('#erreur_telephone').text(data.error.telephone[0]);
-    //             }
-    //             else{
-    //                 $('#telephone').removeClass("is-invalid");
-    //                 $('#erreur_telephone').text("");
-    //             }
+                if(data.error.adresse){
+                    $('#adresse').addClass("is-invalid");
+                    $('#erreur_adresse').text(data.error.adresse[0]);
+                }
+                else{
+                    $('#adresse').removeClass("is-invalid");
+                    $('#erreur_adresse').text("");
+                }
+                if(data.error.telephone){
+                    $('#telephone').addClass("is-invalid");
+                    $('#erreur_telephone').text(data.error.telephone[0]);
+                }
+                else{
+                    $('#telephone').removeClass("is-invalid");
+                    $('#erreur_telephone').text("");
+                }
 
-    //             if(data.error.structure){
-    //                 $('#structure').addClass("is-invalid");
-    //                 $('#erreur_structure').text(data.error.structure[0]);
-    //             }
-    //             else{
-    //                 $('#structure').removeClass("is-invalid");
-    //                 $('#erreur_structure').text("");
-    //             }
+                if(data.error.structure){
+                    $('#structure').addClass("is-invalid");
+                    $('#erreur_structure').text(data.error.structure[0]);
+                }
+                else{
+                    $('#structure').removeClass("is-invalid");
+                    $('#erreur_structure').text("");
+                }
 
-    //             if(data.error.cin){
-    //                 console.log(data.error.cin[0]);
-    //                 $('#cin').addClass("is-invalid");
-    //                 $('#erreur_cin').text(data.error.cin[0]);
-    //             }
-    //             else{
-    //                 $('#cin').removeClass("is-invalid");
-    //                 $('#erreur_cin').text("");
-    //             }
+                if(data.error.cin){
+                    console.log(data.error.cin[0]);
+                    $('#cin').addClass("is-invalid");
+                    $('#erreur_cin').text(data.error.cin[0]);
+                }
+                else{
+                    $('#cin').removeClass("is-invalid");
+                    $('#erreur_cin').text("");
+                }
 
-    //             if(data.error.dateDeNaissance){
-    //                 console.log(data.error.dateDeNaissance[0]);
-    //                 $('#dateDeNaissance').addClass("is-invalid");
-    //                 $('#erreur_dateDeNaissance').text(data.error.dateDeNaissance[0]);
-    //             }
-    //             else{
-    //                 $('#dateDeNaissance').removeClass("is-invalid");
-    //                 $('#erreur_dateDeNaissance').text("");
-    //             }
+                if(data.error.dateDeNaissance){
+                    console.log(data.error.dateDeNaissance[0]);
+                    $('#dateDeNaissance').addClass("is-invalid");
+                    $('#erreur_dateDeNaissance').text(data.error.dateDeNaissance[0]);
+                }
+                else{
+                    $('#dateDeNaissance').removeClass("is-invalid");
+                    $('#erreur_dateDeNaissance').text("");
+                }
 
-    //             if(data.error.lieuDeNaissance){
-    //                 console.log(data.error.lieuDeNaissance[0]);
-    //                 $('#lieuDeNaissance').addClass("is-invalid");
-    //                 $('#erreur_lieuDeNaissance').text(data.error.lieuDeNaissance[0]);
-    //             }
-    //             else{
-    //                 $('#lieuDeNaissance').removeClass("is-invalid");
-    //                 $('#erreur_lieuDeNaissance').text("");
-    //             }
+                if(data.error.lieuDeNaissance){
+                    console.log(data.error.lieuDeNaissance[0]);
+                    $('#lieuDeNaissance').addClass("is-invalid");
+                    $('#erreur_lieuDeNaissance').text(data.error.lieuDeNaissance[0]);
+                }
+                else{
+                    $('#lieuDeNaissance').removeClass("is-invalid");
+                    $('#erreur_lieuDeNaissance').text("");
+                }
 
-    //             if(data.error.email){
-    //                 console.log(data.error.email[0]);
-    //                 $('#email').addClass("is-invalid");
-    //                 $('#erreur_email').text(data.error.email[0]);
-    //             }
-    //             else{
-    //                 $('#email').removeClass("is-invalid");
-    //                 $('#erreur_email').text("");
-    //             }
+                if(data.error.email){
+                    console.log(data.error.email[0]);
+                    $('#email').addClass("is-invalid");
+                    $('#erreur_email').text(data.error.email[0]);
+                }
+                else{
+                    $('#email').removeClass("is-invalid");
+                    $('#erreur_email').text("");
+                }
 
-    //             if(data.error.materiel){
-    //                 console.log(data.error.materiel[0]);
-    //                 $('#materiel').addClass("is-invalid");
-    //                 $('#erreur_materiel').text(data.error.materiel[0]);
-    //             }
-    //             else{
-    //                 $('#materiel').removeClass("is-invalid");
-    //                 $('#erreur_materiel').text("");
-    //             }
-    //             console.log(data.error);
-    //           }
-    //           else{
-    //            console.log(data.success);
-    //            $('#modal').modal('hide');
-    //            reload();}
-    //        },
-    //        error:function(xhr,statusText,error){
-    //            alert("error");
-    //        }
-    //    })
-    // }
+                if(data.error.materiel){
+                    console.log(data.error.materiel[0]);
+                    $('#materiel').addClass("is-invalid");
+                    $('#erreur_materiel').text(data.error.materiel[0]);
+                }
+                else{
+                    $('#materiel').removeClass("is-invalid");
+                    $('#erreur_materiel').text("");
+                }
+                console.log(data.error);
+              }
+              else{
+               console.log(data.success);
+               $('#modal').modal('hide');
+               reload();}
+           },
+           error:function(xhr,statusText,error){
+               alert("error");
+           }
+       })
+    }
 
-    // function modifier(ref){
+    function modifier(ref){
       
       
-    //     save="modifier";
-    //     $('.modal-title').text("Modifer la structure");
-    //     $('#form')[0].reset();
-    //     //alert();
-    //     $.ajax({
-    //         url:"http://localhost:8000/volontaire/"+ref,
-    //         type:"GET",
-    //         dataType:"JSON",
-    //         success:function(data){
-    //             console.log(data);
-    //         $('.modal-title').val("Modifer le volontaire");
-    //            $('#nom').val(data[0].nom);
-    //            $('#adresse').val(data[0].adresse);
-    //            $('#telephone').val(data[0].telephone);
+        save="modifier";
+        $('.modal-title').text("Modifer la structure");
+        $('#form')[0].reset();
+        //alert();
+        $.ajax({
+            url:"http://localhost:8000/volontaire/"+ref,
+            type:"GET",
+            dataType:"JSON",
+            success:function(data){
+                console.log(data);
+            $('.modal-title').val("Modifer le volontaire");
+               $('#nom').val(data.nom);
+               $('#adresse').val(data.adresse);
+               $('#telephone').val(data.telephone);
 
-    //            $('#prenom').val(data[0].prenom);
-    //            $('#email').val(data[0].email);
-    //            $('#cin').val(data[0].numeroCIN);
+               $('#prenom').val(data.prenom);
+               $('#email').val(data.email);
+               $('#cin').val(data.numeroCIN);
 
-    //            $('#materiel').val(data[0].materiel);
-    //            $('#structure').val(data[0].idStructure);
-    //            $('#dateDeNaissance').val(data[0].dateDeNaissance);
-    //            $('#lieuDeNaissance').val(data[0].lieuDeNaissance);
+               $('#materiel').val(data.materiel);
+               $('#structure').val(data.idStructure);
+               $('#dateDeNaissance').val(data.dateDeNaissance);
+               $('#lieuDeNaissance').val(data.lieuDeNaissance);
               
-    //            id=data[0].reference;
-    //            $('#modal').modal('show');
-    //         },
-    //         error:function(xhr,statusText,error){
-    //             alert(error);
-    //         }
-    //     })
+               id=data.reference;
+               $('#modal').modal('show');
+            },
+            error:function(xhr,statusText,error){
+                alert(error);
+            }
+        })
    
-    // }
+    }
 
-    // function supprimer(ref){
-    //    alert(ref);
-    //     $.ajaxSetup({
-    //             headers: {
-    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //             }
-    //         });
+    function supprimer(ref){
+       alert(ref);
+        $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
-    //    $.ajax({
-    //        url:"{{ route('structure.destroy',['structure'=>"+ref+"]) }}",
-    //        method:"DELETE",
-    //        dataType:"JSON",
-    //        success:function(data){
-    //            console.log(data.donnee);
-    //            reload();
-    //        },
-    //        error:function(xhr,statusText,error){
-    //            alert(error);
-    //        }
-    //    });
-    // });
+       $.ajax({
+           url:"{{ route('structure.destroy',['structure'=>"+ref+"]) }}",
+           method:"DELETE",
+           dataType:"JSON",
+           success:function(data){
+               console.log(data.donnee);
+               reload();
+           },
+           error:function(xhr,statusText,error){
+               alert(error);
+           }
+       });
+    }
 </script>
 <div>
     <div class="modal" tabindex="-1" id="modal">
@@ -323,7 +320,7 @@
                     <div class="form-group mb-3 row">
                         <div class="col-md-6">
                               <label for="dateDeNaissance">Date de Naissance</label>
-                              <input type="date" placeholder="" name="dateDeNaissance" id="dateDeNaissance" class="form-control @error('dateDeNaissance') is-invalid @enderror"  value="{{ old('dateDeNaissance') }}" >
+                              <input type="date" placeholder="" name="dateDeNaissance" id="dateDeNaissance" class="form-control @error('dateDeNaissance') is-invalid @enderror"  value="{{ old('dateDeNaissance') }}" min="{{ Date('Y-m-d',strtotime(date('Y-m-d') . "-50 years"))}}" max="{{  date('Y-m-d', strtotime(date('Y-m-d') . "-18 years")) }}" >
                               <span class="erreur" id="erreur_dateDeNaissance">@error('dateDeNaissance') {{ $message }}  @enderror</span>
                         </div>
                         <div class="col-md-6">
@@ -363,9 +360,9 @@
                     <label for="structure">Structure</label>
                     <select class="form-select @error('structure') is-invalid @enderror"  value="{{ old('structure') }}"" aria-label="Default select example" name="structure" id="structure">
                         <option value="">-----selectionner la structure-----</option>
-                        {{-- @foreach ($structure as $structure )
-                           <option value="{{ $structure->idStructure }}">{{ $structure->nom }}</option> 
-                        @endforeach --}}
+                        @foreach ($structure as $structure )
+                           <option value="{{ $structure->idStructure }}">{{ $structure->nomStructure }}</option> 
+                        @endforeach
                         
                       </select>
                       <span class="erreur" id="erreur_structure">@error('structure') {{ $message }}  @enderror</span>
@@ -374,10 +371,10 @@
                     <label for="materiel">Materiel</label>
                     <select class="form-select @error('materiel') is-invalid @enderror"  value="{{ old('materiel') }}"" aria-label="Default select example" name="materiel" id="materiel">
                         <option value="">-----selectionner la materiel-----</option>
-                        {{-- @foreach ($materiel as $materiel)
+                        @foreach ($materiel as $materiel)
                         <option value="{{ $materiel->reference }}">{{ $materiel->libelle }}</option>
                             
-                        @endforeach --}}
+                        @endforeach
                         
                       </select>
                       <span class="erreur" id="erreur_materiel">@error('materiel') {{ $message }}  @enderror</span>

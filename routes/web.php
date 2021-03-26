@@ -78,7 +78,14 @@ Route::get('/test-contact', function () {
     return "L'email a été envoyé.";
 });
 
+<<<<<<< HEAD
 Route::get('/listeRendezvous', [App\Http\Controllers\ControllerMedecin::class, 'liste']);
+=======
+Route::get('/listeRendezvous',[App\Http\Controllers\ControllerMedecin::class,'liste']);
+Route::get('/accueiljica',function(){
+    return view('jika.accueilJika');
+});
+>>>>>>> 682a8f0f72143615dbfd1b60c94fa39287e6dd6f
 
 Route::get('/lm', function () {
     return view('medecin.listeDemande');
@@ -92,9 +99,17 @@ Route::get("/m", function () {
     return view("medecin.accueilMedecin");
 });
 
+Route::get('/accueilMateriel', function () {
+    return view('materiel.acceuil');
+});
+Route::get('/accueilFournisseur', function () {
+    return view('fournisseur.acceuil');
+});
+
 Route::get('/str', function () {
     return view('structure.accueil_structure');
 });
+<<<<<<< HEAD
 Route::get('/calendrier', function () {
     return view('medecin.calendrier');
 });
@@ -112,6 +127,25 @@ Route::resource('materiel', App\Http\Controllers\ControllerMateriel::class);
 Route::resource('patient', App\Http\Controllers\ControllerPatient::class);
 Route::resource('fournisseur', App\Http\Controllers\ControllerFournisseur::class);
 Route::resource('rendezvous', App\Http\Controllers\ControllerRendezVous::class);
+=======
+Route::get('/calendrier',function(){
+    return view('medecin.calendrier');
+});
+
+Route::resource('prescription',App\Http\Controllers\ControllerPrescription::class);
+Route::get("/valider",[App\Http\Controllers\ControllerOrdonnance::class,'valider'])->name('valider');
+Route::resource('medicament',App\Http\Controllers\ControllerMedicament::class);
+Route::get('liste',[App\Http\Controllers\ControllerVolontaire::class,'liste'])->name('listeVolontaire');
+Route::get("rendezvous",[App\Http\Controllers\ControllerRendezVous::class,'index']);
+Route::resource('volontaire',App\Http\Controllers\ControllerVolontaire::class);
+Route::resource('structure',App\Http\Controllers\ControllerStructure::class);
+Route::resource('ordonnance',App\Http\Controllers\ControllerOrdonnance::class);
+
+Route::resource('materiel',App\Http\Controllers\ControllerMateriel::class);
+Route::resource('patient',App\Http\Controllers\ControllerPatient::class);
+Route::resource('fournisseur',App\Http\Controllers\ControllerFournisseur::class);
+Route::resource('rendezvous',App\Http\Controllers\ControllerRendezVous::class);
+>>>>>>> 682a8f0f72143615dbfd1b60c94fa39287e6dd6f
 
 
 Auth::routes();

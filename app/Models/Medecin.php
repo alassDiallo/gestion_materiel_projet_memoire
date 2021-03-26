@@ -10,6 +10,7 @@ class Medecin extends Model
     use HasFactory;
     protected $fillable = ["idMedecin","reference","nom","prenom","dateDeNaissance","lieuDeNaissance","sexe","adresse","telephone","email","description","idSpecialite"];
 
+    protected $primaryKey='idMedecin';
     public function specialite(){
 
         return $this->belongsTo("App\Models\Specialite");

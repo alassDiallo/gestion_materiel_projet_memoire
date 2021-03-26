@@ -8,9 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class patient extends Model
 {
     use HasFactory;
+<<<<<<< HEAD
     protected $fillable = ['nom', 'prenom', 'adresse', 'telephone', 'dateDeNaissance', 'lieuDeNaissance', 'sexe', 'numeroCIN', 'referencePatient'];
 
 <<<<<<< HEAD
+=======
+    protected $fillable = ['nom','prenom','adresse','telephone','dateDeNaissance','lieuDeNaissance','sexe','numeroCIN','referencePatient'];
+    protected $primaryKey = 'idPatient';
+>>>>>>> 682a8f0f72143615dbfd1b60c94fa39287e6dd6f
    public function getRouteKeyName(){
 =======
     public function getRouteKeyName()

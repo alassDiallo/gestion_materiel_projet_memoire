@@ -10,12 +10,23 @@ use Illuminate\Validation\Rule;
 class ControllerFournisseur extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-         $fournisseurs = fournisseur::all();
-         return response()->json($fournisseurs);
 
-        // return ( view('fournisseur.acceuil',compact('fournisseurs')));
+        if($request->ajax()){
+            $data = fournisseur::all();
+
+            return \DataTables::of($data)
+                                ->addIndexColumn()
+                                ->addColumn('action',function($data){
+                                $btn = '<a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="'.$data->id.'" data-original-title="modifier" onclick="modifier('."'".$data->reference."'".')"><i class="fa fa-edit" style="color:white;"></i></a>
+                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="'.$data->id.'" data-original-title="supprimer" onclick="supprimer('."'".$data->reference."'".')"><i class="fa fa-trash-o" style="color:white;"></i></a>';
+
+                                return $btn;
+                                })
+                                ->rawColumns(['action'])
+                                ->make(true);
+                            }
     }
 
     public function create()

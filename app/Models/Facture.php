@@ -10,6 +10,7 @@ class Facture extends Model
     use HasFactory;
 
     protected $fillable=["reference","montant","priseEC","prixP","idPatient"];
+    protected $primaryKey = 'idFacture';
 
     public function patient(){
 
