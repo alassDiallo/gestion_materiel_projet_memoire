@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class durer extends Model
 {
     use HasFactory;
+    protected $fillable = ["idVolontaire", 'idStructure', 'dateDebut', 'dateFin'];
 }

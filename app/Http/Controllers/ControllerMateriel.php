@@ -16,7 +16,7 @@ class ControllerMateriel extends Controller
     public function index()
     {
 
-         $materiels = materiel::all();
+        $materiels = materiel::all();
 
         return response()->json($materiels);
         //return ( view('materiel.acceuil',compact('materiels')));
@@ -26,16 +26,16 @@ class ControllerMateriel extends Controller
     public function create()
     {
         //
-        $fournisseurs=fournisseur::all();
+        $fournisseurs = fournisseur::all();
 
-         return (view('materiel.create',compact('fournisseurs')));
+        return (view('materiel.create', compact('fournisseurs')));
     }
 
 
     public function store(Request $request)
     {
-        
-      $rules = [
+
+        $rules = [
             'prix' => 'required',
             'type' => 'required',
             'libelle' => 'required',
@@ -43,39 +43,38 @@ class ControllerMateriel extends Controller
 
         ];
 
-        $error = Validator::make($request->all(),$rules);
-        if($error->fails()){
-            return response()->json(['error'=>$error->errors()]);
+        $error = Validator::make($request->all(), $rules);
+        if ($error->fails()) {
+            return response()->json(['error' => $error->errors()]);
         }
-         $materiel = materiel::create([
-             "libelle"=>$request->libelle,
-             "type"=>$request->type,
-             "prix"=>$request->prix,
-             "reference"=>referenceMateriel()
-         ]);
-        $materiel->fournisseurs()->attach($request->idFournisseur,['date'=>date('Y-m-d H:i:s'),'quantite'=>$request->quantite]);
+        $materiel = materiel::create([
+            "libelle" => $request->libelle,
+            "type" => $request->type,
+            "prix" => $request->prix,
+            "reference" => referenceMateriel()
+        ]);
+        $materiel->fournisseurs()->attach($request->idFournisseur, ['date' => date('Y-m-d H:i:s'), 'quantite' => $request->quantite]);
         //  return redirect()->route('materiel.index')
         //     ->with('success', 'Matériel creé avec succès.');
-        return response()->json(["success"=>"material enregistrer avec succé"]);
-
+        return response()->json(["success" => "material enregistrer avec succé"]);
     }
 
 
     public function show($idMateriel)
     {
         //
-        $materiel=materiel::find($idMateriel);
+        $materiel = materiel::find($idMateriel);
         $materiel->with('fournisseurs')->get();
-        return (view('materiel.show',compact('materiel')));
+        return (view('materiel.show', compact('materiel')));
     }
 
 
     public function edit($idMateriel)
     {
         //
-        $materiel=materiel::find($idMateriel);
-        $fournisseurs=fournisseur::all();
-         return (view('materiel.edit',compact('materiel','fournisseurs')));
+        $materiel = materiel::find($idMateriel);
+        $fournisseurs = fournisseur::all();
+        return (view('materiel.edit', compact('materiel', 'fournisseurs')));
     }
 
 
@@ -87,27 +86,31 @@ class ControllerMateriel extends Controller
             'prix' => 'required',
             'type' => 'required',
             'libelle' => 'required',
-           'quantite' => 'required'
+            'quantite' => 'required'
         ]);
         $materiel = materiel::find($idMateriel);
         $materiel->update($request->all());
-        $materiel->fournisseurs()->sync([$request->idFournisseur=>['date'=>date('Y-m-d H:i:s'),'quantite'=>$request->quantite]]);
-         // $materiel->fournisseurs()->sync($request->idFournisseur,['date'=>date('Y-m-d H:i:s'),'quantite'=>$request->quantite]);
-         //$materiel->fournisseurs()->sync(['date'=>date('Y-m-d H:i:s'),'quantite'=>$request->quantite]);
-         return redirect()->route('materiel.index')
+        $materiel->fournisseurs()->sync([$request->idFournisseur => ['date' => date('Y-m-d H:i:s'), 'quantite' => $request->quantite]]);
+        // $materiel->fournisseurs()->sync($request->idFournisseur,['date'=>date('Y-m-d H:i:s'),'quantite'=>$request->quantite]);
+        //$materiel->fournisseurs()->sync(['date'=>date('Y-m-d H:i:s'),'quantite'=>$request->quantite]);
+        return redirect()->route('materiel.index')
             ->with('success', 'Matériel modifié avec succès.');
-
     }
 
 
     public function destroy($idMateriel)
     {
         //
-         $materiel=materiel::find($idMateriel);
-         $materiel->delete();
-          $materiel->fournisseurs()->detach();
+        $materiel = materiel::find($idMateriel);
+        $materiel->delete();
+        $materiel->fournisseurs()->detach();
 
-         return redirect()->route('materiel.index')
+        return redirect()->route('materiel.index')
             ->with('success', 'Matériel supprimé avec succès .');
+    }
+    public function materielsVolontaire($id)
+    {
+        $materielsV = materiel::where('idVolontaire', $id)->get();
+        return response()->json($materielsV);
     }
 }

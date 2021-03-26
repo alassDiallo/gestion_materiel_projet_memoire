@@ -13,20 +13,20 @@ class CreateRendezVousesTable extends Migration
      */
     public function up()
     {
-        Schema::create('rendez_vous', function (Blueprint $table) {
+        Schema::create('rendez_vouses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('idMedecin');
             $table->foreign('idMedecin')
-                  ->references('idMedecin')
-                  ->on('medecins')
-                  ->onDelete('restrict')
-                  ->onUpdate('restrict');
+                ->references('idMedecin')
+                ->on('medecins')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
             $table->unsignedBigInteger('idPatient');
             $table->foreign('idPatient')
-                  ->references('idPatient')
-                  ->on('patient')
-                  ->onDelete('restrict')
-                  ->onUpdate('restrict');
+                ->references('idPatient')
+                ->on('patient')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
             $table->string("etat");
             $table->dateTime("dateEtHeure");
             $table->timestamps();

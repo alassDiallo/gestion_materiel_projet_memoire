@@ -16,13 +16,13 @@ class CreateDepensesTable extends Migration
         Schema::create('depenses', function (Blueprint $table) {
             $table->id("idDepense");
             $table->string("description");
-            $table->double("coup");
+            $table->double("cout");
             $table->unsignedBigInteger('idVolontaire');
             $table->foreign('idVolontaire')
-                  ->references('idVolontaire')
-                  ->on('volontaires')
-                  ->onDelete('restrict')
-                  ->onUpdate('restrict');
+                ->references('idVolontaire')
+                ->on('volontaires')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
             $table->timestamps();
         });
     }
