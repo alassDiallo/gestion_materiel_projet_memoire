@@ -12,45 +12,49 @@ use DB;
 use DataTable;
 use Illuminate\Validation\Rule;
 
+
 class ControllerMateriel extends Controller
 {
 
     public function index(Request $request)
     {
 
+<<<<<<< HEAD
+        if ($request->ajax()) {
+            $data = materiel::all();
+=======
         if($request->ajax()){
             $data =DB::table('materiels')
             ->join('fournis','fournis.idMateriel','=','materiels.idMateriel')
             ->join('fournisseurs','fournisseurs.idFournisseur','=','fournis.idFournisseur')
             ->get();
+>>>>>>> ba9d4fe5d15b5f73a425f584a92af5333bcc47ea
 
             return \DataTables::of($data)
-                                ->addIndexColumn()
-                                ->addColumn('action',function($data){
-                                $btn = '<a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="'.$data->id.'" data-original-title="modifier" onclick="modifier('."'".$data->reference."'".')"><i class="fa fa-edit" style="color:white;"></i></a>
-                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="'.$data->id.'" data-original-title="supprimer" onclick="supprimer('."'".$data->reference."'".')"><i class="fa fa-trash-o" style="color:white;"></i></a>';
+                ->addIndexColumn()
+                ->addColumn('action', function ($data) {
+                    $btn = '<a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="' . $data->id . '" data-original-title="modifier" onclick="modifier(' . "'" . $data->reference . "'" . ')"><i class="fa fa-edit" style="color:white;"></i></a>
+                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="' . $data->id . '" data-original-title="supprimer" onclick="supprimer(' . "'" . $data->reference . "'" . ')"><i class="fa fa-trash-o" style="color:white;"></i></a>';
 
-                                return $btn;
-                                })
-                                ->rawColumns(['action'])
-                                ->make(true);
-                            }
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
-
-
     public function create()
     {
         //
-        $fournisseurs=fournisseur::all();
+        $fournisseurs = fournisseur::all();
 
-         return (view('materiel.create',compact('fournisseurs')));
+        return (view('materiel.create', compact('fournisseurs')));
     }
 
 
     public function store(Request $request)
     {
-        
-      $rules = [
+
+        $rules = [
             'prix' => 'required',
             'type' => 'required',
             'libelle' => 'required',
@@ -58,39 +62,38 @@ class ControllerMateriel extends Controller
 
         ];
 
-        $error = Validator::make($request->all(),$rules);
-        if($error->fails()){
-            return response()->json(['error'=>$error->errors()]);
+        $error = Validator::make($request->all(), $rules);
+        if ($error->fails()) {
+            return response()->json(['error' => $error->errors()]);
         }
-         $materiel = materiel::create([
-             "libelle"=>$request->libelle,
-             "type"=>$request->type,
-             "prix"=>$request->prix,
-             "reference"=>referenceMateriel()
-         ]);
-        $materiel->fournisseurs()->attach($request->idFournisseur,['date'=>date('Y-m-d H:i:s'),'quantite'=>$request->quantite]);
+        $materiel = materiel::create([
+            "libelle" => $request->libelle,
+            "type" => $request->type,
+            "prix" => $request->prix,
+            "reference" => referenceMateriel()
+        ]);
+        $materiel->fournisseurs()->attach($request->idFournisseur, ['date' => date('Y-m-d H:i:s'), 'quantite' => $request->quantite]);
         //  return redirect()->route('materiel.index')
         //     ->with('success', 'Matériel creé avec succès.');
-        return response()->json(["success"=>"material enregistrer avec succé"]);
-
+        return response()->json(["success" => "material enregistrer avec succé"]);
     }
 
 
     public function show($idMateriel)
     {
         //
-        $materiel=materiel::find($idMateriel);
+        $materiel = materiel::find($idMateriel);
         $materiel->with('fournisseurs')->get();
-        return (view('materiel.show',compact('materiel')));
+        return (view('materiel.show', compact('materiel')));
     }
 
 
     public function edit($idMateriel)
     {
         //
-        $materiel=materiel::find($idMateriel);
-        $fournisseurs=fournisseur::all();
-         return (view('materiel.edit',compact('materiel','fournisseurs')));
+        $materiel = materiel::find($idMateriel);
+        $fournisseurs = fournisseur::all();
+        return (view('materiel.edit', compact('materiel', 'fournisseurs')));
     }
 
 
@@ -102,27 +105,31 @@ class ControllerMateriel extends Controller
             'prix' => 'required',
             'type' => 'required',
             'libelle' => 'required',
-           'quantite' => 'required'
+            'quantite' => 'required'
         ]);
         $materiel = materiel::find($idMateriel);
         $materiel->update($request->all());
-        $materiel->fournisseurs()->sync([$request->idFournisseur=>['date'=>date('Y-m-d H:i:s'),'quantite'=>$request->quantite]]);
-         // $materiel->fournisseurs()->sync($request->idFournisseur,['date'=>date('Y-m-d H:i:s'),'quantite'=>$request->quantite]);
-         //$materiel->fournisseurs()->sync(['date'=>date('Y-m-d H:i:s'),'quantite'=>$request->quantite]);
-         return redirect()->route('materiel.index')
+        $materiel->fournisseurs()->sync([$request->idFournisseur => ['date' => date('Y-m-d H:i:s'), 'quantite' => $request->quantite]]);
+        // $materiel->fournisseurs()->sync($request->idFournisseur,['date'=>date('Y-m-d H:i:s'),'quantite'=>$request->quantite]);
+        //$materiel->fournisseurs()->sync(['date'=>date('Y-m-d H:i:s'),'quantite'=>$request->quantite]);
+        return redirect()->route('materiel.index')
             ->with('success', 'Matériel modifié avec succès.');
-
     }
 
 
     public function destroy($idMateriel)
     {
         //
-         $materiel=materiel::find($idMateriel);
-         $materiel->delete();
-          $materiel->fournisseurs()->detach();
+        $materiel = materiel::find($idMateriel);
+        $materiel->delete();
+        $materiel->fournisseurs()->detach();
 
-         return redirect()->route('materiel.index')
+        return redirect()->route('materiel.index')
             ->with('success', 'Matériel supprimé avec succès .');
+    }
+    public function materielsVolontaire($id)
+    {
+        $materielsV = materiel::where('idVolontaire', $id)->get();
+        return response()->json($materielsV);
     }
 }

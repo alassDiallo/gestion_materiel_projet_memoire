@@ -17,22 +17,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-       return response()->json(RendezVous::all()->groupBy('date'));
-    
+    return response()->json(RendezVous::all()->groupBy('date'));
 });
-Route::get('/historique',[App\Http\Controllers\ControllerRendezVous::class,'historique']);
-Route::apiResource('rendezvous',App\Http\Controllers\ControllerRendezVous::class);
-Route::apiResource('volontaire',App\Http\Controllers\ControllerVolontaire::class);
-Route::apiResource('structure',App\Http\Controllers\ControllerStructure::class);
-Route::apiResource('materiel',App\Http\Controllers\ControllerMateriel::class);
-Route::apiResource('fournisseur',App\Http\Controllers\ControllerFournisseur::class);
-Route::apiResource('patient',App\Http\Controllers\ControllerPatient::class);
-Route::apiResource('medecin',App\Http\Controllers\ControllerMedecin::class);
-Route::apiResource('specialite',App\Http\Controllers\ControllerSpecialite::class);
+Route::get('/historique', [App\Http\Controllers\ControllerRendezVous::class, 'historique']);
+Route::apiResource('rendezvous', App\Http\Controllers\ControllerRendezVous::class);
+Route::apiResource('volontaire', App\Http\Controllers\ControllerVolontaire::class);
+Route::apiResource('structure', App\Http\Controllers\ControllerStructure::class);
+Route::apiResource('materiel', App\Http\Controllers\ControllerMateriel::class);
+Route::apiResource('fournisseur', App\Http\Controllers\ControllerFournisseur::class);
+Route::apiResource('patient', App\Http\Controllers\ControllerPatient::class);
+Route::apiResource('medecin', App\Http\Controllers\ControllerMedecin::class);
+Route::apiResource('specialite', App\Http\Controllers\ControllerSpecialite::class);
 Route::apiResource('depenses', App\Http\Controllers\ControllerDepense::class);
-
-Route::apiResource('analyses', App\Http\Controllers\ControllerDepense::class);
-Route::apiResource('ordonnances', App\Http\Controllers\ControllersDepense::class);
+Route::apiResource('analyses', App\Http\Controllers\ControllerAnalyse::class);
+Route::get('/analysesPatient', [App\Http\Controllers\ControllerAnalyse::class, 'analysesPatient']);
+Route::get('/prixConsultation', [App\Http\Controllers\ControllerConsultation::class, 'prixConsultation']);
+Route::get('/materielsVolontaire/{id}', [App\Http\Controllers\ControllerMateriel::class, 'materielsVolontaire']);
+Route::apiResource('ordonnances', App\Http\Controllers\ControllerOrdonnance::class);
 
 Route::get('/a', function () {
     $structure = Structure::all();
@@ -48,7 +49,7 @@ Route::group([
     Route::post('/register', [App\Http\Controllers\UsersController::class, 'register']);
     Route::post('/logout', [App\Http\Controllers\UsersController::class, 'logout']);
     Route::post('/refresh', [App\Http\Controllers\UsersController::class, 'refresh']);
-    Route::get('/user-profile', [App\Http\Controllers\UsersController::class, 'userProfile']);    
+    Route::get('/user-profile', [App\Http\Controllers\UsersController::class, 'userProfile']);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

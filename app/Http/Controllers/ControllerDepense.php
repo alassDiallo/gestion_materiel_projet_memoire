@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Depense as ModelsDepense;
+use App\Models\Depense;
 use Illuminate\Http\Request;
 
 class ControllerDepense extends Controller
@@ -14,7 +14,7 @@ class ControllerDepense extends Controller
      */
     public function index()
     {
-        $depenses = ModelsDepense::all();
+        $depenses = Depense::all();
         return response()->json($depenses);
     }
 
@@ -42,7 +42,7 @@ class ControllerDepense extends Controller
             'idVolontaire' => 'required'
         ];
         //
-        ModelsDepense::create(
+        Depense::create(
             // $request->all()
             [
                 "description" => $request->description,

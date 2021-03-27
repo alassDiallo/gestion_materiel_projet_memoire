@@ -8,39 +8,49 @@ use Illuminate\Database\Eloquent\Model;
 class patient extends Model
 {
     use HasFactory;
-    protected $fillable = ['nom','prenom','adresse','telephone','dateDeNaissance','lieuDeNaissance','sexe','numeroCIN','referencePatient'];
-    protected $primaryKey = 'idPatient';
-   public function getRouteKeyName(){
+    protected $fillable = ['nom', 'prenom', 'adresse', 'telephone', 'dateDeNaissance', 'lieuDeNaissance', 'sexe', 'numeroCIN', 'referencePatient'];
 
-    return 'referencePatient';
-   }
+    public function getRouteKeyName()
+    {
 
-   public function patients(){
+        return 'referencePatient';
+    }
+    public function patients()
+    {
 
-    return $this->belongsToMany('App\Models\Analyse','effectuers','idPatient','idAnalyse');
-}
-   
-    public function structures(){
-
-        return $this->belongsToMany('App\Models\structure','consulters','idPatient','idStructure')
-                                    ->withTimestamps();
+        return $this->belongsToMany('App\Models\Analyse', 'effectuers', 'idPatient', 'idAnalyse');
     }
 
-    public function consultations(){
+    public function structures()
+    {
+
+        return $this->belongsToMany('App\Models\structure', 'consulters', 'idPatient', 'idStructure')
+            ->withTimestamps();
+    }
+
+    public function consultations()
+    {
 
         return $this->hasMany('App\Models\consultation')
-                                    ->withTimestamps();
+            ->withTimestamps();
     }
 
-    public function factures(){
+    public function factures()
+    {
 
         return $this->hasMany("App\Models\Facture");
     }
+    public function analyses()
+    {
 
-    public function medecins(){
+        return $this->hasMany("App\Models\Analyse");
+    }
 
-        return $this->belongsToMany("App\Models\Medecin","consulters","idPatient","idMedecin")
-                    ->withPivot("date")
-                    ->withTimestamps();
+    public function medecins()
+    {
+
+        return $this->belongsToMany("App\Models\Medecin", "consulters", "idPatient", "idMedecin")
+            ->withPivot("date")
+            ->withTimestamps();
     }
 }

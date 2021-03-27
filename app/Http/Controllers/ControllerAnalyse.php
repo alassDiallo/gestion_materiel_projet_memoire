@@ -18,6 +18,14 @@ class ControllerAnalyse extends Controller
         $analyses = Analyse::all();
         return response()->json($analyses);
     }
+    public function analysesPatient()
+    {
+        $analysesP = Analyse::where('idPatient', 4)
+            //->where('date','<=',Date("Y/m/d"))
+            ->get();
+
+        return response()->json($analysesP);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -43,7 +51,7 @@ class ControllerAnalyse extends Controller
         $rules = [
             'libelle' => 'required',
             'prix' => 'required',
-            // 'idVolontaire' => 'required'
+            'idPatient' => 'required'
         ];
         //
         Analyse::create(
@@ -51,7 +59,7 @@ class ControllerAnalyse extends Controller
             [
                 "libelle" => $request->libelle,
                 "prix" => $request->prix,
-                // "idVolontaire" => $request->idVolontaire,
+                "idPatient" => $request->idPatient,
             ]
         );
         return response()->json($request->all());

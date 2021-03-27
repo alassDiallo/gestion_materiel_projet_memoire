@@ -17,6 +17,13 @@ class CreateAnalysesTable extends Migration
             $table->id("idAnalyse");
             $table->string("libelle");
             $table->double("prix");
+            $table->unsignedBigInteger('idPatient');
+            $table->foreign('idPatient')
+                ->references('idPatient')
+                ->on('patients')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
+
             $table->timestamps();
         });
     }
