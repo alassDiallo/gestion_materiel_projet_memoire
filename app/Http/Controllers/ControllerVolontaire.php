@@ -28,6 +28,15 @@ class ControllerVolontaire extends Controller
         return view('volontaire.accueil_volontaire', ['structure' => $structure, 'materiel' => $materiel]);
     }
 
+    public function accueil()
+    {
+        $volontaires = volontaire::all();
+        $structure = structure::all();
+        $materiel = materiel::all();
+
+        return view('volontaire.accueil', ['structure' => $structure, 'materiel' => $materiel]);
+    }
+
     public function liste(Request $request)
     {
         
