@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Analyse as ModelsAnalyse;
+use App\Models\Depense as ModelsDepense;
 use Illuminate\Http\Request;
 
-class Analyse extends Controller
+class ControllerDepense extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,8 @@ class Analyse extends Controller
      */
     public function index()
     {
-        //
-        $analyses = ModelsAnalyse::all();
-        return response()->json($analyses);
+        $depenses = ModelsDepense::all();
+        return response()->json($depenses);
     }
 
     /**
@@ -27,8 +26,6 @@ class Analyse extends Controller
     public function create()
     {
         //
-
-
     }
 
     /**
@@ -39,19 +36,18 @@ class Analyse extends Controller
      */
     public function store(Request $request)
     {
-        //
         $rules = [
-            'libelle' => 'required',
-            'prix' => 'required',
-            // 'idVolontaire' => 'required'
+            'description' => 'required',
+            'cout' => 'required',
+            'idVolontaire' => 'required'
         ];
         //
-        ModelsAnalyse::create(
+        ModelsDepense::create(
             // $request->all()
             [
-                "libelle" => $request->libelle,
-                "prix" => $request->prix,
-                // "idVolontaire" => $request->idVolontaire,
+                "description" => $request->description,
+                "cout" => $request->cout,
+                "idVolontaire" => $request->idVolontaire,
             ]
         );
         return response()->json($request->all());
@@ -63,9 +59,10 @@ class Analyse extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($depense)
     {
         //
+        return $depense;
     }
 
     /**
@@ -86,9 +83,10 @@ class Analyse extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $depense)
     {
         //
+        $depense->update($request->all());
     }
 
     /**
@@ -97,8 +95,9 @@ class Analyse extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($depense)
     {
         //
+        $depense->delete();
     }
 }

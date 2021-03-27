@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\materiel;
 use App\Models\structure;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\volontaire;
 use Validator;
 use DataTables;
+use Hash;
 use DB;
 
 class ControllerVolontaire extends Controller
@@ -65,7 +67,7 @@ class ControllerVolontaire extends Controller
      */
     public function store(Request $request)
     {
-        $annee = date('d-m-Y', strtotime(date('Y-m-d') . "-20 years"));
+        $annee = date('d-m-Y', strtotime(date('Y-m-d') . "-18 years"));
         $rule = [
             'nom' => 'required | string | min :2',
             'prenom' => 'required| string | min:2',
@@ -73,7 +75,7 @@ class ControllerVolontaire extends Controller
             'lieuDeNaissance' => 'required|string |min:2',
             'adresse' => 'required|string',
             'telephone' => 'required|digits:9 | unique:volontaires',
-            'email' => 'required|email|unique:volontaires',
+            'email' => 'required|email|unique:users',
             'cin' => 'required|alpha_num',
             'structure' => 'required',
             'materiel' => 'required'
@@ -83,6 +85,12 @@ class ControllerVolontaire extends Controller
         if ($error->fails()) {
             return response()->json(['error' => $error->errors()]);
         }
+
+        User::create([
+            'email'=>$request->email,
+            'password'=>Hash::make('12345678'),
+            'profil'=>'volontaire',
+            ]);
 
         volontaire::create([
             'reference' => referenceVolontaire(),

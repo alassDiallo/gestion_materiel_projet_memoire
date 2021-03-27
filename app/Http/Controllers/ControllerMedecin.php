@@ -9,6 +9,7 @@ use App\Models\Specialite;
 use App\Models\Periode;
 use App\Models\RendezVous;
 use App\Models\Structure;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use DataTable;
@@ -65,7 +66,46 @@ class ControllerMedecin extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $annee = date('d-m-Y', strtotime(date('Y-m-d') . "-18 years"));
+        $rule = [
+            'nom' => 'required | string | min :2',
+            'prenom' => 'required| string | min:2',
+            'dateDeNaissance' => 'required| date | before_or_equal:' . $annee,
+            'lieuDeNaissance' => 'required|string |min:2',
+            'adresse' => 'required|string',
+            'telephone' => 'required|digits:9 | unique:volontaires',
+            'email' => 'required|email|unique:users',
+            'cin' => 'required|alpha_num',
+            'structure' => 'required',
+            'specialite' => 'required',
+            'experience'=>'required|interger|min:0|max:30'
+
+        ];
+        $error = Validator::make($request->all(), $rule);
+        if ($error->fails()) {
+            return response()->json(['error' => $error->errors()]);
+        }
+        User::create([
+            'email'=>$request->email,
+            'password'=>Hash::make('12345678'),
+            'profil'=>'medecin',
+            ]);
+
+        Medecin::create([
+            'reference' => referenceMedecin(),
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'adresse' => $request->adresse,
+            'dateDeNaissance' => $request->dateDeNaissance,
+            'lieuDeNaissance' => $request->lieuDeNaissance,
+            'telephone' => $request->telephone,
+            'email' => $request->email,
+            'specialite' => $request->specialite,
+            'experience' => $request->experience,
+
+
+        ])->structures()->attach($request->structure,["dateDebut"=>Date("Y/m/d")]);
+        return response()->json(['success' => 'reussi']);
     }
 
     /**

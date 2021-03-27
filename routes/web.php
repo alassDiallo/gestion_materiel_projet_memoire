@@ -126,6 +126,7 @@ Route::get('/calendrier',function(){
 });
 
 Route::resource('prescription',App\Http\Controllers\ControllerPrescription::class);
+Route::resource('analyse',App\Http\Controllers\ControllerAnalyse::class);
 Route::get("/valider",[App\Http\Controllers\ControllerOrdonnance::class,'valider'])->name('valider');
 Route::resource('medicament',App\Http\Controllers\ControllerMedicament::class);
 Route::get('liste',[App\Http\Controllers\ControllerVolontaire::class,'liste'])->name('listeVolontaire');
