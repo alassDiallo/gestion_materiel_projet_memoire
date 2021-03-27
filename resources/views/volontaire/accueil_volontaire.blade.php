@@ -5,7 +5,7 @@
         color:red;
     }
     thead{
-        background: blue;
+        background: black;
         color: aliceblue;
     }
     #modal{
@@ -26,13 +26,14 @@
         <table class="table m-3 table-bordered table-striped text-center" id="table">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Reference</th>
                     <th>Prenom</th>
                     <th>Nom</th>
+                    <th>Date de Naissance</th>
                     <th>Adresse</th>
                     <th>Telephone</th>
                     <th>E-mail</th>
+                    <th>Structure</th>
+                    <th>region</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -50,17 +51,24 @@
            "ajax":{
                "url":"{{ route('listeVolontaire') }}",
                "method":"GET",
+            //    success:function(data){
+            //        console.log(data);
+            //    },
+            //    error:function(error){
+            //        alert(error);
+            //    }
                
            },
            
-            columns: [
-                {data: 'idVolontaire'},
-                {data: 'reference'},
+            columns: [    
                 {data: 'prenom'},
                 {data: 'nom'},
+                {date:'dateDeNaissance'},
                 {data: 'adresse'},
                 {data: 'telephone'},
                 {data: 'email'},
+                {data: 'nomStructure'},
+                {data: 'region'},
                 {data:"action"}
          ],
          language:{

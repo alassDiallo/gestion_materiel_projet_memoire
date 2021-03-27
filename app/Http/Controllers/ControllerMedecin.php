@@ -9,6 +9,7 @@ use App\Models\Specialite;
 use App\Models\Periode;
 use App\Models\RendezVous;
 use App\Models\Structure;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use DataTable;
@@ -20,18 +21,31 @@ class ControllerMedecin extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        
-        $specialites=Specialite::all();
-        $periodes= Periode::all();
-        $structures=Structure::all();
-        $medecins = DB::table('medecins')
-                    ->join('specialites','medecins.idSpecialite','=','specialites.idSpecialite')
-                    ->join('periodes','medecins.idMedecin','=','periodes.idMedecin')
-                    ->join('structures','structures.idStructure','=','periodes.idStructure')
-                    ->get();
-        return response()->json($medecins);
+        if($request->ajax()){
+            $specialites=Specialite::all();
+            $periodes= Periode::all();
+            $structures=Structure::all();
+            $medecins = DB::table('medecins')
+                        ->join('specialites','medecins.idSpecialite','=','specialites.idSpecialite')
+                        ->join('periodes','medecins.idMedecin','=','periodes.idMedecin')
+                        ->join('structures','structures.idStructure','=','periodes.idStructure')
+                        ->get();
+
+            return \DataTables::of($medecins)
+                                ->addIndexColumn()
+                                ->addColumn('action',function($medecins){
+                                $btn = '<a class="btn  btn-sm btn-warning" href="javascript:void();" data-toggle="tooltip" data-id="'.$medecins->idMedecin.'" data-original-title="accepter" onclick="accepter('."'".$medecins->idMedecin."'".')"><i class="fa fa-eye" style="color:white;"></i>voir</a>
+                                <a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="'.$medecins->idMedecin.'" data-original-title="modifier" onclick="modifier('."'".$medecins->idMedecin."'".')"><i class="fa fa-edit" style="color:white;"></i>midifier</a>
+                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="'.$medecins->idMedecin.'" data-original-title="supprimer" onclick="supprimer('."'".$medecins->idMedecin."'".')"><i class="fa fa-trash-o" style="color:white;"></i>supprimer</a>';
+
+                                return $btn;
+                                })
+                                ->rawColumns(['action'])
+                                ->make(true);
+                            }
+        // return response()->json($medecins);
     }
 
     /**
@@ -52,7 +66,46 @@ class ControllerMedecin extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $annee = date('d-m-Y', strtotime(date('Y-m-d') . "-18 years"));
+        $rule = [
+            'nom' => 'required | string | min :2',
+            'prenom' => 'required| string | min:2',
+            'dateDeNaissance' => 'required| date | before_or_equal:' . $annee,
+            'lieuDeNaissance' => 'required|string |min:2',
+            'adresse' => 'required|string',
+            'telephone' => 'required|digits:9 | unique:volontaires',
+            'email' => 'required|email|unique:users',
+            'cin' => 'required|alpha_num',
+            'structure' => 'required',
+            'specialite' => 'required',
+            'experience'=>'required|interger|min:0|max:30'
+
+        ];
+        $error = Validator::make($request->all(), $rule);
+        if ($error->fails()) {
+            return response()->json(['error' => $error->errors()]);
+        }
+        User::create([
+            'email'=>$request->email,
+            'password'=>Hash::make('12345678'),
+            'profil'=>'medecin',
+            ]);
+
+        Medecin::create([
+            'reference' => referenceMedecin(),
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'adresse' => $request->adresse,
+            'dateDeNaissance' => $request->dateDeNaissance,
+            'lieuDeNaissance' => $request->lieuDeNaissance,
+            'telephone' => $request->telephone,
+            'email' => $request->email,
+            'specialite' => $request->specialite,
+            'experience' => $request->experience,
+
+
+        ])->structures()->attach($request->structure,["dateDebut"=>Date("Y/m/d")]);
+        return response()->json(['success' => 'reussi']);
     }
 
     /**
@@ -84,6 +137,7 @@ class ControllerMedecin extends Controller
         $rv = RendezVous::where('idMedecin',$rendez)->where('rendez_vouses.etat','en attente')
         ->join('patients','rendez_vouses.idPatient','=','patients.idPatient')
         ->orderBy('date','desc')
+        ->orderBy('heure','desc')
         ->get();
 
         if($request->ajax()){
@@ -150,6 +204,29 @@ class ControllerMedecin extends Controller
         return response()->json("pas d'erreur");
 
         
+    }
+
+    public function calendrier(Request $request){
+
+        $rendez = Medecin::where('email',Auth::user()->email)->first()->idMedecin;
+        $rv = RendezVous::where('idMedecin',$rendez)->where('rendez_vouses.etat','accepter')
+        ->join('patients','rendez_vouses.idPatient','=','patients.idPatient')
+        ->orderBy('date','desc')
+        ->orderBy('heure','desc')
+        ->get();
+
+        if($request->ajax()){
+
+            return \DataTables::of($rv)
+                                ->addIndexColumn()
+                                ->addColumn('action',function($rv){
+                                $btn = '<a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="'.$rv->id.'" data-original-title="modifier" onclick="modifier('."'".$rv->id."'".')"><i class="fa fa-edit" style="color:white;"></i>renvoyer</a>
+                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="'.$rv->id.'" data-original-title="supprimer" onclick="supprimer('."'".$rv->id."'".')"><i class="fa fa-trash-o" style="color:white;"></i>decliner</a>';
+                                return $btn;
+                                })
+                                ->rawColumns(['action'])
+                                ->make(true);
+                            }
     }
 
     /**

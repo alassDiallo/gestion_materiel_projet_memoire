@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Analyse;
 use Illuminate\Http\Request;
 
-class  ControllerAnalyse extends Controller
+class ControllerAnalyse extends Controller
 {
     /**
      * Display a listing of the resource.

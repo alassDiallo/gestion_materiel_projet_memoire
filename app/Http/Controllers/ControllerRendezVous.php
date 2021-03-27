@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medecin;
+use App\Models\patient;
 use App\Models\periode;
 use App\Models\RendezVous;
 use App\Models\Specialite;
 use App\Models\structure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Validator;
 class ControllerRendezVous extends Controller
@@ -51,6 +53,38 @@ class ControllerRendezVous extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function accorder(Request $request){
+
+        $rules = [
+            "dater"=>'required',
+            "heurer"=>'required',
+            "info"=>'required'
+        ];
+        $error = Validator::make($request->all(),$rules);
+        if($error->fails()){
+            return response()->json($error->errors());
+        }
+        $medecin=Medecin::where('email',Auth::user()->email)->first();
+        $patient = Patient::where('referencePatient',$request->info)
+                        ->orWhere('telephone',$request->info)
+                        ->orWhere('numeroCIN',$request->info)
+                        ->get();
+                        if($patient->count() <1)
+                        return response()->json(['error'=>"le patient n'existe pas"]);
+                        else                      
+                            RendezVous::create([
+                                "idMedecin"=>$medecin->idMedecin,
+                                "idPatient"=>$patient[0]['idPatient'],
+                                "date"=>$request->dater,
+                                "heure"=>$request->heurer,
+                                "etat"=>"accepter"
+                            ]);
+                        return response()->json(['success'=>'rendez-vous enregistrer avec succé']);
+                        
+
+     }
+
     public function create()
     {
         //

@@ -5,7 +5,7 @@
         color:red;
     }
     thead{
-        background: blue;
+        background: black;
         color: aliceblue;
     }
 </style>
@@ -50,8 +50,7 @@
              {data:"reference"},
              {data:"nomStructure"},
              {data:"adresse"},
-             {data:"telephone"},
-           
+             {data:"telephoneStructure"},
              {data:"region"},
              {data:"action"}
          ],

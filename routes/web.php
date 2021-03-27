@@ -29,10 +29,14 @@ Route::get('/test-contact', function () {
         'message' => 'Je voulais vous dire que votre site est magnifique !'
     ]);
 });
+
+Route::post('/accorder', [App\Http\Controllers\ControllerRendezVous::class, 'accorder'])->name('accorder');
+
 Route::get('/', function () {
 
-    $pdf = PDF::loadView('ordonnance.generer');
-    return  $pdf->download("/assane.pdf");
+    return redirect('/login');
+    // $pdf = PDF::loadView('ordonnance.generer');
+    // return  $pdf->download("/assane.pdf");
     // User::create([
     // 'email'=>'patient@gmail.com',
     // 'password'=>Hash::make('12345678'),
@@ -78,7 +82,18 @@ Route::get('/test-contact', function () {
     return "L'email a été envoyé.";
 });
 
+Route::get('/comptabilite', function () {
+    return view('comptabilite.comptabilite');
+});
+
+Route::get('/statistique', function () {
+    return view('statistique.statistique');
+});
+
 Route::get('/listeRendezvous', [App\Http\Controllers\ControllerMedecin::class, 'liste']);
+Route::get('/medecins', function () {
+    return view('jika.accueilMedecin');
+});
 Route::get('/accueiljica', function () {
     return view('jika.accueilJika');
 });
@@ -105,11 +120,13 @@ Route::get('/accueilFournisseur', function () {
 Route::get('/str', function () {
     return view('structure.accueil_structure');
 });
+Route::get("/monCalendrier", [App\Http\Controllers\ControllerMedecin::class, 'calendrier']);
 Route::get('/calendrier', function () {
     return view('medecin.calendrier');
 });
 
 Route::resource('prescription', App\Http\Controllers\ControllerPrescription::class);
+Route::resource('analyse', App\Http\Controllers\ControllerAnalyse::class);
 Route::get("/valider", [App\Http\Controllers\ControllerOrdonnance::class, 'valider'])->name('valider');
 Route::resource('medicament', App\Http\Controllers\ControllerMedicament::class);
 Route::get('liste', [App\Http\Controllers\ControllerVolontaire::class, 'liste'])->name('listeVolontaire');
