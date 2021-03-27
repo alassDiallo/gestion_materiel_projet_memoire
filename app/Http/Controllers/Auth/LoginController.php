@@ -47,10 +47,10 @@ class LoginController extends Controller
                 $redirectTo = "/accueiljica";
                 break;
             case "volontaire":
-                $redirectTo = "/acceuilvolontaire";
+                $redirectTo = "/accueilvolontaire";
                 break;
             case "medecin":
-                $redirectTo = "/m";
+                $redirectTo = "/accueilmedecin";
                 break;
             default:
                 $redirectTo = "/home";

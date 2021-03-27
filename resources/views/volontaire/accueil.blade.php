@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title></title>
-        <meta charset="utf-8">
-    </head>
-</html>
+@extends('accueilUser')
+@section('content') 
+<h1>Accueil volontaire</h1>
+@endsection

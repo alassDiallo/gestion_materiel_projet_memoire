@@ -55,11 +55,11 @@ Route::get('/', function () {
     //     'password' => Hash::make('12345678'),
     //     'profil' => 'medecin',
     // ]);
-    User::create([
-        'email' => 'assane@gmail.com',
-        'password' => Hash::make('12345678'),
-        'profil' => 'admin',
-    ]);
+    // User::create([
+    //     'email' => 'assane@gmail.com',
+    //     'password' => Hash::make('12345678'),
+    //     'profil' => 'admin',
+    // ]);
 
     //dd(RendezVous::all()->groupBy('date'));
     //     $pdf = PDF::loadView('ordonnance.generer');
@@ -72,10 +72,7 @@ Route::get('/', function () {
 Route::get('sendbasicemail', [App\Http\Controllers\MailController::class, 'basic_email']);
 Route::post('/modifierRV', [App\Http\Controllers\ControllerMedecin::class, 'modifierRv']);
 Route::get('/valider/{id}', [App\Http\Controllers\ControllerMedecin::class, 'valider']);
-Route::get('/vol', function () {
-    return view('volontaire.accueil_volontaire');
-});
-
+Route::get('/accueilvolontaire', [App\Http\Controllers\ControllerVolontaire::class, 'accueil']);
 Route::get('/test-contact', function () {
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
@@ -111,7 +108,7 @@ Route::get('/s', function () {
     return view('structure.accueil_structure');
 });
 
-Route::get("/m", function () {
+Route::get("/accueilmedecin", function () {
 
     return view("medecin.accueilMedecin");
 });
