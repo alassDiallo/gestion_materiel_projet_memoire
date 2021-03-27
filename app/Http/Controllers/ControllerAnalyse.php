@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Analyse as ModelsAnalyse;
+use App\Models\Analyse;
 use Illuminate\Http\Request;
 
-class Analyse extends Controller
+class  ControllerAnalyse extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +15,12 @@ class Analyse extends Controller
     public function index()
     {
         //
-        $analyses = ModelsAnalyse::all();
+        $analyses = Analyse::all();
         return response()->json($analyses);
     }
     public function analysesPatient()
     {
-        $analysesP = ModelsAnalyse::where('idPatient', 4)
+        $analysesP = Analyse::where('idPatient', 4)
             //->where('date','<=',Date("Y/m/d"))
             ->get();
 
@@ -54,7 +54,7 @@ class Analyse extends Controller
             'idPatient' => 'required'
         ];
         //
-        ModelsAnalyse::create(
+        Analyse::create(
             // $request->all()
             [
                 "libelle" => $request->libelle,

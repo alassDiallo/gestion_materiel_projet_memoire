@@ -28,9 +28,9 @@ Route::apiResource('fournisseur', App\Http\Controllers\ControllerFournisseur::cl
 Route::apiResource('patient', App\Http\Controllers\ControllerPatient::class);
 Route::apiResource('medecin', App\Http\Controllers\ControllerMedecin::class);
 Route::apiResource('specialite', App\Http\Controllers\ControllerSpecialite::class);
-Route::apiResource('depenses', App\Http\Controllers\Depense::class);
-Route::apiResource('analyses', App\Http\Controllers\Analyse::class);
-Route::get('/analysesPatient', [App\Http\Controllers\Analyse::class, 'analysesPatient']);
+Route::apiResource('depenses', App\Http\Controllers\ControllerDepense::class);
+Route::apiResource('analyses', App\Http\Controllers\ControllerAnalyse::class);
+Route::get('/analysesPatient', [App\Http\Controllers\ControllerAnalyse::class, 'analysesPatient']);
 Route::get('/prixConsultation', [App\Http\Controllers\ControllerConsultation::class, 'prixConsultation']);
 Route::get('/materielsVolontaire/{id}', [App\Http\Controllers\ControllerMateriel::class, 'materielsVolontaire']);
 Route::apiResource('ordonnances', App\Http\Controllers\ControllerOrdonnance::class);
