@@ -39,19 +39,21 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function redirectTo(){
+    public function redirectTo()
+    {
         $profil = Auth::user()->profil;
-        switch($profil){
+        switch ($profil) {
             case "admin":
-                $redirectTo="/accueiljica";
-            break;
-            case "volontaire":
-                $redirectTo="/volontaire";
-            break;
-            case "medecin":
-                $redirectTo="/m";
+                $redirectTo = "/accueiljica";
                 break;
-            default : $redirectTo="/home";
+            case "volontaire":
+                $redirectTo = "/acceuilvolontaire";
+                break;
+            case "medecin":
+                $redirectTo = "/m";
+                break;
+            default:
+                $redirectTo = "/home";
         }
         return $redirectTo;
     }

@@ -38,22 +38,28 @@ Route::get('/', function () {
     // $pdf = PDF::loadView('ordonnance.generer');
     // return  $pdf->download("/assane.pdf");
     // User::create([
-    // 'email'=>'patient@gmail.com',
-    // 'password'=>Hash::make('12345678'),
-    // 'profil'=>'patient',
+    //     'email' => 'patient@gmail.com',
+    //     'password' => Hash::make('12345678'),
+    //     'profil' => 'patient',
     // ]);
 
     // User::create([
-    //     'email'=>'vol@gmail.com',
-    //     'password'=>Hash::make('12345678'),
-    //     'profil'=>'volontaire',
-    //     ]);
 
-    //     User::create([
-    //         'email'=>'sbd@gmail.com',
-    //         'password'=>Hash::make('12345678'),
-    //         'profil'=>'medecin',
-    //         ]);
+    //     'email' => 'vol@gmail.com',
+    //     'password' => Hash::make('12345678'),
+    //     'profil' => 'volontaire',
+    // ]);
+
+    // User::create([
+    //     'email' => 'sbd@gmail.com',
+    //     'password' => Hash::make('12345678'),
+    //     'profil' => 'medecin',
+    // ]);
+    User::create([
+        'email' => 'assane@gmail.com',
+        'password' => Hash::make('12345678'),
+        'profil' => 'admin',
+    ]);
 
     //dd(RendezVous::all()->groupBy('date'));
     //     $pdf = PDF::loadView('ordonnance.generer');
