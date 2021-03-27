@@ -14,6 +14,11 @@ class patient extends Model
 
     return 'referencePatient';
    }
+
+   public function patients(){
+
+    return $this->belongsToMany('App\Models\Analyse','effectuers','idPatient','idAnalyse');
+}
    
     public function structures(){
 

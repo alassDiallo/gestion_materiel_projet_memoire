@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\volontaire;
 use Validator;
 use DataTables;
+use DB;
 
 class ControllerVolontaire extends Controller
 {
@@ -27,8 +28,12 @@ class ControllerVolontaire extends Controller
 
     public function liste(Request $request)
     {
-        $data = volontaire::all();
+        
         if($request->ajax()){
+        $data = DB::table('volontaires')
+                ->join('durer','durer.idVolontaire','=','volontaires.idVolontaire')
+                ->join('structures','structures.idStructure','=','durer.idStructure')
+                ->get();
         return \DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($data) {

@@ -11,7 +11,7 @@
         <div class="pull-left" style="font-size: 14px">
         {{ ucwords($medecin[0]->nomStructure) }}<br/>
         region : {{ ucfirst($medecin[0]->region) }}<br/>
-        telephone : {{ $medecin[0]->telephone }}<br/>
+        telephone : {{ $medecin[0]->telephoneStructure }}<br/>
         </div>
         <div class="pull-right ml-4" style="font-size: 14px">
             {{ ucwords($patient->prenom."  ".$patient->nom) }}<br/>

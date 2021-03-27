@@ -11,5 +11,10 @@ class Analyse extends Model
     protected $fillable=['idAnalyse','libelle','prix'];
     protected $primaryKey = 'idAnalyse';
 
+    public function patients(){
+
+        return $this->belongsToMany('App\Models\Patient','effectuers','idAnalyse','idPatient');
+    }
+
     
 }

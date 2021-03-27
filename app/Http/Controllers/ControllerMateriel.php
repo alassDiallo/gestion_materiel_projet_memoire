@@ -8,6 +8,7 @@ use App\Models\volontaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Validator;
+use DB;
 use DataTable;
 use Illuminate\Validation\Rule;
 
@@ -18,7 +19,10 @@ class ControllerMateriel extends Controller
     {
 
         if($request->ajax()){
-            $data = materiel::all();
+            $data =DB::table('materiels')
+            ->join('fournis','fournis.idMateriel','=','materiels.idMateriel')
+            ->join('fournisseurs','fournisseurs.idFournisseur','=','fournis.idFournisseur')
+            ->get();
 
             return \DataTables::of($data)
                                 ->addIndexColumn()

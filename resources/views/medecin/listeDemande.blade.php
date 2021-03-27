@@ -50,6 +50,7 @@
         //        console.log(data);
         //    }
          },
+         order: [[4, 'desc']],
          "columns":[
            
              {data:"prenom"},
@@ -66,7 +67,43 @@
          }
 
      });
+
+     $('#info').on('blur',function(e){
+         $.ajax({
+             url:"/verifiez"
+         })
+     })
+
     });
+
+    function ajouter(event){
+        event.preventDefault();
+        console.log($('#forma').serialize());
+        $.ajax({
+            url : "{{ route('accorder') }}",
+            method:"POST",
+            data:$('#forma').serialize(),
+            success:function(data){
+               if(data.error){
+                   console.log(data.error);
+                   $('#info').addClass('is-invalid');
+                   $('#erreur_info').text(data.error);
+               }
+               else{
+                $('#info').removeClass('is-invalid');
+                   $('#erreur_info').text("");
+                   console.log(data.success);
+                   $('#forma')[0].reset();
+                   $('#ajout').modal('hide');
+               }
+            },
+            error:function(textStatus,error){
+                alert(error);
+            }
+
+        })
+
+    }
 
     function info(){
         var unique_id = $.gritter.add({
@@ -210,8 +247,8 @@
                     @csrf
                     <div class="form-group mb-3">
                           <label for="date">Information patient(Telephone/reference/numeroCIN/email)</label>
-                          <input type="text" placeholder="veuillez entrez les informations du patient" name="info" id="info" class="form-control @error('info') is-invalid @enderror"  value="{{ old('info') }}" required >
-                          <span class="erreur" id="erreur_date">@error('info') {{ $message }}  @enderror</span>
+                          <input type="text" placeholder="veuillez entrez les informations du patient" name="info" id="info" class="form-control @error('info') is-invalid @enderror" maxlength="12"  value="{{ old('info') }}" required >
+                          <span class="erreur" id="erreur_info" style="color: red">@error('info') {{ $message }}  @enderror</span>
                       </div>
                       <div class="form-group mb-3">
                           <label for="date">Date</label>

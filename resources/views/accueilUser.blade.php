@@ -25,6 +25,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="{{ asset('/js/DataTables/datatables.min.css') }}" >
+      
   <script src="lib/chart-master/Chart.js"></script>
 
   <!-- =======================================================
@@ -169,11 +170,11 @@
       </div>
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="{{ route('logout') }}"
+          <li><a class="logout btn" href="{{ route('logout') }}"
             onclick="event.preventDefault();
                           document.getElementById('logout-form').submit();">
                           <i class="fa fa-sign-out"></i>
-             {{ __('Logout') }}
+             {{ __('Se deconnecter') }}
          </a>
 
          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -194,7 +195,7 @@
           <p class="centered"><a href="profile.html"><img src="img/vol.png" class="img-circle" width="80"></a></p>
           <h5 class="centered">{{ Auth::user()->fullName??''}}</h5>
           <li class="mt">
-            <a class="active" href="index.html">
+            <a class="active" href="{{ accueil() }}">
               <i class="fa fa-home"></i>
               <span>Accueil</span>
               </a>
@@ -203,7 +204,7 @@
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-users"></i>
-              <span>Volontaire</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
+              <span>Volontaire</span><i class="fa fa-plus pull-right mr-4" style="height: 50px"></i>
               </a>
             <ul class="sub">
               <li><a href="{{ route('volontaire.index') }}">Lister volontaire</a></li>
@@ -215,7 +216,7 @@
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-plus-square"></i>
-              <span>Structure</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
+              <span>Structure</span><i class="fa fa-plus pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
               <li><a href="/s">Lister Structure</a><i class="fa-angle-right"></i></li>
@@ -229,8 +230,23 @@
           </li>
           <li class="sub-menu">
             <a href="javascript:;">
+              <i class="fa fa-user-md"></i>
+              <span>Medecin</span><i class="fa fa-plus pull-right" style="height: 20px"></i>
+              </a>
+            <ul class="sub">
+              <li><a href="/medecins">Lister Medecin</a><i class=""></i></li>
+              <!-- <li><a href="calendar.html">Calendar</a></li>
+              <li><a href="gallery.html">Gallery</a></li>
+              <li><a href="todo_list.html">Todo List</a></li>
+              <li><a href="dropzone.html">Dropzone File Upload</a></li>
+              <li><a href="inline_editor.html">Inline Editor</a></li>
+              <li><a href="file_upload.html">Multiple File Upload</a></li> -->
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
              <i class="fa fa-cogs"></i></i>
-              <span>Materiel</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
+              <span>Materiel</span><i class="fa fa-plus pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
               <li><a href="/accueilMateriel">Lister materiel</a></li>
@@ -242,7 +258,7 @@
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-exchange"></i>
-              <span>Fournisseur</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
+              <span>Fournisseur</span><i class="fa fa-plus pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
               <li><a href="/accueilFournisseur">Lister fournisseur</a></li>
@@ -251,16 +267,16 @@
             </ul>
           </li>
           <li>
-            <a href="inbox.html">
+            <a href="/comptabilite">
               <i class="fa fa-compress"></i>
-              <span>Comptabilité</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
+              <span>Comptabilité</span><i class="fa fa-plus pull-right" style="height: 50px"></i>
              
               </a>
           </li>
           <li>
-            <a href="inbox.html">
+            <a href="/statistique">
               <i class="fa fa-bar-chart-o"></i>
-              <span>Statistique</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
+              <span>Statistique</span><i class="fa fa-plus pull-right" style="height: 50px"></i>
               
               </a>
           </li>
@@ -269,7 +285,7 @@
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-usd"></i>
-              <span>Facturation</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
+              <span>Facturation</span><i class="fa fa-plus pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
               <li><a href="blank.html">Consultation</a></li>
@@ -286,20 +302,20 @@
           <li>
             <a href="inbox.html">
               <i class="fa fa-exchange"></i>
-              <span>Depense</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
+              <span>Depense</span><i class="fa fa-plus pull-right" style="height: 50px"></i>
              
               </a>
           </li>
           <li>
             <a href="inbox.html">
               <i class="fa fa-file-text"></i>
-              <span>Rapport</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
+              <span>Rapport</span><i class="fa fa-plus pull-right" style="height: 50px"></i>
               </a>
           </li>
            <li>
             <a href="inbox.html">
               <i class="fa fa-users"></i>
-              <span>Ajouter compte</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
+              <span>Ajouter compte</span><i class="fa fa-plus pull-right" style="height: 50px"></i>
               </a>
           </li>
           @endif
@@ -307,10 +323,10 @@
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-file-text-o"></i>
-              <span>Prescription</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
+              <span>Prescription</span><i class="fa fa-plus pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
-              <li><a href="{{ route('ordonnance.index')}}">Ordenance</a></li>
+              <li><a href="{{ route('ordonnance.index')}}">Ordonance</a></li>
               <li><a href="login.html">Analyse</a></li>
               {{-- <li><a href="lock_screen.html">Ordonnance</a></li> --}}
               <!-- <li><a href="profile.html">Profile</a></li>
@@ -324,10 +340,10 @@
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-calendar"></i>
-              <span>Rendez-vous</span><i class="fa fa-angle-right pull-right" style="height: 50px"></i>
+              <span>Rendez-vous</span><i class="fa fa-plus pull-right" style="height: 50px"></i>
               </a>
             <ul class="sub">
-              <li><a href="/lm">voir les demande</a></li>
+              <li><a href="/lm">voir les demandes</a></li>
               <li><a href="login.html">ajouter un rendez-vous</a></li>
               <li><a href="/calendrier">calendrier</a></li>
               {{-- <li><a href="lock_screen.html">Ordonnance</a></li> --}}

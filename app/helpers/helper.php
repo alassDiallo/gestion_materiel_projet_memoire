@@ -9,6 +9,7 @@ use App\Models\Medecin;
 use App\Models\Specialite;
 use App\Models\Patient;
 use App\Models\Ordonnance;
+use Illuminate\Support\Facades\Auth;
 
 if(! function_exists("referenceStructure")){
 function referenceStructure(){
@@ -95,6 +96,20 @@ if(! function_exists("referenceVolontaire")){
                                     if(Facture::where('reference',$ref)->count() >0)
                                     return referenceOrdonnance();
                                     return $ref;
+                                }
+                                
+                                }
+
+                                
+                            if(! function_exists("accueil")){
+                                function accueil(){
+                                    if(Auth::user()->profil=='admin'){
+                                        return '/accueiljica';
+                                    }
+                                    else if(Auth::user()->profil=="medecin")
+                                    return "/m";
+                                    else if(Auth::user()->profil=="volontaire")
+                                    return "/volontaire";
                                 }
                                 
                                 }

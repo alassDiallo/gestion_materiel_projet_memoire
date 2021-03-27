@@ -5,12 +5,13 @@
         color:red;
     }
     thead{
-        background: blue;
+        background: black;
         color: aliceblue;
     }
 </style>
-<div style="margin-left: 30px;">
-        <a class="btn btn-success m-3" id="ajout" onclick="ajouter();"><i class="fa fa-plus ml-4"></i>Ajouter un materiel</a>
+<div style="margin-left: 30px;height:100%" class="card">
+    <div class="card-body">
+        <a class="btn btn-success m-3" id="ajout" onclick="ajouter();"><i class="fa fa-plus ml-4"></i>Ajouter un fournisseur</a>
         <table class="table m-3 table-bordered table-striped text-center" id="table">
             <thead>
                 <tr>
@@ -25,6 +26,7 @@
             </tbody>
         </table>
     </div>
+</div>
 @endsection
 @section('ajax')
 <script>
@@ -46,8 +48,8 @@
             
              {data:"nom"},
              {data:"adresse"},
-             {data:"email"},
              {data:"telephone"},
+             {data:"email"},
              {data:"action"}
          ],
          language:{

@@ -20,18 +20,31 @@ class ControllerMedecin extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        
-        $specialites=Specialite::all();
-        $periodes= Periode::all();
-        $structures=Structure::all();
-        $medecins = DB::table('medecins')
-                    ->join('specialites','medecins.idSpecialite','=','specialites.idSpecialite')
-                    ->join('periodes','medecins.idMedecin','=','periodes.idMedecin')
-                    ->join('structures','structures.idStructure','=','periodes.idStructure')
-                    ->get();
-        return response()->json($medecins);
+        if($request->ajax()){
+            $specialites=Specialite::all();
+            $periodes= Periode::all();
+            $structures=Structure::all();
+            $medecins = DB::table('medecins')
+                        ->join('specialites','medecins.idSpecialite','=','specialites.idSpecialite')
+                        ->join('periodes','medecins.idMedecin','=','periodes.idMedecin')
+                        ->join('structures','structures.idStructure','=','periodes.idStructure')
+                        ->get();
+
+            return \DataTables::of($medecins)
+                                ->addIndexColumn()
+                                ->addColumn('action',function($medecins){
+                                $btn = '<a class="btn  btn-sm btn-warning" href="javascript:void();" data-toggle="tooltip" data-id="'.$medecins->idMedecin.'" data-original-title="accepter" onclick="accepter('."'".$medecins->idMedecin."'".')"><i class="fa fa-eye" style="color:white;"></i>voir</a>
+                                <a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="'.$medecins->idMedecin.'" data-original-title="modifier" onclick="modifier('."'".$medecins->idMedecin."'".')"><i class="fa fa-edit" style="color:white;"></i>midifier</a>
+                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="'.$medecins->idMedecin.'" data-original-title="supprimer" onclick="supprimer('."'".$medecins->idMedecin."'".')"><i class="fa fa-trash-o" style="color:white;"></i>supprimer</a>';
+
+                                return $btn;
+                                })
+                                ->rawColumns(['action'])
+                                ->make(true);
+                            }
+        // return response()->json($medecins);
     }
 
     /**
@@ -84,6 +97,7 @@ class ControllerMedecin extends Controller
         $rv = RendezVous::where('idMedecin',$rendez)->where('rendez_vouses.etat','en attente')
         ->join('patients','rendez_vouses.idPatient','=','patients.idPatient')
         ->orderBy('date','desc')
+        ->orderBy('heure','desc')
         ->get();
 
         if($request->ajax()){
@@ -150,6 +164,29 @@ class ControllerMedecin extends Controller
         return response()->json("pas d'erreur");
 
         
+    }
+
+    public function calendrier(Request $request){
+
+        $rendez = Medecin::where('email',Auth::user()->email)->first()->idMedecin;
+        $rv = RendezVous::where('idMedecin',$rendez)->where('rendez_vouses.etat','accepter')
+        ->join('patients','rendez_vouses.idPatient','=','patients.idPatient')
+        ->orderBy('date','desc')
+        ->orderBy('heure','desc')
+        ->get();
+
+        if($request->ajax()){
+
+            return \DataTables::of($rv)
+                                ->addIndexColumn()
+                                ->addColumn('action',function($rv){
+                                $btn = '<a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="'.$rv->id.'" data-original-title="modifier" onclick="modifier('."'".$rv->id."'".')"><i class="fa fa-edit" style="color:white;"></i>renvoyer</a>
+                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="'.$rv->id.'" data-original-title="supprimer" onclick="supprimer('."'".$rv->id."'".')"><i class="fa fa-trash-o" style="color:white;"></i>decliner</a>';
+                                return $btn;
+                                })
+                                ->rawColumns(['action'])
+                                ->make(true);
+                            }
     }
 
     /**

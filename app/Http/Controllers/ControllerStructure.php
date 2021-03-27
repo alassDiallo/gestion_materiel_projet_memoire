@@ -113,7 +113,7 @@ return response()->json($data);*/
         structure::create([
             "nomStructure"=>$request->nom,
             "adresse"=>$request->adresse,
-            "telephone"=>$request->telephone,
+            "telephoneStructure"=>$request->telephone,
             "region"=>$request->region,
             "reference"=>referenceStructure()
         ]);

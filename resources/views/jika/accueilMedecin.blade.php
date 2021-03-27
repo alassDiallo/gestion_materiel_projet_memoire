@@ -14,14 +14,12 @@
         <table class="table m-3 table-bordered table-striped text-center" id="table">
             <thead>
                 <tr>
-                    <th>libelle</th>
-                    <th>type</th>
-                    <th>prix</th>
-                    <th>Quantite fourni</th>
-                    <th>fournisseur</th>
-                    <th>Adresse</th>
-                    <th>Telephone</th>
-                    <th>email</th>
+                    <th>prenom</th>
+                    <th>nom</th>
+                    <th>date de naissane</th>
+                    <th>telephone</th>
+                    <th>specialite</th>
+                    <th>Structure</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -40,7 +38,7 @@
          //"serverSide":true,
         // "proccessing":true,
         "ajax":{
-           "url":"{{ route('materiel.index') }}",
+           "url":"{{ route('medecin.index') }}",
            "method":"GET",
         //    success:function(data){
         //        console.log(data);
@@ -51,14 +49,12 @@
          },
          "columns":[
             
-             {data:"libelle"},
-             {data:"type"},
-             {data:"prix"},
-             {data:"quantite"},
+             {data:"prenom"},
              {data:"nom"},
-             {data:"adresse"},
+             {data:"dateDeNaissance"},
              {data:"telephone"},
-             {data:"email"},
+             {data:"libelle"},
+             {data:"nomStructure"},
              {data:"action"}
          ],
          language:{
