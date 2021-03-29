@@ -13,6 +13,10 @@ class Analyse extends Seeder
      */
     public function run()
     {
-        //
+        Ana
+        Analyse::create([
+            "libelle"=>"Ammoniémie",
+            "prix"=>5000
+        ]);
     }
 }

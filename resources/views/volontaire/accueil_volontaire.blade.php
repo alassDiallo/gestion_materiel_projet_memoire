@@ -24,11 +24,11 @@
         <h1 class="text-center">Les Volontaires</h1><hr/>
         <a class="btn btn-success m-3" id="ajout" onclick="ajouter();"><i class="fa fa-plus ml-4"></i>Ajouter un volontaire</a>
         <table class="table m-3 table-bordered table-striped text-center" id="table">
-            <thead>
+            <thead style="font-size: 14px">
                 <tr>
                     <th>Prenom</th>
                     <th>Nom</th>
-                    <th>Date de Naissance</th>
+                    <th>Date et Lieu de Naissance</th>
                     <th>Adresse</th>
                     <th>Telephone</th>
                     <th>E-mail</th>
@@ -37,7 +37,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="font-size: 12px">
             </tbody>
         </table>
     </div>
@@ -63,7 +63,12 @@
             columns: [    
                 {data: 'prenom'},
                 {data: 'nom'},
-                {date:'dateDeNaissance'},
+                {
+                    "render":function(data,type,Json,meta){
+                        var t = Json.dateDeNaissance.split('-');
+                        return t[2]+"/"+t[1]+"/"+t[0]+" à "+Json.lieuDeNaissance;
+                    }
+                },
                 {data: 'adresse'},
                 {data: 'telephone'},
                 {data: 'email'},
@@ -316,57 +321,68 @@
                   <div class="form-group mb-3 row">
                       <div class="col-md-6">
                             <label for="nom">Nom</label>
-                            <input type="text" placeholder="veuillez entrer le nom du volontaire" name="nom" id="nom" class="form-control @error('nom') is-invalid @enderror"  value="{{ old('nom') }}" >
+                            <input type="text" placeholder="veuillez entrer le nom du volontaire" name="nom" id="nom" class="form-control @error('nom') is-invalid @enderror"  value="{{ old('nom') }}" required>
                             <span class="erreur" id="erreur_nom">@error('nom') {{ $message }}  @enderror</span>
                       </div>
                       <div class="col-md-6">
                             <label for="prenom">Prenom</label>
-                            <input type="text" placeholder="veuillez entrer le prenom du volontaire" name="prenom" id="prenom" class="form-control @error('prenom') is-invalid @enderror"  value="{{ old('prenom') }}" >
+                            <input type="text" placeholder="veuillez entrer le prenom du volontaire" name="prenom" id="prenom" class="form-control @error('prenom') is-invalid @enderror"  value="{{ old('prenom') }}" required >
                             <span class="erreur" id="erreur_prenom">@error('prenom') {{ $message }}  @enderror</span>
                       </div>
                     </div>
                     <div class="form-group mb-3 row">
                         <div class="col-md-6">
                               <label for="dateDeNaissance">Date de Naissance</label>
-                              <input type="date" placeholder="" name="dateDeNaissance" id="dateDeNaissance" class="form-control @error('dateDeNaissance') is-invalid @enderror"  value="{{ old('dateDeNaissance') }}" min="{{ Date('Y-m-d',strtotime(date('Y-m-d') . "-50 years"))}}" max="{{  date('Y-m-d', strtotime(date('Y-m-d') . "-18 years")) }}" >
+                              <input type="date" placeholder="" name="dateDeNaissance" id="dateDeNaissance" class="form-control @error('dateDeNaissance') is-invalid @enderror"  value="{{ old('dateDeNaissance') }}" min="{{ Date('Y-m-d',strtotime(date('Y-m-d') . "-50 years"))}}" max="{{  date('Y-m-d', strtotime(date('Y-m-d') . "-18 years")) }}" required >
                               <span class="erreur" id="erreur_dateDeNaissance">@error('dateDeNaissance') {{ $message }}  @enderror</span>
                         </div>
                         <div class="col-md-6">
                               <label for="lieuDeNaissance">Lieu de Naissance</label>
-                              <input type="text" placeholder="veuillez entrer le lieu de naissance" name="lieuDeNaissance" id="lieuDeNaissance" class="form-control @error('lieuDeNaissance') is-invalid @enderror"  value="{{ old('lieuDeNaissance') }}" >
+                              <input type="text" placeholder="veuillez entrer le lieu de naissance" name="lieuDeNaissance" id="lieuDeNaissance" class="form-control @error('lieuDeNaissance') is-invalid @enderror"  value="{{ old('lieuDeNaissance') }}" required >
                               <span class="erreur" id="erreur_lieuDeNaissance">@error('lieuDeNaissance') {{ $message }}  @enderror</span>
                         </div>
                       </div>
+
+                      <div class="mb-3 row">
+                        <div class="col-md-6">
+                          <label for="adresse">Sexe</label>
+                         <select name="sexe" class="form-select" required>
+                             <option value="">------selectionner---------</option>
+                             <option value="homme">homme</option>
+                             <option value="femme">femme</option>
+                         </select> 
+                          <span class="erreur" id="erreur_sexe">@error('sexe') {{ $message }}  @enderror</span>
+                       </div>
                   <div class="mb-3 row">
                       <div class="col-md-6">
                         <label for="adresse">Adresse</label>
-                        <input type="text" placeholder="veuillez entrer l'adresse du volontaire" class="form-control @error('adresse') is-invalid @enderror"  value="{{ old('adresse') }}" name="adresse" id="adresse"  >
+                        <input type="text" placeholder="veuillez entrer l'adresse du volontaire" class="form-control @error('adresse') is-invalid @enderror"  value="{{ old('adresse') }}" name="adresse" id="adresse" required >
                         <span class="erreur" id="erreur_adresse">@error('adresse') {{ $message }}  @enderror</span>
                      </div>
 
                 <div class="col-md-6">
                     <label for="telephone">Telephone</label>
-                    <input type="text" maxlength="9" placeholder="veuillez entrer le telephone du volontaire" class="form-control @error('telephone') is-invalid @enderror"  value="{{ old('telephone') }}" name="telephone" id="telephone">
+                    <input type="text" maxlength="9" placeholder="veuillez entrer le telephone du volontaire" class="form-control @error('telephone') is-invalid @enderror"  value="{{ old('telephone') }}" name="telephone" id="telephone" required>
                     <span class="erreur" id="erreur_telephone">@error('telephone') {{ $message }}  @enderror</span>
                 </div>
                   </div>
                   <div class="mb-3 row">
                     <div class="col-md-6">
                       <label for="email">E-mail</label>
-                      <input type="email" placeholder="veuillez entrer l'email du volontaire" class="form-control @error('email') is-invalid @enderror"  value="{{ old('email') }}" name="email" id="email"  >
+                      <input type="email" placeholder="veuillez entrer l'email du volontaire" class="form-control @error('email') is-invalid @enderror"  value="{{ old('email') }}" name="email" id="email" required >
                       <span class="erreur" id="erreur_email">@error('email') {{ $message }}  @enderror</span>
                    </div>
 
               <div class="col-md-6">
                   <label for="cin">Numero CIN / Passeport</label>
-                  <input type="text" maxlength="12" placeholder="veuillez entrer le numero de cin/passeport" class="form-control @error('cin') is-invalid @enderror"  value="{{ old('cin') }}" name="cin" id="cin">
+                  <input type="text" maxlength="12" placeholder="veuillez entrer le numero de cin/passeport" class="form-control @error('cin') is-invalid @enderror"  value="{{ old('cin') }}" name="cin" id="cin" required>
                   <span class="erreur" id="erreur_cin">@error('cin') {{ $message }}  @enderror</span>
               </div>
                 </div>
                 <div class="mb-3 row">
                     <div class="col-md-6">
                     <label for="structure">Structure</label>
-                    <select class="form-select @error('structure') is-invalid @enderror"  value="{{ old('structure') }}"" aria-label="Default select example" name="structure" id="structure">
+                    <select class="form-select @error('structure') is-invalid @enderror"  value="{{ old('structure') }}"" aria-label="Default select example" name="structure" id="structure" required>
                         <option value="">-----selectionner la structure-----</option>
                         @foreach ($structure as $structure )
                            <option value="{{ $structure->idStructure }}">{{ $structure->nomStructure }}</option> 
@@ -377,8 +393,8 @@
                 </div>
                 <div class="col-md-6">
                     <label for="materiel">Materiel</label>
-                    <select class="form-select @error('materiel') is-invalid @enderror"  value="{{ old('materiel') }}"" aria-label="Default select example" name="materiel" id="materiel">
-                        <option value="">-----selectionner la materiel-----</option>
+                    <select class="form-select @error('materiel') is-invalid @enderror"  value="{{ old('materiel') }}"" aria-label="Default select example" name="materiel" id="materiel" required>
+                        <option value="">-----selectionner-----</option>
                         @foreach ($materiel as $materiel)
                         <option value="{{ $materiel->reference }}">{{ $materiel->libelle }}</option>
                             

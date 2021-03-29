@@ -83,6 +83,7 @@ class ControllerVolontaire extends Controller
             'dateDeNaissance' => 'required| date | before_or_equal:' . $annee,
             'lieuDeNaissance' => 'required|string |min:2',
             'adresse' => 'required|string',
+            'sexe'=>'required',
             'telephone' => 'required|digits:9 | unique:volontaires',
             'email' => 'required|email|unique:users',
             'cin' => 'required|alpha_num',
@@ -112,12 +113,13 @@ class ControllerVolontaire extends Controller
             'telephone' => $request->telephone,
             'email' => $request->email,
             'numeroCIN' => $request->cin,
-            //'idStructure' => $request->structure,
+            'sexe' => $request->sexe,
 
 
         ])->structures()->attach($request->structure,["dateDebut"=>Date("Y/m/d")]);
+        $volontaire = volontaire::all()->last();
         materiel::where('idMateriel', $request->materiel)->update([
-            'idVolontaire' => 1
+            'idVolontaire' => $volontaire->idVolontaire
         ]);
         return response()->json(['success' => 'reussi']);
     }

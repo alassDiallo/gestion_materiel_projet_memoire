@@ -13,7 +13,7 @@
         <h1 class="text-center">Les Structures</h1><hr/>
         <a class="btn btn-success m-3" id="ajout" onclick="ajouter();"><i class="fa fa-plus ml-4"></i>Ajouter une structure</a>
         <table class="table m-3 table-bordered table-striped text-center" id="table">
-            <thead>
+            <thead style="font-size: 14px">
                 <tr>
                     <th>#</th>
                     <th>Reference</th>
@@ -24,7 +24,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="font-size: 12px">
             </tbody>
         </table>
     </div>
@@ -89,6 +89,7 @@
              return false;
          }
      });
+
     })
     var ref;
     function ajouter(){
@@ -193,9 +194,9 @@
             success:function(data){
                 console.log(data);
             $('.modal-title').val("Modifer la Structure");
-               $('#nom').val(data[0].nom);
+               $('#nom').val(data[0].nomStructure);
                $('#adresse').val(data[0].adresse);
-               $('#telephone').val(data[0].telephone);
+               $('#telephone').val(data[0].telephoneStructure);
                $('#region').val(data[0].region);
                id=data[0].reference;
                $('#modal').modal('show');
@@ -233,9 +234,9 @@
 <div>
     <div class="modal" tabindex="-1" id="modal">
         <div class="modal-dialog">
-          <div class="modal-content">
+          <div class="modal-content" style="font-size: 14px;">
             <div class="modal-header text-center">
-              <h3 class="modal-title ">Ajouter une structure</h3>
+              <h2 class="modal-title ">Ajouter une structure</h2>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -243,23 +244,23 @@
                 @csrf
                   <div class="form-group mb-3">
                       <label for="nom">Nom</label>
-                      <input type="text" placeholder="veuillez entrer le nom de la structure" name="nom" id="nom" class="form-control @error('nom') is-invalid @enderror"  value="{{ old('nom') }}" >
+                      <input type="text" placeholder="veuillez entrer le nom de la structure" name="nom" id="nom" class="form-control @error('nom') is-invalid @enderror"  value="{{ old('nom') }}" required >
                       <span class="erreur" id="erreur_nom">@error('nom') {{ $message }}  @enderror</span>
                   </div>
                   <div class="mb-3">
                     <label for="adresse">Adresse</label>
-                    <input type="text" placeholder="veuillez entrer l'adresse de la structure" class="form-control @error('adresse') is-invalid @enderror"  value="{{ old('adresse') }}" name="adresse" id="adresse"  >
+                    <input type="text" placeholder="veuillez entrer l'adresse de la structure" class="form-control @error('adresse') is-invalid @enderror"  value="{{ old('adresse') }}" name="adresse" id="adresse" required  >
                     <span class="erreur" id="erreur_adresse">@error('adresse') {{ $message }}  @enderror</span>
                 </div>
 
                 <div class="mb-3">
                     <label for="telephone">Telephone</label>
-                    <input type="text" maxlength="9" placeholder="veuillez entrer le telephone de la structure" class="form-control @error('telephone') is-invalid @enderror"  value="{{ old('telephone') }}" name="telephone" id="telephone">
+                    <input type="text" maxlength="9" placeholder="veuillez entrer le telephone de la structure" class="form-control @error('telephone') is-invalid @enderror"  value="{{ old('telephone') }}" name="telephone" id="telephone" required>
                     <span class="erreur" id="erreur_telephone">@error('telephone') {{ $message }}  @enderror</span>
                 </div>
                 <div class="mb-3">
                     <label for="region">Region</label>
-                    <select class="form-select @error('region') is-invalid @enderror"  value="{{ old('region') }}"" aria-label="Default select example" name="region" id="region">
+                    <select class="form-select @error('region') is-invalid @enderror"  value="{{ old('region') }}"" aria-label="Default select example" name="region" id="region" required>
                         <option value="">-----selectionner la region-----</option>
                         <option value="Dakar" {{ old('region')==="Dakar"?"selected":"" }}>Dakar</option>
                         <option value="Thies" {{ old('region')==="Thies"?"selected":"" }}>Thies</option>
@@ -280,8 +281,9 @@
                 </div>
             
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">annuler et fermer</button>
-              <button type="submit" class="btn btn-primary">Enregistrer la structure</button>
+              
+              <button type="submit" class="btn btn-success">Enregistrer la structure</button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">annuler et fermer</button>
             </div>
         </form>
           </div>

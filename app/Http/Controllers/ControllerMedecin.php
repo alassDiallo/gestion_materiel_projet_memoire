@@ -11,6 +11,7 @@ use App\Models\RendezVous;
 use App\Models\Structure;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Hash;
 use Validator;
 use DataTable;
 
@@ -76,9 +77,10 @@ class ControllerMedecin extends Controller
             'telephone' => 'required|digits:9 | unique:volontaires',
             'email' => 'required|email|unique:users',
             'cin' => 'required|alpha_num',
+            'sexe'=>'required',
             'structure' => 'required',
             'specialite' => 'required',
-            'experience'=>'required|interger|min:0|max:30'
+            'experience'=>'required|numeric|min:0|max:30'
 
         ];
         $error = Validator::make($request->all(), $rule);
@@ -100,10 +102,9 @@ class ControllerMedecin extends Controller
             'lieuDeNaissance' => $request->lieuDeNaissance,
             'telephone' => $request->telephone,
             'email' => $request->email,
-            'specialite' => $request->specialite,
+            'sexe'=>$request->sexe,
+            'idSpecialite' => $request->specialite,
             'experience' => $request->experience,
-
-
         ])->structures()->attach($request->structure,["dateDebut"=>Date("Y/m/d")]);
         return response()->json(['success' => 'reussi']);
     }

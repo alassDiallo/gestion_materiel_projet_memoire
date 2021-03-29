@@ -57,7 +57,12 @@
              {data:"nom"},
              {data:"adresse"},
              {data:"telephone"},
-             {data:"date"},
+            {
+                "render":function(data,type,jsonD,meta){
+                    t = jsonD.date.split('-');
+                    return t[2]+"/"+t[1]+"/"+t[0];
+                }
+            },
              {data:"heure"},
              {data:"etat"},
              {data:"action"}

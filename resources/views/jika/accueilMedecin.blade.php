@@ -10,20 +10,21 @@
     }
 </style>
 <div style="margin-left: 30px;">
-        <a class="btn btn-success m-3" id="ajout" onclick="ajouter();"><i class="fa fa-plus ml-4"></i>Ajouter un materiel</a>
+        <a class="btn btn-success m-3" id="ajout" onclick="ajouter();"><i class="fa fa-plus ml-4"></i>Ajouter un medecin</a>
         <table class="table m-3 table-bordered table-striped text-center" id="table">
-            <thead>
+            <thead style="font-size: 14px">
                 <tr>
+                    <th>#Reference</th>
                     <th>prenom</th>
                     <th>nom</th>
-                    <th>date de naissane</th>
+                    <th>Date et Lieu de naissane</th>
                     <th>telephone</th>
                     <th>specialite</th>
                     <th>Structure</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="font-size: 12px">
             </tbody>
         </table>
     </div>
@@ -48,10 +49,15 @@
         //    }
          },
          "columns":[
-            
+            {data:"reference"},
              {data:"prenom"},
              {data:"nom"},
-             {data:"dateDeNaissance"},
+             {
+                "render":function(data,type,jsonD,meta){
+                    var t = jsonD.dateDeNaissance.split('-');
+                        return t[2]+"/"+t[1]+"/"+t[0]+" à "+jsonD.lieuDeNaissance;
+                }
+             },
              {data:"telephone"},
              {data:"libelle"},
              {data:"nomStructure"},
@@ -114,11 +120,11 @@
        var meth;
 
        if(save==="modifier"){
-         url="http://localhost:8000/structure/"+id;
+         url="http://localhost:8000/medecin/"+id;
          meth="PUT";
        }
        else{
-           url = "{{ route('structure.store') }}";
+           url = "{{ route('medecin.store') }}";
            meth="POST";
        }
        $.ajaxSetup({
@@ -190,7 +196,7 @@
         $('#form')[0].reset();
         //alert();
         $.ajax({
-            url:"http://localhost:8000/structure/"+ref,
+            url:"http://localhost:8000/medecin/"+ref,
             type:"GET",
             dataType:"JSON",
             success:function(data){
@@ -219,7 +225,7 @@
             });
 
        $.ajax({
-           url:"{{ route('structure.destroy',['structure'=>"+ref+"]) }}",
+           url:"{{ route('medecin.destroy',['medecin'=>"+ref+"]) }}",
            method:"DELETE",
            dataType:"JSON",
            success:function(data){
@@ -234,57 +240,114 @@
     }
 </script>
 <div>
-    <div class="modal" tabindex="-1" id="modal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header text-center">
-              <h3 class="modal-title ">Ajouter une structure</h3>
+    <div class="modal" tabindex="-1" id="modal" >
+        <div class="modal-dialog" id="c" >
+          <div class="modal-content" id="corps" style="width:800px;font-size:14px;">
+            <div class="modal-header" id="titre">
+              <h2 class="modal-title">Ajouter un medecin</h2>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" >
               <form class="" id="form" onsubmit="enregistrer(event);">
                 @csrf
-                  <div class="form-group mb-3">
-                      <label for="nom">Nom</label>
-                      <input type="text" placeholder="veuillez entrer le nom de la structure" name="nom" id="nom" class="form-control @error('nom') is-invalid @enderror"  value="{{ old('nom') }}" >
-                      <span class="erreur" id="erreur_nom">@error('nom') {{ $message }}  @enderror</span>
-                  </div>
-                  <div class="mb-3">
-                    <label for="adresse">Adresse</label>
-                    <input type="text" placeholder="veuillez entrer l'adresse de la structure" class="form-control @error('adresse') is-invalid @enderror"  value="{{ old('adresse') }}" name="adresse" id="adresse"  >
-                    <span class="erreur" id="erreur_adresse">@error('adresse') {{ $message }}  @enderror</span>
-                </div>
+                  <div class="form-group mb-3 row">
+                      <div class="col-md-6">
+                            <label for="nom">Nom</label>
+                            <input type="text" placeholder="veuillez entrer le nom du medecin" name="nom" id="nom" class="form-control @error('nom') is-invalid @enderror"  value="{{ old('nom') }}" required>
+                            <span class="erreur" id="erreur_nom">@error('nom') {{ $message }}  @enderror</span>
+                      </div>
+                      <div class="col-md-6">
+                            <label for="prenom">Prenom</label>
+                            <input type="text" placeholder="veuillez entrer le prenom du medecin" name="prenom" id="prenom" class="form-control @error('prenom') is-invalid @enderror"  value="{{ old('prenom') }}" required >
+                            <span class="erreur" id="erreur_prenom">@error('prenom') {{ $message }}  @enderror</span>
+                      </div>
+                    </div>
+                    <div class="form-group mb-3 row">
+                        <div class="col-md-6">
+                              <label for="dateDeNaissance">Date de Naissance</label>
+                              <input type="date" placeholder="" name="dateDeNaissance" id="dateDeNaissance" class="form-control @error('dateDeNaissance') is-invalid @enderror"  value="{{ old('dateDeNaissance') }}" min="{{ Date('Y-m-d',strtotime(date('Y-m-d') . "-50 years"))}}" max="{{  date('Y-m-d', strtotime(date('Y-m-d') . "-18 years")) }}" required >
+                              <span class="erreur" id="erreur_dateDeNaissance">@error('dateDeNaissance') {{ $message }}  @enderror</span>
+                        </div>
+                        <div class="col-md-6">
+                              <label for="lieuDeNaissance">Lieu de Naissance</label>
+                              <input type="text" placeholder="veuillez entrer le lieu de naissance" name="lieuDeNaissance" id="lieuDeNaissance" class="form-control @error('lieuDeNaissance') is-invalid @enderror"  value="{{ old('lieuDeNaissance') }}" required >
+                              <span class="erreur" id="erreur_lieuDeNaissance">@error('lieuDeNaissance') {{ $message }}  @enderror</span>
+                        </div>
+                      </div>
 
-                <div class="mb-3">
+                      <div class="mb-3 row">
+                        <div class="col-md-6">
+                          <label for="adresse">Sexe</label>
+                         <select name="sexe" class="form-select" required>
+                             <option value="">------selectionner---------</option>
+                             <option value="homme">homme</option>
+                             <option value="femme">femme</option>
+                         </select> 
+                          <span class="erreur" id="erreur_sexe">@error('sexe') {{ $message }}  @enderror</span>
+                       </div>
+                      
+                        <div class="col-md-6">
+                          <label for="experience">Experience</label>
+                          <input type="text" placeholder="veuillez entrer l'experience du medecin" class="form-control @error('experience') is-invalid @enderror"  value="{{ old('experience') }}" name="experience" id="experience" required >
+                          <span class="erreur" id="erreur_experience">@error('experience') {{ $message }}  @enderror</span>
+                       
+                      </div>
+                      </div>
+                  <div class="mb-3 row">
+                      <div class="col-md-6">
+                        <label for="adresse">Adresse</label>
+                        <input type="text" placeholder="veuillez entrer l'adresse du medecin" class="form-control @error('adresse') is-invalid @enderror"  value="{{ old('adresse') }}" name="adresse" id="adresse" required >
+                        <span class="erreur" id="erreur_adresse">@error('adresse') {{ $message }}  @enderror</span>
+                     </div>
+
+                <div class="col-md-6">
                     <label for="telephone">Telephone</label>
-                    <input type="text" maxlength="9" placeholder="veuillez entrer le telephone de la structure" class="form-control @error('telephone') is-invalid @enderror"  value="{{ old('telephone') }}" name="telephone" id="telephone">
+                    <input type="text" maxlength="9" placeholder="veuillez entrer le telephone du medecin" class="form-control @error('telephone') is-invalid @enderror"  value="{{ old('telephone') }}" name="telephone" id="telephone" required>
                     <span class="erreur" id="erreur_telephone">@error('telephone') {{ $message }}  @enderror</span>
                 </div>
-                <div class="mb-3">
-                    <label for="region">Region</label>
-                    <select class="form-select @error('region') is-invalid @enderror"  value="{{ old('region') }}"" aria-label="Default select example" name="region" id="region">
-                        <option value="">-----selectionner la region-----</option>
-                        <option value="Dakar" {{ old('region')==="Dakar"?"selected":"" }}>Dakar</option>
-                        <option value="Thies" {{ old('region')==="Thies"?"selected":"" }}>Thies</option>
-                        <option value="Diourbel" {{ old('region')==="Diourbel"?"selected":"" }}>Dioubel</option>
-                        <option value="Fatick" {{ old('region')==="Fatick"?"selected":"" }}>Fatick</option>
-                        <option value="St-Louis" {{ old('region')==="St-Louis"?"selected":"" }}>Saint-Louis</option>
-                        <option value="Kaolack" {{ old('region')==="Kaolack"?"selected":"" }}>Kaolack</option>
-                        <option value="Kolda" {{ old('region')==="Kolda"?"selected":"" }}>Kolda</option>
-                        <option value="Kaffrine" {{ old('region')==="Kaffrine"?"selected":"" }}>Kaffrine</option>
-                        <option value="Sedhiou" {{ old('region')==="Sedhiou"?"selected":"" }}>Sedhiou</option>
-                        <option value="Ziguinchor" {{ old('region')==="Ziguinchor"?"selected":"" }}>Ziguinchor</option>
-                        <option value="Kedougou" {{ old('region')==="Kedougou"?"selected":"" }}>Kedougou</option>
-                        <option value="Matam" {{ old('region')==="Matam"?"selected":"" }}>Matam</option>
-                        <option value="Tambacounda" {{ old('region')==="Tambacounda"?"selected":"" }}>Tambacounda</option>
-                        <option value="Louga" {{ old('region')==="Louga"?"selected":"" }}>Louga</option>
-                      </select>
-                      <span class="erreur" id="erreur_region">@error('region') {{ $message }}  @enderror</span>
+                  </div>
+                  <div class="mb-3 row">
+                    <div class="col-md-6">
+                      <label for="email">E-mail</label>
+                      <input type="email" placeholder="veuillez entrer l'email du medecin" class="form-control @error('email') is-invalid @enderror"  value="{{ old('email') }}" name="email" id="email" required >
+                      <span class="erreur" id="erreur_email">@error('email') {{ $message }}  @enderror</span>
+                   </div>
+
+              <div class="col-md-6">
+                  <label for="cin">Numero CIN / Passeport</label>
+                  <input type="text" maxlength="12" placeholder="veuillez entrer le numero de cin/passeport" class="form-control @error('cin') is-invalid @enderror"  value="{{ old('cin') }}" name="cin" id="cin" required>
+                  <span class="erreur" id="erreur_cin">@error('cin') {{ $message }}  @enderror</span>
+              </div>
                 </div>
-            
+                <div class="mb-3 row">
+                    <div class="col-md-6">
+                    <label for="structure">Structure</label>
+                    <select class="form-select @error('structure') is-invalid @enderror"  value="{{ old('structure') }}"" aria-label="Default select example" name="structure" id="structure" required>
+                        <option value="">-----selectionner la structure-----</option>
+                        @foreach ($structure as $structure )
+                           <option value="{{ $structure->idStructure }}">{{ $structure->nomStructure }}</option> 
+                        @endforeach
+                        
+                      </select>
+                      <span class="erreur" id="erreur_structure">@error('structure') {{ $message }}  @enderror</span>
+                </div>
+                <div class="col-md-6">
+                    <label for="specialite">specialite</label>
+                    <select class="form-select @error('specialite') is-invalid @enderror"  value="{{ old('specialite') }}"" aria-label="Default select example" name="specialite" id="specialite" required>
+                        <option value="">-----selectionner-----</option>
+                        @foreach ($specialite as $specialite)
+                        <option value="{{ $specialite->idSpecialite }}">{{ $specialite->libelle }}</option>
+                            
+                        @endforeach
+                        
+                      </select>
+                      <span class="erreur" id="erreur_specialite">@error('specialite') {{ $message }}  @enderror</span>
+                </div>
+                </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">annuler et fermer</button>
-              <button type="submit" class="btn btn-primary">Enregistrer la structure</button>
+              
+              <button type="submit" class="btn btn-success">Enregistrer le medecin</button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">annuler et fermer</button>
             </div>
         </form>
           </div>

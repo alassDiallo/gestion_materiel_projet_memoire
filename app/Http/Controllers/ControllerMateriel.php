@@ -19,16 +19,11 @@ class ControllerMateriel extends Controller
     public function index(Request $request)
     {
 
-<<<<<<< HEAD
-        if ($request->ajax()) {
-            $data = materiel::all();
-=======
         if($request->ajax()){
             $data =DB::table('materiels')
             ->join('fournis','fournis.idMateriel','=','materiels.idMateriel')
             ->join('fournisseurs','fournisseurs.idFournisseur','=','fournis.idFournisseur')
             ->get();
->>>>>>> ba9d4fe5d15b5f73a425f584a92af5333bcc47ea
 
             return \DataTables::of($data)
                 ->addIndexColumn()

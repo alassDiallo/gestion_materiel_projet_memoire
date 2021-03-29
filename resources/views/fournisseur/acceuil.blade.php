@@ -13,7 +13,7 @@
     <div class="card-body">
         <a class="btn btn-success m-3" id="ajout" onclick="ajouter();"><i class="fa fa-plus ml-4"></i>Ajouter un fournisseur</a>
         <table class="table m-3 table-bordered table-striped text-center" id="table">
-            <thead>
+            <thead style="font-size: 14px">
                 <tr>
                     <th>Information</th>
                     <th>adresse</th>
@@ -22,7 +22,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="font-size: 12px">
             </tbody>
         </table>
     </div>
