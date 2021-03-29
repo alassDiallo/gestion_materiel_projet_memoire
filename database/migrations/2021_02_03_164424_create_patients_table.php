@@ -15,15 +15,15 @@ class CreatePatientsTable extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id('idPatient');
-            $table->string('referencePatient',12)->unique();
+            $table->string('referencePatient', 12)->unique();
             $table->string('nom');
             $table->string('prenom');
             $table->date('dateDeNaissance');
             $table->string('lieuDeNaissance');
             $table->string('sexe');
             $table->string('adresse');
-            $table->string('telephone',9)->unique();
-            $table->string('numeroCIN',12)->unique();
+            $table->string('telephone', 9)->unique();
+            $table->string('numeroCIN', 12)->unique();
             $table->timestamps();
         });
     }

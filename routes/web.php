@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,29 +38,29 @@ Route::get('/', function () {
     return redirect('/login');
     // $pdf = PDF::loadView('ordonnance.generer');
     // return  $pdf->download("/assane.pdf");
-    // User::create([
-    //     'email' => 'patient@gmail.com',
-    //     'password' => Hash::make('12345678'),
-    //     'profil' => 'patient',
-    // ]);
+    User::create([
+        'email' => 'patient@gmail.com',
+        'password' => Hash::make('12345678'),
+        'profil' => 'patient',
+    ]);
 
-    // User::create([
+    User::create([
 
-    //     'email' => 'vol@gmail.com',
-    //     'password' => Hash::make('12345678'),
-    //     'profil' => 'volontaire',
-    // ]);
+        'email' => 'vol@gmail.com',
+        'password' => Hash::make('12345678'),
+        'profil' => 'volontaire',
+    ]);
 
-    // User::create([
-    //     'email' => 'sbd@gmail.com',
-    //     'password' => Hash::make('12345678'),
-    //     'profil' => 'medecin',
-    // ]);
-    // User::create([
-    //     'email' => 'assane@gmail.com',
-    //     'password' => Hash::make('12345678'),
-    //     'profil' => 'admin',
-    // ]);
+    User::create([
+        'email' => 'sbd@gmail.com',
+        'password' => Hash::make('12345678'),
+        'profil' => 'medecin',
+    ]);
+    User::create([
+        'email' => 'assane@gmail.com',
+        'password' => Hash::make('12345678'),
+        'profil' => 'admin',
+    ]);
 
     //dd(RendezVous::all()->groupBy('date'));
     //     $pdf = PDF::loadView('ordonnance.generer');
@@ -126,6 +127,9 @@ Route::get('/str', function () {
 Route::get("/monCalendrier", [App\Http\Controllers\ControllerMedecin::class, 'calendrier']);
 Route::get('/calendrier', function () {
     return view('medecin.calendrier');
+});
+Route::get('/f/{fn}', function (Request $request) {
+    return response()->json($request);
 });
 
 Route::resource('prescription', App\Http\Controllers\ControllerPrescription::class);
