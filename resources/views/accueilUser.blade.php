@@ -12,12 +12,11 @@
   <!-- Favicons -->
   <link href="img/favicon.png" rel="icon">
   <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
-
   <!-- Bootstrap core CSS -->
   <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!--external css-->
   <link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" href="css/zabuto_calendar.css">
+  {{-- <link rel="stylesheet" type="text/css" href="css/zabuto_calendar.css"> --}}
   <link rel="stylesheet" type="text/css" href="lib/gritter/css/jquery.gritter.css" />
   <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet">
@@ -25,7 +24,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="{{ asset('/js/DataTables/datatables.min.css') }}" >
-      
+        @yield('css')
   <script src="lib/chart-master/Chart.js"></script>
 
   <!-- =======================================================
@@ -245,6 +244,21 @@
           </li>
           <li class="sub-menu">
             <a href="javascript:;">
+              <i class="fa fa-user-md"></i>
+              <span>Specialite</span><i class="fa fa-plus pull-right" style="height: 20px"></i>
+              </a>
+            <ul class="sub">
+              <li><a href="/specialites">Lister Specialité</a><i class=""></i></li>
+              <!-- <li><a href="calendar.html">Calendar</a></li>
+              <li><a href="gallery.html">Gallery</a></li>
+              <li><a href="todo_list.html">Todo List</a></li>
+              <li><a href="dropzone.html">Dropzone File Upload</a></li>
+              <li><a href="inline_editor.html">Inline Editor</a></li>
+              <li><a href="file_upload.html">Multiple File Upload</a></li> -->
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
              <i class="fa fa-cogs"></i></i>
               <span>Materiel</span><i class="fa fa-plus pull-right" style="height: 50px"></i>
               </a>
@@ -423,12 +437,16 @@
   </section>
 
   <!-- js placed at the end of the document so the pages load faster -->
+  @yield('calendrier')
   <script src="lib/jquery/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
         <script src="{{ asset('/js/jquery-3.5.1.js') }}"></script>
         <script src="{{ asset('/js/DataTables/datatables.min.js') }}"></script>
         <script src="js/moment.min.js"></script>
-    <script src="js/fullcalendar.js"></script>
+        <script src="js/lib/main.js"></script>
+        @yield('calendrier')
+
+    {{-- <script src="js/fullcalendar.js"></script> --}}
         @yield('ajax')
   <script src="lib/bootstrap/js/bootstrap.min.js"></script>
   <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
@@ -441,7 +459,7 @@
   <script type="text/javascript" src="lib/gritter-conf.js"></script>
   <!--script for this page-->
   <script src="lib/sparkline-chart.js"></script>
-  <script src="lib/zabuto_calendar.js"></script>
+  {{-- <script src="lib/zabuto_calendar.js"></script> --}}
   <script src="lib/raphael/raphael.min.js"></script>
   <script src="lib/morris/morris.min.js"></script>
   <!--common script for all pages-->

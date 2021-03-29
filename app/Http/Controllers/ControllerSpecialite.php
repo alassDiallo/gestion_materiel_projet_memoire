@@ -7,6 +7,9 @@ use App\Models\periode;
 use App\Models\Specialite;
 use App\Models\structure;
 use Illuminate\Http\Request;
+use DataTable;
+use Validator;
+use Image;
 
 class ControllerSpecialite extends Controller
 {
@@ -15,9 +18,23 @@ class ControllerSpecialite extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->ajax()){
+            $data =Specialite::all();
+
+            return \DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($data) {
+                    $btn = '<a class="btn  btn-sm btn-warning" href="/specialite/"' . $data->id . '" data-toggle="tooltip" data-id="' . $data->id . '" data-original-title="voir"><i class="fa fa-edit" style="color:white;"></i></a>
+                                <a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="' . $data->id . '" data-original-title="modifier" onclick="modifier(' . "'" . $data->reference . "'" . ')"><i class="fa fa-edit" style="color:white;"></i></a>
+                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="' . $data->id . '" data-original-title="supprimer" onclick="supprimer(' . "'" . $data->reference . "'" . ')"><i class="fa fa-trash-o" style="color:white;"></i></a>';
+
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 
     /**
@@ -38,7 +55,34 @@ class ControllerSpecialite extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $rule=[
+            "libelle"=>"required|min:3|max:50",
+            "prix"=>'required|integer|min:1',
+            "image"=>'required|image'
+        ];
+        $error = Validator::make($request->all(),$rule);
+        if($error->fails()){
+
+            return response()->json(['error'=>$error->errors()]);
+        }
+        if($request->hasFile('image')){
+           $file=$request->image;
+           $filename = time() . "." .$file->getClientOriginalExtension();
+           Image::make($file)->save(public_path("/").$filename);
+
+           Specialite::create([
+               'libelle'=>$request->libelle,
+               'prixConsultation'=>$request->prix,
+               'image'=>$filename,
+               'reference'=>referenceSpecialite()
+           ]);
+
+           return redirect('/specialites');
+      
+        }
+
+        
     }
 
     /**

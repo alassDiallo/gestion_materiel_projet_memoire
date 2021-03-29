@@ -12,8 +12,9 @@
 <div style="margin-left: 30px;">
         <a class="btn btn-success m-3" id="ajout" onclick="ajouter();"><i class="fa fa-plus ml-4"></i>Ajouter un materiel</a>
         <table class="table m-3 table-bordered table-striped text-center" id="table">
-            <thead>
+            <thead style="font-size: 14px">
                 <tr>
+                    <th>#reference</th>
                     <th>libelle</th>
                     <th>type</th>
                     <th>prix</th>
@@ -25,7 +26,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="font-size: 12px">
             </tbody>
         </table>
     </div>
@@ -50,7 +51,7 @@
         //    }
          },
          "columns":[
-            
+             {data:"reference"},
              {data:"libelle"},
              {data:"type"},
              {data:"prix"},
