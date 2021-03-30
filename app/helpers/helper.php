@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 if(! function_exists("referenceStructure")){
 function referenceStructure(){
     $ref = rand(100000,1000000)."REF";
-    if(structure::where('reference',$ref)->count() >0)
+    if(structure::where('referenceStructure',$ref)->count() >0)
     return referenceStructure();
     return $ref;
 }
@@ -25,7 +25,7 @@ function referenceStructure(){
 if(! function_exists("referenceVolontaire")){
     function referenceVolontaire(){
         $ref = rand(100000,1000000)."VOL";
-        if(volontaire::where('reference',$ref)->count() >0)
+        if(volontaire::where('referenceVolontaire',$ref)->count() >0)
         return referenceVolontaire();
         return $ref;
     }
@@ -44,7 +44,7 @@ if(! function_exists("referenceVolontaire")){
         if(! function_exists("referenceSpecialite")){
             function referenceSpecialite(){
                 $ref = rand(100000,1000000)."SPC";
-                if(Specialite::where('reference',$ref)->count() >0)
+                if(Specialite::where('referenceSpecialite',$ref)->count() >0)
                 return referenceSpecialite();
                 return $ref;
             }
@@ -64,7 +64,7 @@ if(! function_exists("referenceVolontaire")){
                 if(! function_exists("referenceMedecin")){
                     function referenceMedecin(){
                         $ref = rand(100000,1000000)."MDC";
-                        if(Medecin::where('reference',$ref)->count() >0)
+                        if(Medecin::where('referenceMedecin',$ref)->count() >0)
                         return referenceMedecin();
                         return $ref;
                     }

@@ -41,11 +41,17 @@ class ControllerFournisseur extends Controller
         
         $rules = [
             'nom' => 'required',
-            'telephone' => 'required|unique:fournisseurs',
-            'email' => 'required|unique:fournisseurs',
+            'telephone' => 'required|digits:9|starts_with:77,78,76,75,70,33,30|unique:fournisseurs',
+            'email' => 'required|email|unique:fournisseurs',
             'adresse' => 'required'
 
         ];
+
+        // 'telephone'=>[
+        //     'digits:9',
+        //     'starts_with:77,78,76,70,33,30',
+        //     Rule::unique('eleves')->ignore($eleve),
+        //     ],
         $error = Validator::make($request->all(),$rules);
         if($error->fails()){
             return response()->json(['error'=>$error->errors()]);
@@ -86,10 +92,14 @@ class ControllerFournisseur extends Controller
     public function update(Request $request,$idFournisseur)
     {
         $request->validate([
-            'referenceFournisseur' => 'required',
+            //'referenceFournisseur' => 'required',
             'nom' => 'required',
-            'telephone' => 'required',
-            'email' => 'required',
+            'telephone'=>[
+                'digits:9',
+                'starts_with:77,78,76,70,33,30',
+                Rule::unique('fournisseurs')->ignore('idFournisseur',$idFournisseur),
+                ],
+            'email' => ['required','email',Rule::unique('fournisseurs')->ignore('idFournisseur',$idFournisseur)],
             'adresse' => 'required'
 
         ]);

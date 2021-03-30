@@ -56,8 +56,8 @@ Route::get('/', function () {
         //     $message->to($to_email)
         //     ->subject("objet mail laravel");
         // });
-        return view('welcome');
-        //return redirect('/login');
+        //return view('welcome');
+        return redirect('/login');
         // $pdf = PDF::loadView('ordonnance.generer');
         // return  $pdf->download("/assane.pdf");
         // User::create([

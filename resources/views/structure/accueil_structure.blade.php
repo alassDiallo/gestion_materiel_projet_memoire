@@ -47,7 +47,7 @@
          },
          "columns":[
              {data:"idStructure"},
-             {data:"reference"},
+             {data:"referenceStructure"},
              {data:"nomStructure"},
              {data:"adresse"},
              {data:"telephoneStructure"},
@@ -150,9 +150,9 @@
                     $('#adresse').removeClass("is-invalid");
                     $('#erreur_adresse').text("");
                 }
-                if(data.error.telephone){
+                if(data.error.telephoneStructure){
                     $('#telephone').addClass("is-invalid");
-                    $('#erreur_telephone').text(data.error.telephone[0]);
+                    $('#erreur_telephone').text(data.error.telephoneStructure[0]);
                 }
                 else{
                     $('#telephone').removeClass("is-invalid");
@@ -198,7 +198,7 @@
                $('#adresse').val(data[0].adresse);
                $('#telephone').val(data[0].telephoneStructure);
                $('#region').val(data[0].region);
-               id=data[0].reference;
+               id=data[0].referenceStructure;
                $('#modal').modal('show');
             },
             error:function(xhr,statusText,error){
@@ -255,7 +255,7 @@
 
                 <div class="mb-3">
                     <label for="telephone">Telephone</label>
-                    <input type="text" maxlength="9" placeholder="veuillez entrer le telephone de la structure" class="form-control @error('telephone') is-invalid @enderror"  value="{{ old('telephone') }}" name="telephone" id="telephone" required>
+                    <input type="text" maxlength="9" placeholder="veuillez entrer le telephone de la structure" class="form-control @error('telephoneStructure') is-invalid @enderror"  value="{{ old('telephoneStructure') }}" name="telephoneStructure" id="telephone" required>
                     <span class="erreur" id="erreur_telephone">@error('telephone') {{ $message }}  @enderror</span>
                 </div>
                 <div class="mb-3">

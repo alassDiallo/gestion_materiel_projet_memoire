@@ -26,9 +26,8 @@ class ControllerSpecialite extends Controller
             return \DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($data) {
-                    $btn = '<a class="btn  btn-sm btn-warning" href="/specialite/"' . $data->id . '" data-toggle="tooltip" data-id="' . $data->id . '" data-original-title="voir"><i class="fa fa-edit" style="color:white;"></i></a>
-                                <a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="' . $data->id . '" data-original-title="modifier" onclick="modifier(' . "'" . $data->reference . "'" . ')"><i class="fa fa-edit" style="color:white;"></i></a>
-                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="' . $data->id . '" data-original-title="supprimer" onclick="supprimer(' . "'" . $data->reference . "'" . ')"><i class="fa fa-trash-o" style="color:white;"></i></a>';
+                    $btn = '<a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="' . $data->referenceSpecialite . '" data-original-title="modifier" onclick="modifier(' . "'" . $data->referenceSpecialite . "'" . ')"><i class="fa fa-edit" style="color:white;"></i></a>
+                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="' . $data->referenceSpecialite . '" data-original-title="supprimer" onclick="supprimer(' . "'" . $data->referenceSpecialite . "'" . ')"><i class="fa fa-trash-o" style="color:white;"></i></a>';
 
                     return $btn;
                 })
@@ -58,7 +57,7 @@ class ControllerSpecialite extends Controller
         
         $rule=[
             "libelle"=>"required|min:3|max:50",
-            "prix"=>'required|integer|min:1',
+            "prix"=>'required|integer|min:1|max:100000',
             "image"=>'required|image'
         ];
         $error = Validator::make($request->all(),$rule);
@@ -75,10 +74,10 @@ class ControllerSpecialite extends Controller
                'libelle'=>$request->libelle,
                'prixConsultation'=>$request->prix,
                'image'=>$filename,
-               'reference'=>referenceSpecialite()
+               'referenceSpecialite'=>referenceSpecialite()
            ]);
 
-           return redirect('/specialites');
+           return (['success'=>'enregistrement reussi']);
       
         }
 
@@ -93,15 +92,11 @@ class ControllerSpecialite extends Controller
      */
     public function show($id)
     {
-        $structures = Structure::all();
-       $periodes = Periode::all();
-       $medecins = Medecin::all();
-       $specialites=Specialite::where('libelle',$id)
-                ->join('medecins','medecins.idSpecialite','=','specialites.idSpecialite')
-                ->join('periodes','periodes.idMedecin','=','medecins.idMedecin')
-                ->join('structures','structures.idStructure','=','periodes.idStructure')
-                ->get();
-                return response()->json($specialites);
+    //     $structures = Structure::all();
+    //    $periodes = Periode::all();
+    //    $medecins = Medecin::all();
+       $specialite=Specialite::where('referenceSpecialite',$id)->first();
+                return response()->json($specialite);
     }
 
     /**
@@ -124,7 +119,31 @@ class ControllerSpecialite extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $spacialite = Specialite::where('referenceSpecialite',$id)->first();
+        $rule=[
+            "libelle"=>"required|min:3|max:50",
+            "prix"=>'required|integer|min:1|max:100000',
+            "image"=>'required|image'
+        ];
+        $error = Validator::make($request->all(),$rule);
+        if($error->fails()){
+
+            return response()->json(['error'=>$error->errors()]);
+        }
+        if($request->hasFile('image')){
+           $file=$request->image;
+           $filename = time() . "." .$file->getClientOriginalExtension();
+           Image::make($file)->save(public_path("/").$filename);
+
+        $spacialite->update([
+               'libelle'=>$request->libelle,
+               'prixConsultation'=>$request->prix,
+               'image'=>$filename,
+           ]);
+
+           return (['success'=>'enregistrement reussi']);
+      
+        }
     }
 
     /**

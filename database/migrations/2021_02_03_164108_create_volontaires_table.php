@@ -15,7 +15,7 @@ class CreateVolontairesTable extends Migration
     {
         Schema::create('volontaires', function (Blueprint $table) {
             $table->id('idVolontaire');
-            $table->string('reference',10)->unique();
+            $table->string('referenceVolontaire',10)->unique();
             $table->String('nom');
             $table->String('prenom');
             $table->date('dateDeNaissance');
