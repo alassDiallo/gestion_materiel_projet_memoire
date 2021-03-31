@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Mail;
 
 /*
@@ -24,15 +25,58 @@ use Illuminate\Support\Facades\Mail;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/test-contact', function () {
-    ini_set('SMTP', "smtp.gmail.com");
-    return new App\Mail\Contact([
-        'nom' => 'Durand',
-        'email' => 'alassdiallo58@gmail.com',
-        'message' => 'Je voulais vous dire que votre site est magnifique !'
+// Route::get('/test-contact', function () {
+//     ini_set('SMTP', "smtp.gmail.com");
+//     return new App\Mail\Contact([
+//         'nom' => 'Durand',
+//         'email' => 'alassdiallo58@gmail.com',
+//         'message' => 'Je voulais vous dire que votre site est magnifique !'
+//     ]);
+// });
+
+// Route::post('/accorder', [App\Http\Controllers\ControllerRendezVous::class, 'accorder'])->name('accorder');
+
+Route::get('/', function () {
+
+    return redirect('/login');
+    // $pdf = PDF::loadView('ordonnance.generer');
+    // return  $pdf->download("/assane.pdf");
+    User::create([
+        'email' => 'patient@gmail.com',
+        'password' => Hash::make('12345678'),
+        'profil' => 'patient',
     ]);
+
+    User::create([
+
+        'email' => 'vol@gmail.com',
+        'password' => Hash::make('12345678'),
+        'profil' => 'volontaire',
+    ]);
+
+    User::create([
+        'email' => 'sbd@gmail.com',
+        'password' => Hash::make('12345678'),
+        'profil' => 'medecin',
+    ]);
+    User::create([
+        'email' => 'assane@gmail.com',
+        'password' => Hash::make('12345678'),
+        'profil' => 'admin',
+    ]);
+
+    //dd(RendezVous::all()->groupBy('date'));
+    //     $pdf = PDF::loadView('ordonnance.generer');
+    //   return  $pdf->download("/ordonnance/assane.pdf");
+    //return view('ordonnance.generer');
+
+
 });
 
+// Route::get('sendbasicemail', [App\Http\Controllers\MailController::class, 'basic_email']);
+// Route::post('/modifierRV', [App\Http\Controllers\ControllerMedecin::class, 'modifierRv']);
+// Route::get('/valider/{id}', [App\Http\Controllers\ControllerMedecin::class, 'valider']);
+// Route::get('/accueilvolontaire', [App\Http\Controllers\ControllerVolontaire::class, 'accueil']);
 Route::get('/test-contact', function () {
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
@@ -47,44 +91,19 @@ Route::get('/test-contact', function () {
 
 
 
-Route::get('/', function () {
-
-    // $to_email = "alassdiallo58@gmail.com";
-    // $to_name="assane diallo";
-    // $data=array("name"=>"assane diallo","body"=>"teste mail");
-    // Mail::send("email",$data,function($message) use ($to_name,$to_email){
-    //     $message->to($to_email)
-    //     ->subject("objet mail laravel");
-    // });
-    //   return view('welcome');
-    return redirect('/login');
-    // $pdf = PDF::loadView('ordonnance.generer');
-    // return  $pdf->download("/assane.pdf");
-    // User::create([
-    // 'email'=>'patient@gmail.com',
-    // 'password'=>Hash::make('12345678'),
-    // 'profil'=>'patient',
-    // ]);
-
-    // User::create([
-    //     'email'=>'vol@gmail.com',
-    //     'password'=>Hash::make('12345678'),
-    //     'profil'=>'volontaire',
-    //     ]);
-
-    //     User::create([
-    //         'email'=>'sbd@gmail.com',
-    //         'password'=>Hash::make('12345678'),
-    //         'profil'=>'medecin',
-    //         ]);
-
-    //dd(RendezVous::all()->groupBy('date'));
-    //     $pdf = PDF::loadView('ordonnance.generer');
-    //   return  $pdf->download("/ordonnance/assane.pdf");
-    //return view('ordonnance.generer');
 
 
+Route::get('/str', function () {
+    return view('structure.accueil_structure');
 });
+Route::get("/monCalendrier", [App\Http\Controllers\ControllerMedecin::class, 'calendrier']);
+Route::get('/calendrier', function () {
+    return view('medecin.calendrier');
+});
+Route::get('/f/{fn}', function (Request $request) {
+    return response()->json($request);
+});
+
 
 Route::group(['middleware' => 'auth'], function ($route) {
     Route::get('/specialites', function () {
@@ -164,6 +183,7 @@ Route::group(['middleware' => 'auth'], function ($route) {
     Route::resource('analyse', App\Http\Controllers\ControllerAnalyse::class);
     Route::get("/valider", [App\Http\Controllers\ControllerOrdonnance::class, 'valider'])->name('valider');
     Route::resource('medicament', App\Http\Controllers\ControllerMedicament::class);
+    Route::get('listeData', [App\Http\Controllers\ControllerMateriel::class, 'listeDatatableMaterielFournisseur'])->name('listeDMF');
     Route::get('liste', [App\Http\Controllers\ControllerVolontaire::class, 'liste'])->name('listeVolontaire');
     Route::get("rendezvous", [App\Http\Controllers\ControllerRendezVous::class, 'index']);
     Route::resource('volontaire', App\Http\Controllers\ControllerVolontaire::class);

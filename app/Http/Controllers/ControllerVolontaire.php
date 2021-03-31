@@ -39,24 +39,25 @@ class ControllerVolontaire extends Controller
 
     public function liste(Request $request)
     {
-        
-        if($request->ajax()){
-        $data = DB::table('volontaires')
-                ->join('durer','durer.idVolontaire','=','volontaires.idVolontaire')
-                ->join('structures','structures.idStructure','=','durer.idStructure')
+
+        if ($request->ajax()) {
+            $data = DB::table('volontaires')
+                ->join('durer', 'durer.idVolontaire', '=', 'volontaires.idVolontaire')
+                ->join('structures', 'structures.idStructure', '=', 'durer.idStructure')
                 ->get();
-        return \DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('action', function ($data) {
-                $btn = '<a class="btn  btn-sm btn-warning" href="javascript:void();" data-toggle="tooltip" data-id="' . $data->id . '" data-original-title="modifier" onclick="voir(' . "'" . $data->reference . "'" . ')"><i class="fa fa-eye" style="color:white;"></i></a>
+            return \DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($data) {
+                    $btn = '<a class="btn  btn-sm btn-warning" href="javascript:void();" data-toggle="tooltip" data-id="' . $data->id . '" data-original-title="modifier" onclick="voir(' . "'" . $data->reference . "'" . ')"><i class="fa fa-eye" style="color:white;"></i></a>
                                 <a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="' . $data->id . '" data-original-title="modifier" onclick="modifier(' . "'" . $data->reference . "'" . ')"><i class="fa fa-edit" style="color:white;"></i></a>
                                 <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="' . $data->id . '" data-original-title="supprimer" onclick="supprimer(' . "'" . $data->reference . "'" . ')"><i class="fa fa-trash-o" style="color:white;"></i></a>';
 
-                return $btn;
-            })
-            ->rawColumns(['action'])
-            ->make(true);
-    }}
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -83,7 +84,6 @@ class ControllerVolontaire extends Controller
             'dateDeNaissance' => 'required| date | before_or_equal:' . $annee,
             'lieuDeNaissance' => 'required|string |min:2',
             'adresse' => 'required|string',
-            'sexe'=>'required',
             'telephone' => 'required|digits:9 | unique:volontaires',
             'email' => 'required|email|unique:users',
             'cin' => 'required|alpha_num',
@@ -97,10 +97,10 @@ class ControllerVolontaire extends Controller
         }
 
         User::create([
-            'email'=>$request->email,
-            'password'=>Hash::make('12345678'),
-            'profil'=>'volontaire',
-            ]);
+            'email' => $request->email,
+            'password' => Hash::make('12345678'),
+            'profil' => 'volontaire',
+        ]);
 
         volontaire::create([
             'reference' => referenceVolontaire(),
@@ -113,13 +113,12 @@ class ControllerVolontaire extends Controller
             'telephone' => $request->telephone,
             'email' => $request->email,
             'numeroCIN' => $request->cin,
-            'sexe' => $request->sexe,
+            //'idStructure' => $request->structure,
 
 
-        ])->structures()->attach($request->structure,["dateDebut"=>Date("Y/m/d")]);
-        $volontaire = volontaire::all()->last();
+        ])->structures()->attach($request->structure, ["dateDebut" => Date("Y/m/d")]);
         materiel::where('idMateriel', $request->materiel)->update([
-            'idVolontaire' => $volontaire->idVolontaire
+            'idVolontaire' => 1
         ]);
         return response()->json(['success' => 'reussi']);
     }

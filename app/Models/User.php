@@ -13,9 +13,9 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements JWTSubject
 {
-   
-    use HasApiTokens,HasFactory, Notifiable;
-   
+
+    use HasApiTokens, HasFactory, Notifiable;
+
 
     /**
      * The attributes that are mass assignable.
@@ -48,29 +48,30 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    public function getFullNameAttribute(){
-      $name;
-        switch($this->profil){
+    public function getFullNameAttribute()
+    {
+        //    $name;
+        switch ($this->profil) {
             case "medecin":
-              $nom = Medecin::where('email',$this->email)->firstOrFail();
-                $name = " Dr. {$nom->prenom}  {$nom->nom}";
+                // $nom = Medecin::where('email', $this->email)->firstOrFail();
+                // $name = " Dr. {$nom->prenom}  {$nom->nom}";
+                $name = "Medecin";
                 break;
             case "volontaire":
                 // $donnee = volontaire::where('email',$this->email)->firstOrFail();
                 // $name = "{$donnee->prenom}  {$nom->nom}";
-                $name="Dabo";
-            break;
-            case "admin":
-                $name="Administrateur";
+                $name = "Dabo";
                 break;
-                default :
-                $name="";
+            case "admin":
+                $name = "Administrateur";
+                break;
+            default:
+                $name = "";
                 break;
         }
 
 
         return $name;
-
     }
 
     public function getJWTIdentifier()
