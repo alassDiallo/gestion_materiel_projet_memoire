@@ -42,8 +42,8 @@ class ControllerFournisseur extends Controller
 
         $rules = [
             "nom" => "required | string | min : 2| max:50",
-            'telephone' => "required | digits:9 |unique:fournisseurs",
-            'email' => "required | unique:fournisseurs",
+            'telephone' => "required | digits:9 |starts_with:77,78,76,75,70,33,30 |unique:fournisseurs",
+            'email' => "required | email| unique:fournisseurs",
             "adresse" => "required | string | min : 2 | max:50",
 
 
@@ -96,7 +96,7 @@ class ControllerFournisseur extends Controller
             // "adresse" => $request->adresse,
             // "adresse" => $request->adresse,
             'telephone' => ["required ", "starts_with:78,77,76,75,33,30", "digits:9 ", Rule::unique('fournisseurs')->ignore($fournisseur->idFournisseur, 'idFournisseur')],
-            'email' => ["required ", Rule::unique('fournisseurs')->ignore($fournisseur->idFournisseur, 'idFournisseur')],
+            'email' => ["required ", 'email', Rule::unique('fournisseurs')->ignore($fournisseur->idFournisseur, 'idFournisseur')],
             "adresse" => "required | string | min : 2 | max:100",
 
 

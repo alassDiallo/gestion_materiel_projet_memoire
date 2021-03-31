@@ -15,7 +15,7 @@ class CreateStructuresTable extends Migration
     {
         Schema::create('structures', function (Blueprint $table) {
             $table->id('idStructure');
-            $table->string('reference')->unique();
+            $table->string('referenceStructure')->unique();
             $table->string('nomStructure');
             $table->string('adresse');
             $table->string('telephone')->unique();

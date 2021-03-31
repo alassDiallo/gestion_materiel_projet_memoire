@@ -15,7 +15,7 @@ class CreateMedecinsTable extends Migration
     {
         Schema::create('medecins', function (Blueprint $table) {
             $table->id('idMedecin');
-            $table->string("reference",10)->unique();
+            $table->string("referenceMedecin",10)->unique();
             $table->string("nom");
             $table->string("prenom");
             $table->date("dateDeNaissance");
@@ -24,6 +24,7 @@ class CreateMedecinsTable extends Migration
             $table->string("adresse");
             $table->string("telephone")->unique();
             $table->string("email")->unique();
+            $table->string('experience');
             $table->string("description")->nullable();
             $table->unsignedBigInteger('idSpecialite');
             $table->foreign('idSpecialite')

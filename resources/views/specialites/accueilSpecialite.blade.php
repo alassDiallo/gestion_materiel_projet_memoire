@@ -46,7 +46,7 @@
          },
          "columns":[
             
-             {data:"reference"},
+             {data:"referenceSpecialite"},
              {data:"libelle"},
              {data:"prixConsultation"},
              {
@@ -189,10 +189,10 @@
             success:function(data){
                 console.log(data);
             $('.modal-title').val("Modifer la Structure");
-               $('#libelle').val(data[0].libelle);
-               $('#prix').val(data[0].prix);
-               $('#image').val(data[0].image);
-               id=data[0].reference;
+               $('#libelle').val(data.libelle);
+               $('#prix').val(data.prixConsultation);
+            //    $('#image').val(data.image);
+               id=data.referenceSpecialite;
                $('#modal').modal('show');
             },
             error:function(xhr,statusText,error){

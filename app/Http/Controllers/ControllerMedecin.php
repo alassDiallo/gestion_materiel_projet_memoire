@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Hash;
 use Validator;
 use DataTable;
+use Illuminate\Validation\Rule;;
 
 class ControllerMedecin extends Controller
 {
@@ -37,9 +38,9 @@ class ControllerMedecin extends Controller
             return \DataTables::of($medecins)
                                 ->addIndexColumn()
                                 ->addColumn('action',function($medecins){
-                                $btn = '<a class="btn  btn-sm btn-warning" href="javascript:void();" data-toggle="tooltip" data-id="'.$medecins->idMedecin.'" data-original-title="accepter" onclick="accepter('."'".$medecins->idMedecin."'".')"><i class="fa fa-eye" style="color:white;"></i>voir</a>
-                                <a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="'.$medecins->idMedecin.'" data-original-title="modifier" onclick="modifier('."'".$medecins->idMedecin."'".')"><i class="fa fa-edit" style="color:white;"></i>midifier</a>
-                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="'.$medecins->idMedecin.'" data-original-title="supprimer" onclick="supprimer('."'".$medecins->idMedecin."'".')"><i class="fa fa-trash-o" style="color:white;"></i>supprimer</a>';
+                                $btn = '<a class="btn  btn-sm btn-warning" href="javascript:void();" data-toggle="tooltip" data-id="'.$medecins->referenceMedecin.'" data-original-title="accepter" onclick="voir('."'".$medecins->referenceMedecin."'".')"><i class="fa fa-eye" style="color:white;"></i>voir</a>
+                                <a class="btn  btn-sm btn-primary" href="javascript:void();" data-toggle="tooltip" data-id="'.$medecins->referenceMedecin.'" data-original-title="modifier" onclick="modifier('."'".$medecins->referenceMedecin."'".')"><i class="fa fa-edit" style="color:white;"></i>modifier</a>
+                                <a class="btn  btn-sm btn-danger" href="javascript:void();" data-toggle="tooltip" data-id="'.$medecins->referenceMedecin.'" data-original-title="supprimer" onclick="supprimer('."'".$medecins->referenceMedecin."'".')"><i class="fa fa-trash-o" style="color:white;"></i>supprimer</a>';
 
                                 return $btn;
                                 })
@@ -74,13 +75,13 @@ class ControllerMedecin extends Controller
             'dateDeNaissance' => 'required| date | before_or_equal:' . $annee,
             'lieuDeNaissance' => 'required|string |min:2',
             'adresse' => 'required|string',
-            'telephone' => 'required|digits:9 | unique:volontaires',
+            'telephone' => 'required|digits:9|starts_with:78,77,76,75,70,33,30|unique:medecins',
             'email' => 'required|email|unique:users',
-            'cin' => 'required|alpha_num',
+            // 'numeroCIN' => 'required|alpha_num|unique:medecins',
             'sexe'=>'required',
             'structure' => 'required',
             'specialite' => 'required',
-            'experience'=>'required|numeric|min:0|max:30'
+            'experience'=>'required|string|min:1|max:30'
 
         ];
         $error = Validator::make($request->all(), $rule);
@@ -94,7 +95,7 @@ class ControllerMedecin extends Controller
             ]);
 
         Medecin::create([
-            'reference' => referenceMedecin(),
+            'referenceMedecin' => referenceMedecin(),
             'nom' => $request->nom,
             'prenom' => $request->prenom,
             'adresse' => $request->adresse,
@@ -117,20 +118,18 @@ class ControllerMedecin extends Controller
      */
     public function show($id)
     {
-    //    $structures = Structure::all();
-    //    $periodes = Periode::all();
-    //    $medecins = Medecin::all();
-    //    $specialites=Specialite::where('libelle',$id)
-    //             ->join('medecins','medecins.idSpecialite','=','specialites.idSpecialite')
-    //             ->join('periodes','periodes.idMedecin','=','medecins.idMedecin')
-    //             ->join('structures','structures.idStructure','=','periodes.idStructure')
-    //                     ->get();
-    // //    $medecins = DB::table('medecins')
-    // //                 ->join('specialites','medecins.idSpecialite','=','specialites.idSpecialite','and','specialites.libelle','=',$id)
-    // //                 ->join('periodes','medecins.idMedecin','=','periodes.idMedecin')
-    // //                 ->join('structures','structures.idStructure','=','periodes.idStructure')
-    // //                 ->get();
-    //     return response()->json($specialites);
+      
+       $medecin = Medecin::where('referenceMedecin',$id)
+                            ->join('specialites','medecins.idSpecialite','=','specialites.idSpecialite')
+                            ->join('periodes','periodes.idMedecin','=','medecins.idMedecin')
+                            ->join('structures','structures.idStructure','=','periodes.idStructure')
+                            ->get();
+    //    $medecins = DB::table('medecins')
+    //                 ->join('specialites','medecins.idSpecialite','=','specialites.idSpecialite','and','specialites.libelle','=',$id)
+    //                 ->join('periodes','medecins.idMedecin','=','periodes.idMedecin')
+    //                 ->join('structures','structures.idStructure','=','periodes.idStructure')
+    //                 ->get();
+        return response()->json($medecin);
     }
 
     public function liste(Request $request){
@@ -188,7 +187,44 @@ class ControllerMedecin extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $medecin = Medecin::where('referenceMedecin',$id)->first();
+        $annee = date('d-m-Y', strtotime(date('Y-m-d') . "-18 years"));
+        $rule = [
+            'nom' => 'required | string | min :2',
+            'prenom' => 'required| string | min:2',
+            'dateDeNaissance' => 'required| date | before_or_equal:' . $annee,
+            'lieuDeNaissance' => 'required|string |min:2',
+            'adresse' => 'required|string',
+            'telephone' => ['required','digits:9','starts_with:78,77,76,75,70,33,30',Rule::unique('medecins')->ignore($medecin->idMedecin,'idMedecin')],
+            'email' => ['required','email',Rule::unique('medecins')->ignore($medecin->idMedecin,'idMedecin')],
+            //'numeroCIN' => ['required','alpha_num',Rule::unique('medecins')->ignore($medecin->idMedecin,'idMedecin')],
+            'sexe'=>'required',
+            'structure' => 'required',
+            'specialite' => 'required',
+            'experience'=>'required|string|min:1|max:30'
+
+        ];
+        $error = Validator::make($request->all(), $rule);
+        if ($error->fails()) {
+            return response()->json(['error' => $error->errors()]);
+        }
+        $medecin->update([
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'adresse' => $request->adresse,
+            'dateDeNaissance' => $request->dateDeNaissance,
+            'lieuDeNaissance' => $request->lieuDeNaissance,
+            'telephone' => $request->telephone,
+            'email' => $request->email,
+            'sexe'=>$request->sexe,
+            'idSpecialite' => $request->specialite,
+            'experience' => $request->experience,
+        ]);
+        
+        //->structures()->attach($request->structure,["dateDebut"=>Date("Y/m/d")]);
+        return response()->json(['success' => 'reussi']);
+
+
     }
 
     public function modifierRv(Request $request)

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class structure extends Model
 {
     use HasFactory;
-    protected $fillable = ['nomStructure','adresse','telephone','reference','region'];
+    protected $fillable = ['nomStructure','adresse','telephoneStructure','referenceStructure','region'];
     protected $primaryKey = 'idStructure';
 
     public function getRouteKeyName(){

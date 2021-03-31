@@ -9,7 +9,7 @@ class volontaire extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom','prenom','adresse','telephone','dateDeNaissance','lieuDeNaissance','email','numeroCIN','reference','etat','idStructure'];
+    protected $fillable = ['nom','prenom','adresse','telephone','dateDeNaissance','lieuDeNaissance','email','numeroCIN','referenceVolontaire','etat','idStructure','sexe'];
 
     public function getRouteKeyName()
     {

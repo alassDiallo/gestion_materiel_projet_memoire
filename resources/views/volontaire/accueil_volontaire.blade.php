@@ -250,9 +250,9 @@
 
     function modifier(ref){
       
-      
+      console.log("http://localhost:8000/volontaire/"+ref);
         save="modifier";
-        $('.modal-title').text("Modifer la structure");
+        $('.modal-title').text("Modifer le volontaire");
         $('#form')[0].reset();
         //alert();
         $.ajax({
@@ -262,20 +262,20 @@
             success:function(data){
                 console.log(data);
             $('.modal-title').val("Modifer le volontaire");
-               $('#nom').val(data.nom);
-               $('#adresse').val(data.adresse);
-               $('#telephone').val(data.telephone);
+               $('#nom').val(data[0].nom);
+               $('#adresse').val(data[0].adresse);
+               $('#telephone').val(data[0].telephone);
 
-               $('#prenom').val(data.prenom);
-               $('#email').val(data.email);
-               $('#cin').val(data.numeroCIN);
-
-               $('#materiel').val(data.materiel);
-               $('#structure').val(data.idStructure);
-               $('#dateDeNaissance').val(data.dateDeNaissance);
-               $('#lieuDeNaissance').val(data.lieuDeNaissance);
+               $('#prenom').val(data[0].prenom);
+               $('#email').val(data[0].email);
+               $('#cin').val(data[0].numeroCIN);
+               $('#sexe').val(data[0].sexe);
+               $('#materiel').val(data[0].reference);
+               $('#structure').val(data[0].idStructure);
+               $('#dateDeNaissance').val(data[0].dateDeNaissance);
+               $('#lieuDeNaissance').val(data[0].lieuDeNaissance);
               
-               id=data.reference;
+               id=data[0].referenceVolontaire;
                $('#modal').modal('show');
             },
             error:function(xhr,statusText,error){
@@ -346,7 +346,7 @@
                       <div class="mb-3 row">
                         <div class="col-md-6">
                           <label for="adresse">Sexe</label>
-                         <select name="sexe" class="form-select" required>
+                         <select name="sexe" class="form-select" required id="sexe" value={{ old('sexe') }}>
                              <option value="">------selectionner---------</option>
                              <option value="homme">homme</option>
                              <option value="femme">femme</option>
@@ -375,8 +375,8 @@
 
               <div class="col-md-6">
                   <label for="cin">Numero CIN / Passeport</label>
-                  <input type="text" maxlength="12" placeholder="veuillez entrer le numero de cin/passeport" class="form-control @error('cin') is-invalid @enderror"  value="{{ old('cin') }}" name="cin" id="cin" required>
-                  <span class="erreur" id="erreur_cin">@error('cin') {{ $message }}  @enderror</span>
+                  <input type="text" maxlength="12" placeholder="veuillez entrer le numero de cin/passeport" class="form-control @error('numeroCIN') is-invalid @enderror"  value="{{ old('numeroCIN') }}" name="numeroCIN" id="cin" required>
+                  <span class="erreur" id="erreur_cin">@error('numeroCIN') {{ $message }}  @enderror</span>
               </div>
                 </div>
                 <div class="mb-3 row">

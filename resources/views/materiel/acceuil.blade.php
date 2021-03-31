@@ -300,7 +300,8 @@
 
                       </select>
                       <span class="erreur" id="erreur_specialite">@error('fournisseur') {{ $message }}  @enderror</span>
-                </div>  --}}
+                </div>
+                 --}}
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">annuler et fermer</button>

@@ -49,7 +49,7 @@
         //    }
          },
          "columns":[
-            {data:"reference"},
+            {data:"referenceMedecin"},
              {data:"prenom"},
              {data:"nom"},
              {
@@ -139,8 +139,8 @@
            data:$('#form').serialize(),
            dataType:"JSON",
            success:function(data){
-              if(data.error){
-                
+            if(data.error){
+                console.log(data.error)
                 if(data.error.nom){
                     console.log(data.error.nom[0]);
                     $('#nom').addClass("is-invalid");
@@ -150,6 +150,17 @@
                     $('#nom').removeClass("is-invalid");
                     $('#erreur_nom').text("");
                 }
+
+                if(data.error.prenom){
+                    console.log(data.error.prenom[0]);
+                    $('#prenom').addClass("is-invalid");
+                    $('#erreur_prenom').text(data.error.prenom[0]);
+                }
+                else{
+                    $('#prenom').removeClass("is-invalid");
+                    $('#erreur_prenom').text("");
+                }
+
                 if(data.error.adresse){
                     $('#adresse').addClass("is-invalid");
                     $('#erreur_adresse').text(data.error.adresse[0]);
@@ -167,13 +178,63 @@
                     $('#erreur_telephone').text("");
                 }
 
-                if(data.error.region){
-                    $('#region').addClass("is-invalid");
-                    $('#erreur_region').text(data.error.region[0]);
+                if(data.error.structure){
+                    $('#structure').addClass("is-invalid");
+                    $('#erreur_structure').text(data.error.structure[0]);
                 }
                 else{
-                    $('#region').removeClass("is-invalid");
-                    $('#erreur_region').text("");
+                    $('#structure').removeClass("is-invalid");
+                    $('#erreur_structure').text("");
+                }
+
+                // if(data.error.numeroCIN){
+                //     console.log(data.error.numeroCIN[0]);
+                //     $('#numeroCIN').addClass("is-invalid");
+                //     $('#erreur_numeroCIN').text(data.error.numeroCIN[0]);
+                // }
+                // else{
+                //     $('#numeroCIN').removeClass("is-invalid");
+                //     $('#erreur_numeroCIN').text("");
+                // }
+
+                if(data.error.dateDeNaissance){
+                    console.log(data.error.dateDeNaissance[0]);
+                    $('#dateDeNaissance').addClass("is-invalid");
+                    $('#erreur_dateDeNaissance').text(data.error.dateDeNaissance[0]);
+                }
+                else{
+                    $('#dateDeNaissance').removeClass("is-invalid");
+                    $('#erreur_dateDeNaissance').text("");
+                }
+
+                if(data.error.lieuDeNaissance){
+                    console.log(data.error.lieuDeNaissance[0]);
+                    $('#lieuDeNaissance').addClass("is-invalid");
+                    $('#erreur_lieuDeNaissance').text(data.error.lieuDeNaissance[0]);
+                }
+                else{
+                    $('#lieuDeNaissance').removeClass("is-invalid");
+                    $('#erreur_lieuDeNaissance').text("");
+                }
+
+                if(data.error.email){
+                    console.log(data.error.email[0]);
+                    $('#email').addClass("is-invalid");
+                    $('#erreur_email').text(data.error.email[0]);
+                }
+                else{
+                    $('#email').removeClass("is-invalid");
+                    $('#erreur_email').text("");
+                }
+
+                if(data.error.specilite){
+                    console.log(data.error.specialite[0]);
+                    $('#specialite').addClass("is-invalid");
+                    $('#erreur_specialite').text(data.error.specialite[0]);
+                }
+                else{
+                    $('#specialite').removeClass("is-invalid");
+                    $('#erreur_specialite').text("");
                 }
                 console.log(data.error);
               }
@@ -185,33 +246,6 @@
            error:function(xhr,statusText,error){
                alert("error");
            }
-       })
-    }
-
-    function modifier(ref){
-      
-      
-        save="modifier";
-        $('.modal-title').text("Modifer la structure");
-        $('#form')[0].reset();
-        //alert();
-        $.ajax({
-            url:"http://localhost:8000/medecin/"+ref,
-            type:"GET",
-            dataType:"JSON",
-            success:function(data){
-                console.log(data);
-            $('.modal-title').val("Modifer la Structure");
-               $('#nom').val(data[0].nom);
-               $('#adresse').val(data[0].adresse);
-               $('#telephone').val(data[0].telephone);
-               $('#region').val(data[0].region);
-               id=data[0].reference;
-               $('#modal').modal('show');
-            },
-            error:function(xhr,statusText,error){
-                alert(error);
-            }
         })
    
     }
@@ -236,6 +270,43 @@
                alert(error);
            }
        })
+   
+    }
+
+    function modifier(ref){
+      
+      console.log("http://localhost:8000/medecin/"+ref);
+        save="modifier";
+        $('.modal-title').text("Modifer le medecin");
+        $('#form')[0].reset();
+        //alert();
+        $.ajax({
+            url:"http://localhost:8000/medecin/"+ref,
+            type:"GET",
+            dataType:"JSON",
+            success:function(data){
+                console.log(data);
+            $('.modal-title').val("Modifer le medecin");
+               $('#nom').val(data[0].nom);
+               $('#adresse').val(data[0].adresse);
+               $('#telephone').val(data[0].telephone);
+
+               $('#prenom').val(data[0].prenom);
+               $('#email').val(data[0].email);
+               //$('#cin').val(data[0].numeroCIN);
+               $('#sexe').val(data[0].sexe);
+               $('#specialite').val(data[0].idSpecialite);
+               $('#structure').val(data[0].idStructure);
+               $('#dateDeNaissance').val(data[0].dateDeNaissance);
+               $('#lieuDeNaissance').val(data[0].lieuDeNaissance);
+              
+               id=data[0].referenceMedecin;
+               $('#modal').modal('show');
+            },
+            error:function(xhr,statusText,error){
+                alert(error);
+            }
+        })
    
     }
 </script>
@@ -314,9 +385,9 @@
                    </div>
 
               <div class="col-md-6">
-                  <label for="cin">Numero CIN / Passeport</label>
-                  <input type="text" maxlength="12" placeholder="veuillez entrer le numero de cin/passeport" class="form-control @error('cin') is-invalid @enderror"  value="{{ old('cin') }}" name="cin" id="cin" required>
-                  <span class="erreur" id="erreur_cin">@error('cin') {{ $message }}  @enderror</span>
+                  <label for="numeroCIN">Numero numeroCIN / Passeport</label>
+                  <input type="text" maxlength="12" placeholder="veuillez entrer le numero de numeroCIN/passeport" class="form-control @error('numeroCIN') is-invalid @enderror"  value="{{ old('numeroCIN') }}" name="numeroCIN" id="numeroCIN" required>
+                  <span class="erreur" id="erreur_numeroCIN">@error('numeroCIN') {{ $message }}  @enderror</span>
               </div>
                 </div>
                 <div class="mb-3 row">

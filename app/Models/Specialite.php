@@ -9,7 +9,7 @@ class Specialite extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["idSpecialite","reference","libelle","prixConsultation","image"];
+    protected $fillable = ["idSpecialite","referenceSpecialite","libelle","prixConsultation","image"];
     protected $primaryKey = 'idSpecialite';
 
     public function medecins(){
