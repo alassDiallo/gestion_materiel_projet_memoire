@@ -88,12 +88,27 @@
          }
      });
 
-     $('#telephone').on('keypress',function(e){
+     $('#nom').on('keypress',function(e){
          console.log(e.keyCode);
-         if(e.keyCode<48 || e.keyCode>57){
+         if(e.keyCode>=48 && e.keyCode<=57){
              return false;
          }
      });
+     $('#prenom').on('keypress',function(e){
+         console.log(e.keyCode);
+         if(e.keyCode>=48 && e.keyCode<=57){
+             return false;
+         }
+     });
+
+    //  $('#telephone').on('input',function(e){
+    //      console.log(e.target.value);
+    //      tel = e.target.value;
+    //      if(tel.lenth>1){
+    //         if()
+    //      }
+    //  });
+
 
     });
     var ref;

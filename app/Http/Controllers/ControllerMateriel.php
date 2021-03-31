@@ -96,7 +96,6 @@ class ControllerMateriel extends Controller
     {
         //
         $request->validate([
-           
             'prix' => 'required',
             'type' => 'required',
             'libelle' => 'required',
