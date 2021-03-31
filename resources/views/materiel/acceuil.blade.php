@@ -41,14 +41,9 @@
          //"serverSide":true,
         // "proccessing":true,
         "ajax":{
-           "url":"{{ route('materiel.index') }}",
-           "method":"GET",
-        //    success:function(data){
-        //        console.log(data);
-        //    },
-        //    error:function(error){
-        //        alert(error);
-        //    }
+            "url":"{{ route('listeDMF') }}",
+            "method":"GET",
+
          },
          "columns":[
              {data:"reference"},
@@ -67,30 +62,8 @@
          }
 
      });
-        // init datatable.
-    //    var table = $('#table').DataTable({
-    //         processing: true,
-    //         serverSide: true,
-    //         autoWidth: false,
-    //         pageLength: 5,
-    //         // scrollX: true,
-    //         "order": [[ 0, "desc" ]],
-    //         ajax: "{{ route('structure.index') }}",
-    //         columns: [
-    //             {data: 'idStructure'},
-    //             {data: 'reference'},
-    //             {data: 'nom'},
-    //             {data: 'adresse'},
-    //             {data: 'telephone'},
-    //             {data: 'region'},
-    //             {data: 'action', name: 'action',orderable:false,serachable:false,sClass:'text-center'},
-    //         ],
-    //         language:{
-    //          url:"/js/DataTables/French.json"
-    //      }
-    //     });
-        
-        
+
+
      $('#telephone').on('keypress',function(e){
          console.log(e.keyCode);
          if(e.keyCode<48 || e.keyCode>57){
@@ -101,6 +74,7 @@
     var ref;
     function ajouter(){
         save="ajouter";
+        $('.modal-title').text("Ajouter un Materiel");
         $('#form')[0].reset();
         $('#modal').modal('show');
 
@@ -119,11 +93,11 @@
        var meth;
 
        if(save==="modifier"){
-         url="http://localhost:8000/structure/"+id;
+         url="http://localhost:8000/materiel/"+id;
          meth="PUT";
        }
        else{
-           url = "{{ route('structure.store') }}";
+           url = "{{ route('materiel.store') }}";
            meth="POST";
        }
        $.ajaxSetup({
@@ -131,7 +105,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-       
+
        $.ajax({
            url:url,
            type:meth,
@@ -139,7 +113,49 @@
            dataType:"JSON",
            success:function(data){
               if(data.error){
-                
+                if(data.error.libelle){
+                    $('#libelle').addClass("is-invalid");
+                    $('#erreur_libelle').text(data.error.libelle[0]);
+                }
+                else{
+                    $('#libelle').removeClass("is-invalid");
+                    $('#erreur_libelle').text("");
+                }
+
+
+                if(data.error.type){
+                    $('#type').addClass("is-invalid");
+                    $('#erreur_type').text(data.error.type[0]);
+                }
+                else{
+                    $('#type').removeClass("is-invalid");
+                    $('#erreur_type').text("");
+                }
+
+                if(data.error.prix){
+                    $('#prix').addClass("is-invalid");
+                    $('#erreur_prix').text(data.error.prix[0]);
+                }
+                else{
+                    $('#prix').removeClass("is-invalid");
+                    $('#erreur_prix').text("");
+                }
+                if(data.error.quantite){
+                    $('#quantite').addClass("is-invalid");
+                    $('#erreur_quantite').text(data.error.quantite[0]);
+                }
+                else{
+                    $('#quantite').removeClass("is-invalid");
+                    $('#erreur_quantite').text("");
+                }
+                if(data.error.libelle){
+                    $('#adresse').addClass("is-invalid");
+                    $('#erreur_adresse').text(data.error.adresse[0]);
+                }
+                else{
+                    $('#libelle').removeClass("is-invalid");
+                    $('#erreur_libelle').text("");
+                }
                 if(data.error.nom){
                     console.log(data.error.nom[0]);
                     $('#nom').addClass("is-invalid");
@@ -149,15 +165,8 @@
                     $('#nom').removeClass("is-invalid");
                     $('#erreur_nom').text("");
                 }
-                if(data.error.adresse){
-                    $('#adresse').addClass("is-invalid");
-                    $('#erreur_adresse').text(data.error.adresse[0]);
-                }
-                else{
-                    $('#adresse').removeClass("is-invalid");
-                    $('#erreur_adresse').text("");
-                }
                 if(data.error.telephone){
+                    console.log(data.error.telephone[0]);
                     $('#telephone').addClass("is-invalid");
                     $('#erreur_telephone').text(data.error.telephone[0]);
                 }
@@ -165,14 +174,14 @@
                     $('#telephone').removeClass("is-invalid");
                     $('#erreur_telephone').text("");
                 }
-
-                if(data.error.region){
-                    $('#region').addClass("is-invalid");
-                    $('#erreur_region').text(data.error.region[0]);
+                if(data.error.email){
+                    console.log(data.error.email[0]);
+                    $('#email').addClass("is-invalid");
+                    $('#erreur_email').text(data.error.email[0]);
                 }
                 else{
-                    $('#region').removeClass("is-invalid");
-                    $('#erreur_region').text("");
+                    $('#email').removeClass("is-invalid");
+                    $('#erreur_email').text("");
                 }
                 console.log(data.error);
               }
@@ -188,23 +197,24 @@
     }
 
     function modifier(ref){
-      
-      
+
+
         save="modifier";
-        $('.modal-title').text("Modifer la structure");
+        $('.modal-title').text("Modifer le materiel");
         $('#form')[0].reset();
         //alert();
         $.ajax({
-            url:"http://localhost:8000/structure/"+ref,
+            url:"http://localhost:8000/materiel/"+ref,
             type:"GET",
             dataType:"JSON",
             success:function(data){
                 console.log(data);
-            $('.modal-title').val("Modifer la Structure");
-               $('#nom').val(data[0].nom);
-               $('#adresse').val(data[0].adresse);
-               $('#telephone').val(data[0].telephone);
-               $('#region').val(data[0].region);
+            $('.modal-title').val("Modifer le materiel");
+               $('#libelle').val(data[0].libelle);
+               $('#type').val(data[0].type);
+               $('#prix').val(data[0].prix);
+               $('#quantite').val(data[0].quantite);
+               {{--  $('#nom').val(data[0].nom);  --}}
                id=data[0].reference;
                $('#modal').modal('show');
             },
@@ -212,7 +222,7 @@
                 alert(error);
             }
         })
-   
+
     }
 
     function supprimer(ref){
@@ -224,7 +234,7 @@
             });
 
        $.ajax({
-           url:"{{ route('structure.destroy',['structure'=>"+ref+"]) }}",
+           url:"{{ route('materiel.destroy',['materiel'=>"+ref+"]) }}",
            method:"DELETE",
            dataType:"JSON",
            success:function(data){
@@ -235,7 +245,7 @@
                alert(error);
            }
        })
-   
+
     }
 </script>
 <div>
@@ -243,53 +253,59 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header text-center">
-              <h3 class="modal-title ">Ajouter une structure</h3>
+              <h3 class="modal-title ">Ajouter un materiel</h3>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <form class="" id="form" onsubmit="enregistrer(event);">
                 @csrf
                   <div class="form-group mb-3">
-                      <label for="nom">Nom</label>
-                      <input type="text" placeholder="veuillez entrer le nom de la structure" name="nom" id="nom" class="form-control @error('nom') is-invalid @enderror"  value="{{ old('nom') }}" >
-                      <span class="erreur" id="erreur_nom">@error('nom') {{ $message }}  @enderror</span>
+                      <label for="libelle">Libelle</label>
+                      <input type="text" placeholder="veuillez entrer le  libellé du materiel" name="libelle" id="libelle" class="form-control @error('libelle') is-invalid @enderror"  value="{{ old('libelle') }}" >
+                      <span class="erreur" id="erreur_libelle">@error('libelle') {{ $message }}  @enderror</span>
                   </div>
                   <div class="mb-3">
-                    <label for="adresse">Adresse</label>
-                    <input type="text" placeholder="veuillez entrer l'adresse de la structure" class="form-control @error('adresse') is-invalid @enderror"  value="{{ old('adresse') }}" name="adresse" id="adresse"  >
-                    <span class="erreur" id="erreur_adresse">@error('adresse') {{ $message }}  @enderror</span>
+                    <label for="type">Type</label>
+                    <input type="text" placeholder="veuillez entrer le type de materiel" class="form-control @error('type') is-invalid @enderror"  value="{{ old('type') }}" name="type" id="type"  >
+                    <span class="erreur" id="erreur_type">@error('type') {{ $message }}  @enderror</span>
                 </div>
 
                 <div class="mb-3">
-                    <label for="telephone">Telephone</label>
-                    <input type="text" maxlength="9" placeholder="veuillez entrer le telephone de la structure" class="form-control @error('telephone') is-invalid @enderror"  value="{{ old('telephone') }}" name="telephone" id="telephone">
-                    <span class="erreur" id="erreur_telephone">@error('telephone') {{ $message }}  @enderror</span>
+                    <label for="prix">Prix</label>
+                    <input type="number" maxlength="9" placeholder="veuillez entrer le prix" class="form-control @error('prix') is-invalid @enderror"  value="{{ old('prix') }}" name="prix" id="prix">
+                    <span class="erreur" id="erreur_prix">@error('prix') {{ $message }}  @enderror</span>
                 </div>
                 <div class="mb-3">
-                    <label for="region">Region</label>
-                    <select class="form-select @error('region') is-invalid @enderror"  value="{{ old('region') }}"" aria-label="Default select example" name="region" id="region">
-                        <option value="">-----selectionner la region-----</option>
-                        <option value="Dakar" {{ old('region')==="Dakar"?"selected":"" }}>Dakar</option>
-                        <option value="Thies" {{ old('region')==="Thies"?"selected":"" }}>Thies</option>
-                        <option value="Diourbel" {{ old('region')==="Diourbel"?"selected":"" }}>Dioubel</option>
-                        <option value="Fatick" {{ old('region')==="Fatick"?"selected":"" }}>Fatick</option>
-                        <option value="St-Louis" {{ old('region')==="St-Louis"?"selected":"" }}>Saint-Louis</option>
-                        <option value="Kaolack" {{ old('region')==="Kaolack"?"selected":"" }}>Kaolack</option>
-                        <option value="Kolda" {{ old('region')==="Kolda"?"selected":"" }}>Kolda</option>
-                        <option value="Kaffrine" {{ old('region')==="Kaffrine"?"selected":"" }}>Kaffrine</option>
-                        <option value="Sedhiou" {{ old('region')==="Sedhiou"?"selected":"" }}>Sedhiou</option>
-                        <option value="Ziguinchor" {{ old('region')==="Ziguinchor"?"selected":"" }}>Ziguinchor</option>
-                        <option value="Kedougou" {{ old('region')==="Kedougou"?"selected":"" }}>Kedougou</option>
-                        <option value="Matam" {{ old('region')==="Matam"?"selected":"" }}>Matam</option>
-                        <option value="Tambacounda" {{ old('region')==="Tambacounda"?"selected":"" }}>Tambacounda</option>
-                        <option value="Louga" {{ old('region')==="Louga"?"selected":"" }}>Louga</option>
-                      </select>
-                      <span class="erreur" id="erreur_region">@error('region') {{ $message }}  @enderror</span>
+                    <label for="quantite">Quantité</label>
+                    <input type="number" maxlength="quantite" placeholder="veuillez entrer la quantite" class="form-control @error('quantite') is-invalid @enderror"  value="{{ old('quantite') }}" name="quantite" id="quantite">
+                    <span class="erreur" id="erreur_quantite">@error('quantite') {{ $message }}  @enderror</span>
                 </div>
-            
+                <div class="col-md-6">
+                    <label for="fournisseur">fournisseur</label>
+                    <select class="form-select @error('fournisseur') is-invalid @enderror"  value="{{ old('fournisseur') }}"" aria-label="Default select example" name="fournisseur" id="fournisseur" required>
+                        <option value="">-----selectionner-----</option>
+                        @foreach ($fournisseur as $fournisseur)
+                        <option value="{{ $fournisseur->referenceFournisseur }}">{{ $fournisseur->nom }}</option>
+
+                        @endforeach
+
+                      </select>
+                      <span class="erreur" id="erreur_specialite">@error('fournisseur') {{ $message }}  @enderror</span>
+                </div>
+{{--
+                <div class="col-md-6">
+                    <label for="fournisseur">fournisseur</label>
+                    <select class="form-select @error('fournisseur') is-invalid @enderror"  value="{{ old('fournisseur') }}"" aria-label="Default select example" name="fournisseur" id="fournisseur" required>
+                        <option value="">-----selectionner-----</option>
+
+                      </select>
+                      <span class="erreur" id="erreur_specialite">@error('fournisseur') {{ $message }}  @enderror</span>
+                </div>
+                 --}}
+
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">annuler et fermer</button>
-              <button type="submit" class="btn btn-primary">Enregistrer la structure</button>
+              <button type="submit" class="btn btn-primary">Enregistrer </button>
             </div>
         </form>
           </div>

@@ -16,14 +16,20 @@ use Illuminate\Validation\Rule;
 class ControllerMateriel extends Controller
 {
 
-    public function index(Request $request)
+    public function index()
     {
-
-        if($request->ajax()){
-            $data =DB::table('materiels')
-            ->join('fournis','fournis.idMateriel','=','materiels.idMateriel')
-            ->join('fournisseurs','fournisseurs.idFournisseur','=','fournis.idFournisseur')
-            ->get();
+        $fournisseur = fournisseur::all();
+        $materiels = materiel::all();
+        // return view("materiel.acceuil", compact('fournisseur'));
+        return view("materiel.acceuil", ['fournisseur' => $fournisseur]);
+    }
+    public function listeDatatableMaterielFournisseur(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = DB::table('materiels')
+                ->join('fournis', 'fournis.idMateriel', '=', 'materiels.idMateriel')
+                ->join('fournisseurs', 'fournisseurs.idFournisseur', '=', 'fournis.idFournisseur')
+                ->get();
 
             return \DataTables::of($data)
                 ->addIndexColumn()
@@ -40,9 +46,9 @@ class ControllerMateriel extends Controller
     public function create()
     {
         //
-        $fournisseurs = fournisseur::all();
+        // $fournisseurs = fournisseur::all();
 
-        return (view('materiel.create', compact('fournisseurs')));
+        // return (view('materiel.create', compact('fournisseurs')));
     }
 
 
@@ -50,10 +56,10 @@ class ControllerMateriel extends Controller
     {
 
         $rules = [
-            'prix' => 'required',
-            'type' => 'required',
-            'libelle' => 'required',
-            'quantite' => 'required'
+            'prix' => 'required|double|min:1|max:1000000',
+            'type' => 'required|string|min:3|max:40',
+            'libelle' => 'required|string|min:3|max:40',
+            'quantite' => 'required|integer|min:1|max:100'
 
         ];
 
@@ -77,49 +83,66 @@ class ControllerMateriel extends Controller
     public function show($idMateriel)
     {
         //
-        $materiel = materiel::find($idMateriel);
-        $materiel->with('fournisseurs')->get();
-        return (view('materiel.show', compact('materiel')));
+        // $materiel = materiel::find($idMateriel);
+        // $materiel->with('fournisseurs')->get();
+        // return (view('materiel.show', compact('materiel')));
+        $data = materiel::where('reference', $idMateriel)->with('fournisseurs')->get();
+        return response()->json($data);
     }
 
 
     public function edit($idMateriel)
     {
-        //
-        $materiel = materiel::find($idMateriel);
-        $fournisseurs = fournisseur::all();
-        return (view('materiel.edit', compact('materiel', 'fournisseurs')));
+        // //
+        // $materiel = materiel::find($idMateriel);
+        // $fournisseurs = fournisseur::all();
+        // return (view('materiel.edit', compact('materiel', 'fournisseurs')));
     }
 
 
     public function update(Request $request, $idMateriel)
     {
         //
-        $request->validate([
-            'prix' => 'required',
-            'type' => 'required',
-            'libelle' => 'required',
-            'quantite' => 'required'
+
+        $materiel = fournisseur::where('reference', $idMateriel)->first();
+        $rules = [
+            'prix' => 'required|double|min:1|max:1000000',
+            'type' => 'required|string|min:3|max:40',
+            'libelle' => 'required|string|min:3|max:40',
+            'quantite' => 'required|integer|min:1|max:100'
+
+        ];
+        $error = Validator::make($request->all(), $rules);
+        if ($error->fails()) {
+            return response()->json(['error' => $error->errors()]);
+        }
+        //return response()->json($request);
+        $materiel->update([
+            "prix" => $request->prix,
+            "type" => $request->type,
+            "libelle" => $request->libelle,
+            "quantite" => $request->quantite,
+            //Rule::unique('structures')->ignore($id)
+
         ]);
-        $materiel = materiel::find($idMateriel);
-        $materiel->update($request->all());
+
         $materiel->fournisseurs()->sync([$request->idFournisseur => ['date' => date('Y-m-d H:i:s'), 'quantite' => $request->quantite]]);
-        // $materiel->fournisseurs()->sync($request->idFournisseur,['date'=>date('Y-m-d H:i:s'),'quantite'=>$request->quantite]);
-        //$materiel->fournisseurs()->sync(['date'=>date('Y-m-d H:i:s'),'quantite'=>$request->quantite]);
-        return redirect()->route('materiel.index')
-            ->with('success', 'Matériel modifié avec succès.');
+        return response()->json(['success' => 'enregistrement effectuer avec succé']);
     }
 
 
     public function destroy($idMateriel)
     {
-        //
-        $materiel = materiel::find($idMateriel);
-        $materiel->delete();
-        $materiel->fournisseurs()->detach();
 
-        return redirect()->route('materiel.index')
-            ->with('success', 'Matériel supprimé avec succès .');
+        materiel::where('reference', $idMateriel)->delete();
+        return response()->json(["donnee" => "suppression reussi"]);
+
+        // $materiel = materiel::find($idMateriel);
+        // $materiel->delete();
+        // $materiel->fournisseurs()->detach();
+
+        // return redirect()->route('materiel.index')
+        //     ->with('success', 'Matériel supprimé avec succès .');
     }
     public function materielsVolontaire($id)
     {

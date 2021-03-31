@@ -8,21 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class fournisseur extends Model
 {
     use HasFactory;
-    protected $fillable = ['referenceFournisseur','nom','telephone','email','adresse'];
+    protected $fillable = ['referenceFournisseur', 'nom', 'telephone', 'email', 'adresse'];
     protected $primaryKey = 'idFournisseur';
 
     public function getRouteKeyName()
     {
 
-        return 'referenceFournisseur';
+        return 'idFournisseur';
     }
 
-    public function materiels(){
+    public function materiels()
+    {
 
 
-        return $this->belongsToMany('App\Models\materiel','fournis',' idFournisseur','idMateriel')
-                                    ->withPivot('quantite','date')
-                                    ->withTimestamps();
+        return $this->belongsToMany('App\Models\materiel', 'fournis', ' idFournisseur', 'idMateriel')
+            ->withPivot('quantite', 'date')
+            ->withTimestamps();
     }
     //protected $primaryKey ='idFournisseur';
 }

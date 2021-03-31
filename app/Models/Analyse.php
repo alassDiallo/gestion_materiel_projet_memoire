@@ -14,15 +14,10 @@ class Analyse extends Model
         return $this->belongsTo("App\Models\patient");
     }
     protected $primaryKey = 'idAnalyse';
-<<<<<<< HEAD
-}
-=======
 
-    public function patients(){
+    public function patients()
+    {
 
-        return $this->belongsToMany('App\Models\Patient','effectuers','idAnalyse','idPatient');
+        return $this->belongsToMany('App\Models\Patient', 'effectuers', 'idAnalyse', 'idPatient');
     }
-
-    
 }
->>>>>>> ba9d4fe5d15b5f73a425f584a92af5333bcc47ea
