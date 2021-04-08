@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\fournisseur;
 use App\Models\Medecin;
 use App\Models\RendezVous;
 use App\Models\Specialite;
@@ -41,29 +42,29 @@ Route::get('/', function () {
     return redirect('/login');
     // $pdf = PDF::loadView('ordonnance.generer');
     // return  $pdf->download("/assane.pdf");
-    User::create([
-        'email' => 'patient@gmail.com',
-        'password' => Hash::make('12345678'),
-        'profil' => 'patient',
-    ]);
+    // User::create([
+    //     'email' => 'patient@gmail.com',
+    //     'password' => Hash::make('12345678'),
+    //     'profil' => 'patient',
+    // ]);
 
-    User::create([
+    // User::create([
 
-        'email' => 'vol@gmail.com',
-        'password' => Hash::make('12345678'),
-        'profil' => 'volontaire',
-    ]);
+    //     'email' => 'vol@gmail.com',
+    //     'password' => Hash::make('12345678'),
+    //     'profil' => 'volontaire',
+    // ]);
 
-    User::create([
-        'email' => 'sbd@gmail.com',
-        'password' => Hash::make('12345678'),
-        'profil' => 'medecin',
-    ]);
-    User::create([
-        'email' => 'assane@gmail.com',
-        'password' => Hash::make('12345678'),
-        'profil' => 'admin',
-    ]);
+    // User::create([
+    //     'email' => 'sbd@gmail.com',
+    //     'password' => Hash::make('12345678'),
+    //     'profil' => 'medecin',
+    // ]);
+    // User::create([
+    //     'email' => 'assane@gmail.com',
+    //     'password' => Hash::make('12345678'),
+    //     'profil' => 'admin',
+    // ]);
 
     //dd(RendezVous::all()->groupBy('date'));
     //     $pdf = PDF::loadView('ordonnance.generer');
@@ -92,20 +93,20 @@ Route::get('/test-contact', function () {
 
 
 
-
-Route::get('/str', function () {
-    return view('structure.accueil_structure');
-});
-Route::get("/monCalendrier", [App\Http\Controllers\ControllerMedecin::class, 'calendrier']);
-Route::get('/calendrier', function () {
-    return view('medecin.calendrier');
-});
 Route::get('/f/{fn}', function (Request $request) {
     return response()->json($request);
 });
 
 
 Route::group(['middleware' => 'auth'], function ($route) {
+    
+    Route::get('/str', function () {
+        return view('structure.accueil_structure');
+    });
+    Route::get("/monCalendrier", [App\Http\Controllers\ControllerMedecin::class, 'calendrier']);
+    Route::get('/calendrier', function () {
+        return view('medecin.calendrier');
+    });
     Route::get('/specialites', function () {
         return view('specialites.accueilSpecialite');
     });
@@ -165,7 +166,8 @@ Route::group(['middleware' => 'auth'], function ($route) {
     });
 
     Route::get('/accueilMateriel', function () {
-        return view('materiel.acceuil');
+        $fournisseur = fournisseur::all();
+        return view('materiel.acceuil',['fournisseur'=>$fournisseur]);
     });
     Route::get('/accueilFournisseur', function () {
         return view('fournisseur.acceuil');

@@ -19,7 +19,7 @@ class ControllerMateriel extends Controller
     public function index()
     {
         $fournisseur = fournisseur::all();
-        $materiels = materiel::all();
+        //$materiels = materiel::all();
         // return view("materiel.acceuil", compact('fournisseur'));
         return view("materiel.acceuil", ['fournisseur' => $fournisseur]);
     }

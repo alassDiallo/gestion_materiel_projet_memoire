@@ -18,17 +18,17 @@ class AnalyseSeeder extends Seeder
         Analyse::create([
             "libelle" => "TEST SANGUINE",
             "prix" => 10000.0,
-            "idPatient" => rand(1, 3)
+           
         ]);
         Analyse::create([
             "libelle" => "SCANNER",
             "prix" => 15000.0,
-            "idPatient" => rand(1, 3)
+           
         ]);
         Analyse::create([
             "libelle" => "analyse",
             "prix" => 6500.0,
-            "idPatient" => rand(1, 3)
+            
         ]);
     }
 }

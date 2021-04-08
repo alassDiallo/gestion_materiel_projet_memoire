@@ -50,7 +50,8 @@
       var data = moment(start, 'DD.MM.YYYY').format('YYYY-MM-DD');
       var d = new Date();
       var a = d.getMonth() <10?"0":"";
-      var today = d.getFullYear()+"-"+(a+(d.getMonth()+1))+"-"+d.getDate();
+      var b = d.getDate()<10?"0":"";
+      var today = d.getFullYear()+"-"+(a+(d.getMonth()+1))+"-"+(b+d.getDate());
       console.log(today);
      
       if(data < today){

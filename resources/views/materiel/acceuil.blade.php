@@ -280,7 +280,7 @@
                     <input type="number" maxlength="quantite" placeholder="veuillez entrer la quantite" class="form-control @error('quantite') is-invalid @enderror"  value="{{ old('quantite') }}" name="quantite" id="quantite">
                     <span class="erreur" id="erreur_quantite">@error('quantite') {{ $message }}  @enderror</span>
                 </div>
-                <div class="col-md-6">
+                <div class="mb-3">
                     <label for="fournisseur">fournisseur</label>
                     <select class="form-select @error('fournisseur') is-invalid @enderror"  value="{{ old('fournisseur') }}"" aria-label="Default select example" name="fournisseur" id="fournisseur" required>
                         <option value="">-----selectionner-----</option>

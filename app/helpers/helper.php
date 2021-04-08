@@ -125,7 +125,7 @@ if (!function_exists("accueil")) {
         if (Auth::user()->profil == "admin") {
             return '/accueiljica';
         } else if (Auth::user()->profil == "medecin")
-            return "/m";
+            return "/accueilmedecin";
         else if (Auth::user()->profil == "volontaire")
             return "/volontaire";
     }

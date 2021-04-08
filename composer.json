@@ -19,6 +19,7 @@
         "laravel/sanctum": "^2.9",
         "laravel/tinker": "^2.5",
         "phpmailer/phpmailer": "^6.3",
+        "pusher/pusher-php-server": "5.0",
         "tymon/jwt-auth": "^1.0",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
